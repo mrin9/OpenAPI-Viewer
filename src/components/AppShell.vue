@@ -5,20 +5,17 @@
           <mrin-logo style="height:36px;width:36px;margin-left:5px"></mrin-logo>
           <div style="font-size:20px; color:orange; margin:2px 8px"> API Viewer </div>
           <div style="margin: 2px 8px;">
-            <input style="width:400px; margin-right:5px" type="text" placeholder="Spec URL" class="sw-medium" v-model="specUrl" @keyup.enter="onExplore">
+            <input ref='specUrl' style="width:400px; margin-right:5px" type="text" placeholder="Spec URL" class="sw-medium" v-model="specUrl" @keyup.enter="onExplore">
             <el-button type="primary" size="medium" @click="onExplore">EXPLORE</el-button>
           </div>
           <div style="flex:1"></div>
-          <!--
-          <app-header :label="$t('m.product_name')"  style="display:inline-block" @explore="onExplore"></app-header>
-          -->
-          <input style="width:150px; margin-right:5px" type="text" placeholder="Search" class="sw-medium sw-dark" v-model="searchVal" @keyup="onSearchKeyUp">
+          <input style="width:150px; margin-right:20px" type="text" placeholder="Search" class="sw-medium sw-dark" v-model="searchVal" @keyup="onSearchKeyUp">
         </div>
         <div class="sw-page-container" ref="pageContainer">
 
-          <div class="sw-tag-container" v-for="tag in tags" :key="tag.name">
-            <div style="font-size:16px;font-weight:bold; color:#ccc; margin:6px 0 12px;"> {{tag.name}}</div>
-            <end-point :paths="tag.paths" :filter="filterVal" ></end-point> 
+          <div class="sw-tag-container" v-for="tag in tags" v-if="tag.show" :key="tag.name">
+            <div style="font-size:16px;font-weight:bold; color:#ccc; margin:6px 0 12px;">{{tag.name}}</div>
+            <end-point2 :paths="tag.paths"></end-point2> 
           </div>
           
         </div>
@@ -28,6 +25,8 @@
 
 <script>
 import EndPoint from '@/components/EndPoint';
+import EndPoint2 from '@/components/EndPoint2';
+
 import {parseSpec, debounce } from  '@/lib/utils';
 import MrinLogo from '@/components/Logo';
 
@@ -35,11 +34,16 @@ export default {
 
   data:function(){
     return{
-      specUrl: "https://petstore.swagger.io/v2/swagger.json",
-      //specUrl: 'https://raw.githubusercontent.com/APIs-guru/unofficial_openapi_specs/master/github.com/v3/swagger.yaml',
+      //specUrl: "https://petstore.swagger.io/v2/swagger.json",
+      specUrl: 'https://raw.githubusercontent.com/APIs-guru/unofficial_openapi_specs/master/github.com/v3/swagger.yaml',
       searchVal:"",
-      filterVal:"",  // searchVal is copied into filterVal after a delay to avoid firing filter rapidly
-      tags:[]
+      tagContainers:{}, // Each key is a container(tag-name) and the valu in it decides to show or hide a container 
+      tags:[],
+      group:{
+        name:"Head",
+        body:"Body",
+        open:true
+      }
     }
   },
   methods:{
@@ -55,26 +59,45 @@ export default {
     onExplore(){
       let me = this;
       parseSpec(me.specUrl).then(function(tags){
-        console.log(tags);
-        me.$data.tags = tags;
+        me.searchVal="";
+        me.tags = tags;
       })
       .catch(function(err) {
         me.$message.error('Oops, The API Speci invalid.');
         console.error('Onoes! The API is invalid. ' + err.message);
         return false;
-      });;
+      });
+
+
     },
 
     onSearchKeyUp:debounce(function(e) {
-      this.filterVal = this.searchVal;
+      var me = this;
+      this.tags.map(function(v){
+        let cnt=0;
+
+        for (let i = 0; i < v.paths.length; i++) {
+          if (v.paths[i].path.toLowerCase().includes(me.searchVal.toLowerCase() )){
+            v.paths[i].show=true;
+            cnt++;
+          }
+          else{
+            v.paths[i].show=false;
+          }
+        }
+        v.show = (cnt > 0)
+      })
     }, 500),
 
     onSearch(){}
 
   },
-
+  mounted(){
+       this.$refs.specUrl.focus();
+  },
   components: {
     EndPoint,
+    EndPoint2,
     MrinLogo
   }
 }
@@ -103,7 +126,10 @@ export default {
     height:100%;
     overflow:hidden;
     .sw-app-header-container{
+      position: fixed;
+      top:0;
       display:flex;
+      z-index:2000;
       width:100%;
       background-color: #333;
       flex-direction:row;
@@ -112,11 +138,9 @@ export default {
       flex-wrap: nowrap;
       overflow: hidden;
       padding:8px;
-      position: fixed;
-      top:0;
     }
     .sw-page-container{
-      margin-top:5px;
+      margin-top:45px;
       padding:8px 16px 16px 16px;
       overflow:auto;
       display:flex;
@@ -124,6 +148,15 @@ export default {
       flex-direction: column;
       height:100%;
     }
+
+    .sw-tag-container{
+      border:solid 1px lightgray;
+      border-radius: 2px;
+      padding:8px;
+      margin:16px 8px;
+      background-color: #fff;
+    }
+
     .shadow {
       box-shadow: 0 5px 4px -4px #ccc
     }

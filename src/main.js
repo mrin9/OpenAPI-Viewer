@@ -2,12 +2,14 @@ import Vue from 'vue'
 import router from './router'
 import store from './store'
 import ElementUI from 'element-ui';
+import VueCollapse from 'vue2-collapse';
 import locale from 'element-ui/lib/locale/lang/en'; //Its ok if this line shows error in VSCode
 import i18n, {loadLang} from '@/lang/index';
 import App from '@/App.vue';
 
 Vue.config.productionTip = false
 Vue.use(ElementUI,{locale});
+Vue.use(VueCollapse);
 
 const app = new Vue({
   router,

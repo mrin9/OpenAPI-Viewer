@@ -155,11 +155,13 @@ function parseSpec(specUrl){
         for (let path in api.paths) {
             methods.forEach(function(methodName){
                 let tag;
+
                 if (api.paths[path][methodName]){
 
                     // Get the tag from Tags array
                     if(api.paths[path][methodName].tags){
                         tag = tags.find(v => v.name == api.paths[path][methodName].tags[0] );
+
                     }
                     else{
                         let tagText="";
@@ -173,7 +175,7 @@ function parseSpec(specUrl){
                         tagText = path.substr(1,firstWordEndIndex);
                         tag = tags.find(v => v.name == tagText);
                         if (!tag){
-                            tag = { "name": tagText}
+                            tag = { "name": tagText, show:true}
                             tags.push(tag);
                         }
                         //tag = tags.find(v => v.name == defaultTag.name );
@@ -181,19 +183,50 @@ function parseSpec(specUrl){
 
                     if (!tag.paths){
                         tag.paths=[];
+                        tag.show=true;
                     }
+
+                    //Fix Path.summary (if missing copy it from description)
+
+                    let summary = api.paths[path][methodName].summary?api.paths[path][methodName].summary:"";
+                    let description = api.paths[path][methodName].description?api.paths[path][methodName].description:"";
+                    if (!summary && description){
+                        if (description.length > 100){
+                            let charIndex = -1;
+                            charIndex = description.indexOf("\n");
+                            if (charIndex === -1 || charIndex > 100){
+                                charIndex = description.indexOf(". ");
+                            }
+                            if (charIndex === -1 || charIndex > 100){
+                                charIndex = description.indexOf(".");
+                            }
+                            
+                            if (charIndex === -1 || charIndex > 100){
+                                summary = description;
+                            }
+                            else{
+                                summary = description.substr(0, charIndex);
+                            }
+                        }
+                        else{
+                            summary = description;
+                        }
+                    }
+                    
                     tag.paths.push({
-                        method      : methodName,
-                        path        : path,
-                        operationId : api.paths[path][methodName].operationId,
-                        summary     : api.paths[path][methodName].summary,
-                        description : api.paths[path][methodName].description,
-                        consumes    : api.paths[path][methodName].consumes,
-                        produces    : api.paths[path][methodName].produces,
-                        parameters  : api.paths[path][methodName].parameters,
-                        responses   : api.paths[path][methodName].responses,
-                        security    : api.paths[path][methodName].security,
-                        depricated  : api.paths[path][methodName].deprecated,
+                        "method"      : methodName,
+                        "path"        : path,
+                        "show"        : true,
+                        "expanded"    : false,
+                        "operationId" : api.paths[path][methodName].operationId,
+                        "summary"     : summary,
+                        "description" : api.paths[path][methodName].description,
+                        "consumes"    : api.paths[path][methodName].consumes,
+                        "produces"    : api.paths[path][methodName].produces,
+                        "parameters"  : api.paths[path][methodName].parameters,
+                        "responses"   : api.paths[path][methodName].responses,
+                        "security"    : api.paths[path][methodName].security,
+                        "depricated"  : api.paths[path][methodName].deprecated,
                     });
                 }
             });

@@ -1,7 +1,7 @@
 <template>
   <div class="sw-end-point-container">
     <el-collapse v-model="activeNames">
-      <el-collapse-item v-for="(path, index) in filterPaths" :key="index" :name="path.method+path.path" :class="path.method">
+      <el-collapse-item v-for="(path, index) in paths" v-if="path.show" :key="index" :name="path.method+path.path" :class="path.method">
         <template slot="title">
           <div :class="'sw-method ' + path.method"> {{path.method}} </div> 
           <div :class="'sw-path ' + (path.depricated?' sw-depricated':'') "> {{path.path}} </div>
@@ -38,28 +38,11 @@ export default {
       type: Array,
       required: true,
       default: function () { return [] }
-    },
-    filter:{
-      type: String,
-      required: false,
-      default:""
-    }
-  },
-  watch: {
-    // whenever filter(search box) changes, this function will run
-    filter: function (newFilter, oldFilter) {
-      if (newFilter){
-        this.filterPaths = this.paths.filter(v => v.path.includes(newFilter));
-      }
-      else{
-         this.filterPaths = this.paths.slice();
-      }
     }
   },
   data:function(){
     return{
       layout:"column",
-      filterPaths:this.paths.slice(),
       activeNames:[]
     }
   },
