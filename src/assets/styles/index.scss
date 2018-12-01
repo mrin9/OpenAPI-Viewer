@@ -1,0 +1,89 @@
+@import "~@/assets/styles/_vars.scss";
+@import "~@/assets/styles/_typography.scss";
+@import "~@/assets/styles/_element_vars.scss"; /*  This contains all customizations and then loading of elements theme css */
+@import "~@/assets/styles/_sw_form.scss";
+@import "~@/assets/styles/_table.scss";
+@import "~@/assets/styles/_slideout.scss";
+@import url("https://fonts.googleapis.com/css?family=Nunito:300,400,600,700");
+
+
+body, html{
+  width:100%;
+  height:100%;
+  margin:0;
+  padding:0;
+  font-family: $sw-font-family, 'Nunito', sans-serif;
+  font-weight:400;
+  font-size: 14px;
+  letter-spacing:normal;
+  &::-webkit-scrollbar {width: 8px;}
+  &::-webkit-scrollbar-track {background-color: transparent;}
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.4);
+    border-radius:3px;
+  }
+}
+
+input, textarea, select, button {
+  font-family: $sw-font-family, 'Nunito', sans-serif;
+  font-weight:400;
+}
+/*
+input[type="text"],
+input[type="password"],
+.el-input{
+  width:175px;
+}
+*/
+
+.el-select{
+  .el-input{
+    width:100%;
+  }
+}
+
+#app {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+  height:100%;
+  width:100%;
+  margin:0;
+  padding:0;
+  &::-webkit-scrollbar {width: 8px;}
+  &::-webkit-scrollbar-track {background-color: transparent;}
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.4);
+    border-radius:3px;
+  }
+}
+
+.sw-toolbar {
+  display:flex;
+  align-items:center;
+  flex-direction: row;
+  margin:16px 0 5px 0;
+}
+
+.sw-section-heading{
+  font-size: 14px;
+  font-weight:bold;
+  margin: 16px 0 8px 0;
+}
+
+span.sw-section-heading{
+  display:inline-block;
+  margin-right:16px;
+}
+.sw-gray-text{
+  font-size: 12px;
+  line-height: 12px;
+  vertical-align: middle;
+  color: #999;
+}
+
+//Quill editor overrides
+.ql-snow .ql-editor pre.ql-syntax {
+  background-color:transparent;
+  color: #555;
+}

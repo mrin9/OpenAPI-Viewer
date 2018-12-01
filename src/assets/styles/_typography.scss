@@ -1,0 +1,108 @@
+@import "~@/assets/styles/_vars.scss";
+
+//Light
+@font-face {
+  font-family: 'Metropolis';
+  src: url($font_path + 'Metropolis-Light.eot');
+  src: url($font_path + 'Metropolis-Light.woff2')format('woff2') ;
+  font-weight: 200;
+  font-style: normal;
+}
+
+//Regular
+@font-face {
+  font-family: 'Metropolis';
+  src: url($font_path + 'Metropolis-Regular.eot');
+  src: url($font_path + 'Metropolis-Regular.woff2')format('woff2') ;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+//Semibold
+@font-face {
+  font-family: 'Metropolis';
+  src: url($font_path + 'Metropolis-Medium.eot');
+  src: url($font_path + 'Metropolis-Medium.woff2')format('woff2') ;
+  font-weight: 500;
+  font-style: normal;
+}
+
+
+//Bold
+@font-face {
+  font-family: 'Metropolis';
+  src: url($font_path + 'Metropolis-SemiBold.eot');
+  src: url($font_path + 'Metropolis-SemiBold.woff2')format('woff2') ;
+  font-weight: 600;
+  font-style: normal;
+}
+
+
+
+//Regular Font
+p, .p1{
+  font-family:'Metropolis';
+  font-size: 14px;
+  letter-spacing:normal;
+  font-weight: 400;
+}
+
+//Section header
+.p2{
+  font-family:'Metropolis';
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing:normal;
+}
+
+//Table, grid, and form text
+.p3 {
+  font-family:'Metropolis';
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing:normal;
+}
+
+//Form labels and column headers
+.p4{
+  font-family:$sw-font-family;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing:normal;
+}
+
+//Table footers and chart data
+.p5{
+  font-family:$sw-font-family;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing:normal;
+}
+
+.p6{
+  font-family:$sw-font-family;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing:normal;
+}
+
+//Big Labels
+.t1{
+  font-family:$sw-font-family;
+  font-size: 16px;
+  letter-spacing:normal;
+}
+.t2{
+  font-family:$sw-font-family;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing:normal;
+}
+
+h1{ font-family:$sw-font-family; font-size:32px; font-weight:200; letter-spacing:normal; }
+h2{ font-family:$sw-font-family; font-size:28px; font-weight:200; letter-spacing:normal; }
+h3{ font-family:$sw-font-family; font-size:22px; font-weight:200; letter-spacing:normal; }
+h4{ font-family:$sw-font-family; font-size:18px; font-weight:200; letter-spacing:normal; }
+h5{ font-family:$sw-font-family; font-size:16px; font-weight:200; letter-spacing:normal; }
+h6{ font-family:$sw-font-family; font-size:14px; font-weight:200; letter-spacing:normal; }

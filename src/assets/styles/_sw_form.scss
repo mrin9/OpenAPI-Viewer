@@ -1,0 +1,188 @@
+@import "~@/assets/styles/_vars.scss";
+
+
+.sw-dark{
+  color:$sw-light-text;
+  background-color:$sw-dark-bg1;
+}
+
+.sw-card{
+  background-color:$sw-white;
+  border:1px solid $sw-border-color;
+  border-radius:$sw-border-radius;
+  padding:16px;
+}
+
+//Button
+.sw-btn{
+  border-radius: $sw-border-radius;
+  font-weight: 600;
+  display: inline-block;
+  padding: 6px 16px;
+  font-size: 11px;
+  outline: 0;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  border: 1px solid $sw-border-color;
+  background-color:$sw-white;
+  transition: background 0.2s;
+  user-select: none;
+  cursor: pointer;
+  &.sw-large{
+    padding:8px 14px;
+  }
+  &.sw-small{
+    padding:5px 12px;
+  }
+  &.sw-circle{
+    border-radius:50%;
+  }
+
+  &.sw-primary{
+    background-color:$sw-primary-color;
+    border-color:darken($sw-primary-color,2%);
+    color:#fff;
+    &:hover{
+      background-color:darken( $sw-primary-color, 8% );
+    }
+  }
+}
+
+// Form Inputs
+textarea,
+input[type="text"]:not(.el-input__inner),
+input[type="password"]:not(.el-input__inner){
+  border-radius:$sw-border-radius;
+  border:1px solid #C5D9E8;
+  transition: border .2s;
+  outline: none;
+  font-size:$--input-font-size;
+  height:$--input-height;
+  padding: 0 5px;
+  box-sizing: border-box;
+  &::placeholder { color: #ccc;}
+  &:-ms-input-placeholder {color: #ccc;}
+  &::-ms-input-placeholder {color: #ccc;}
+
+  &.sw-medium{
+    font-size:$--input-medium-font-size;
+    height:$--input-medium-height;
+  }
+  &.sw-small{
+    font-size:$--input-small-font-size;
+    height:$--input-small-height;
+  }
+
+  &.sw-primary{
+    border-color:$sw-primary-color;
+  }
+
+
+  &.sw-dark{
+    border-color: darken($sw-primary-color,30%);
+    background-color:#222;
+    color:#fff;
+    font-size:13px;
+    &::placeholder { color: #555;}
+    &:-ms-input-placeholder {color: #555;}
+    &::-ms-input-placeholder {color: #555;}
+    &:disabled{
+      border-color:#444;
+      background-color:#2A2A2A;
+    }
+  }
+  &:focus,
+  &:active{
+    border-color:$sw-primary-color;
+  }
+  &:disabled{
+    border-color:lifghten($sw-border-color,10%);
+    background-color:rbga(0,0,0, 0.2);
+
+  }
+}
+
+//Radio
+.sw-radio {
+  display: none;
+  & + label {
+    -webkit-appearance: none;
+    background-color:$sw-primary-color;
+    border: 4px solid $sw-primary-color;
+    border-radius: 10px;
+    width: 100%;
+    display: inline-block;
+    position: relative;
+    width: 10px;
+    height: 10px;
+  }
+}
+
+.el-radio--small.is-bordered .el-radio__label{
+  line-height: 14px;
+  vertical-align: middle;
+}
+
+.regular-radio:checked + label {
+  background: $sw-dark-bg1;
+  border: 4px solid $sw-primary-color;
+}
+
+.sw-color-tag,
+.sw-virus,
+.sw-spam{
+  padding:3px 6px;
+  border-radius: $sw-border-radius;
+  color:#fff;
+  text-transform: uppercase;
+  font-size: 10px;
+  font-weight: bold;
+  font-family: arial;
+}
+.sw-color-tag-red{background-color: orangered}
+.sw-virus{background-color: orangered}
+.sw-spam{background-color: orange}
+
+//tags
+.sw-tag{
+  margin:1px;
+  display:inline-block;
+  box-sizing: border-box;
+  border-radius:2px;
+  outline: 0;
+  line-height:15px;
+  text-align: center;
+  white-space: nowrap;
+  padding:6px 12px;
+  border: 1px solid $sw-border-color;
+  background-color:darken($sw-white,10%);
+  font-size: 11px;
+  padding:2px 10px;
+  i{
+    color:#ccc;
+    border-radius: 50%;
+    font-size:15px;
+    padding:0;
+    cursor: pointer;
+    &:hover{
+      color:$sw-soft-red;
+    }
+  }
+}
+
+//Action Icons in table rows
+.sw-action-icon{
+  vertical-align: middle; 
+  cursor:pointer; 
+  margin-left:8px;
+  height:20px;
+  width:20px;
+}
+
+//Switch
+//if a switch is placed inside a .sw-disabled class set the color to gray (for checked value)
+.sw-disabled .el-switch.is-checked .el-switch__core {
+  background-color:#999 !important;
+  border-color:#999 !important;
+}

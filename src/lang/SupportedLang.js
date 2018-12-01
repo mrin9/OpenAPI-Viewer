@@ -1,0 +1,22 @@
+export default [
+  {label:'English', code:'en-US', extendedSupport:false},
+  {label:'Arabic (Persian)', code:'en-US', extendedSupport:true},
+  {label:'Baltic', code:'en-US', extendedSupport:true},
+  {label:'Chinese', code:'zh-CN', extendedSupport:false},
+  {label:'Cyrillic (Russian)', code:'en-US', extendedSupport:true},
+  {label:'Dutch', code:'en-US', extendedSupport:true},
+  {label:'Finnish', code:'en-US', extendedSupport:true},
+  {label:'French', code:'en-US', extendedSupport:false},
+  {label:'German', code:'en-US', extendedSupport:false},
+  {label:'Greek', code:'en-US', extendedSupport:true},
+  {label:'Hebrew', code:'en-US', extendedSupport:true},
+  {label:'Italian', code:'en-US', extendedSupport:true},
+  {label:'Japanese', code:'en-US', extendedSupport:false},
+  {label:'Korean', code:'en-US', extendedSupport:true},
+  {label:'Portuguese', code:'en-US', extendedSupport:true},
+  {label:'Spanish', code:'en-US', extendedSupport:false},
+  {label:'Swedish', code:'en-US', extendedSupport:true},
+  {label:'Thai', code:'en-US', extendedSupport:true},
+  {label:'Turkish', code:'en-US', extendedSupport:true},
+  {label:'Vietnamese', code:'en-US', extendedSupport:true}
+]
