@@ -13,9 +13,9 @@
         </div>
         <div class="sw-page-container" ref="pageContainer">
 
-          <div class="sw-tag-container" v-for="tag in tags" v-if="tag.show" :key="tag.name">
-            <div style="font-size:16px;font-weight:bold; color:#ccc; margin:6px 0 12px;">{{tag.name}}</div>
-            <end-point2 :paths="tag.paths"></end-point2> 
+          <div class="sw-tag-container" v-for="tag in parsedSpec.tags" v-if="tag.show" :key="tag.name">
+            <div style="font-size:16px;font-weight:bold; color:#ccc; margin:16px 0 4px 0;">{{tag.name}}</div>
+            <end-point :paths="tag.paths"></end-point> 
           </div>
           
         </div>
@@ -25,20 +25,21 @@
 
 <script>
 import EndPoint from '@/components/EndPoint';
-import EndPoint2 from '@/components/EndPoint2';
 
 import {parseSpec, debounce } from  '@/lib/utils';
 import MrinLogo from '@/components/Logo';
+import store from '@/store';
 
 export default {
 
   data:function(){
     return{
       //specUrl: "https://petstore.swagger.io/v2/swagger.json",
-      specUrl: 'https://raw.githubusercontent.com/APIs-guru/unofficial_openapi_specs/master/github.com/v3/swagger.yaml',
+      specUrl  : "http://10.21.83.83:8080/api/swagger.json",
+      //specUrl  : "https://raw.githubusercontent.com/APIs-guru/unofficial_openapi_specs/master/github.com/v3/swagger.yaml",
       searchVal:"",
       tagContainers:{}, // Each key is a container(tag-name) and the valu in it decides to show or hide a container 
-      tags:[],
+      parsedSpec :{},
       group:{
         name:"Head",
         body:"Body",
@@ -47,20 +48,27 @@ export default {
     }
   },
   methods:{
-    pageScroll:function(){
-      if (this.$refs.pageContainer.scrollTop > 16){
-        this.$refs.headerContainer.classList.add("shadow")
-      }
-      else{
-        this.$refs.headerContainer.classList.remove("shadow")
-      }
-    },
 
     onExplore(){
       let me = this;
-      parseSpec(me.specUrl).then(function(tags){
+      parseSpec(me.specUrl).then(function(parsedSpec){
         me.searchVal="";
-        me.tags = tags;
+        me.parsedSpec = parsedSpec;
+
+        if (!me.parsedSpec.host){
+          store.commit("baseUrl", "10.21.83.83:8080")
+        }
+        else{
+          store.commit("baseUrl", parsedSpec.host + parsedSpec.basePath) //remove the last slash from host if present
+        }
+        if (parsedSpec.scheme && parsedSpec.scheme.length > 0){
+          store.commit("scheme",parsedSpec.scheme[0]);
+        }
+        else{
+          store.commit("scheme","http");
+        }
+        
+
       })
       .catch(function(err) {
         me.$message.error('Oops, The API Speci invalid.');
@@ -73,7 +81,7 @@ export default {
 
     onSearchKeyUp:debounce(function(e) {
       var me = this;
-      this.tags.map(function(v){
+      this.parsedSpec.tags.map(function(v){
         let cnt=0;
 
         for (let i = 0; i < v.paths.length; i++) {
@@ -93,11 +101,10 @@ export default {
 
   },
   mounted(){
-       this.$refs.specUrl.focus();
+    this.$refs.specUrl.focus();
   },
   components: {
     EndPoint,
-    EndPoint2,
     MrinLogo
   }
 }
@@ -119,7 +126,7 @@ export default {
     display:flex;
     flex:1;
     order:1;
-    background:$sw-light-bg1;
+    //background:$sw-light-bg1;
     flex-direction:column;
     padding:0;
     margin: 0;
@@ -148,15 +155,6 @@ export default {
       flex-direction: column;
       height:100%;
     }
-
-    .sw-tag-container{
-      border:solid 1px lightgray;
-      border-radius: 2px;
-      padding:8px;
-      margin:16px 8px;
-      background-color: #fff;
-    }
-
     .shadow {
       box-shadow: 0 5px 4px -4px #ccc
     }

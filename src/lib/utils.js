@@ -139,13 +139,14 @@ function schemaToElTree(schema, obj, name) {
 function parseSpec(specUrl){
     let tags=[];
     var parser = new SwaggerParser();
-    let methods=['get','put','post','delete','pattch'];
+    let methods=['get','put','post','delete','patch'];
     console.time("Time to Parse Spec");
 
     return parser.validate(specUrl, { validate: {spec: false, schema:false }, function(err, api){
         debugger;
     } })
     .then(function(api) {
+
         // If Tags are defined in the Spec then store it in an Array, else  create a Default Tag
         if (api.tags){
             tags = api.tags.sort((a,b) => (a.name < b.name) ? -1 : (a.name  > b.name ) ? 1 : 0);
@@ -154,8 +155,8 @@ function parseSpec(specUrl){
         // For each path find the tag and push it into the corrosponding tag
         for (let path in api.paths) {
             methods.forEach(function(methodName){
+               
                 let tag;
-
                 if (api.paths[path][methodName]){
 
                     // Get the tag from Tags array
@@ -231,8 +232,17 @@ function parseSpec(specUrl){
                 }
             });
         }
+
+        let parsedSpec = {
+            "info"    : api.info,
+            "host"    : api.host,
+            "basePath": api.basePath,
+            "schemes" : api.schemes,
+            "tags"    : tags
+        }
         console.timeEnd("Time to Parse Spec");
-        return Promise.resolve(tags);
+        //return Promise.resolve(tags);
+        return Promise.resolve(parsedSpec);
     })
     
 }

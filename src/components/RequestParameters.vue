@@ -39,9 +39,9 @@
               <span > {{ node.label.descr }}</span>
             </span>
           </el-tree>
-
         </el-tab-pane>
       </el-tabs>
+
     </div>
 
     <!-- Header Params -->
@@ -50,17 +50,25 @@
       <parameter-inputs :parameters="headerParams"></parameter-inputs>
     </div>
 
+    <div class="sw-make-request" style="margin: 8px 0 0 0">
+      <el-button type="primary" size="medium" @click="onTry"> TRY </el-button>
+      {{res}}
+    </div>
+
   </div>
 
 
 </template>
 
 <script>
+  import { callEndPoint } from '@/lib/restUtils';
   import { schemaToElTree, schemaToObj} from '@/lib/utils';
   import ParameterInputs from '@/components/ParameterInputs';
 
   export default {
     props: {
+      method    : {type: String},
+      url       : {type: String},
       parameters: {
         type: [Array,String],
         default: function () { return [] }
@@ -83,10 +91,18 @@
         cookieParams:[],
         bodyParamData:[],
         bodyParamText:"",
+        res:""
       }
     },
+
     methods:{
+      onTry(){
+        let res="";
+        this.res = callEndPoint(this.url, this.pathParams, this.queryParams, this.bodyParamText, this.headerParams, this.formParams, this.cookieParams)
+      }
+
     },
+
     mounted(){
       var me = this;
       this.parameters.map(function(v){
@@ -158,6 +174,10 @@
     flex-direction: row;
     justify-content: stretch;
     width: 100%;
+  }
+  .sw-make-request{
+    border:1px solid #ccc;
+    padding: 16px;
   }
   
   textarea {

@@ -1,36 +1,34 @@
 <template>
-  <div class="sw-end-point-container">
-    <el-collapse v-model="activeNames">
-      <el-collapse-item v-for="(path, index) in paths" v-if="path.show" :key="index" :name="path.method+path.path" :class="path.method">
-        <template slot="title">
+
+    <div>
+      <div :class="'sw-collapse-wrapper ' + path.method + ' ' +(path.expanded?'sw-expanded':'sw-collapsed') " v-for="(path, index) in paths" v-if="path.show" :key="index">
+
+        <!-- Collapse Head -->
+        <div :class="'sw-collapse-header ' + path.method + ' ' +(path.expanded?'sw-expanded':'sw-collapsed') " @click="path.expanded = !path.expanded" >
           <div :class="'sw-method ' + path.method"> {{path.method}} </div> 
           <div :class="'sw-path ' + (path.depricated?' sw-depricated':'') "> {{path.path}} </div>
           <span style="color:orangered; margin:2px 0 0 5px;" v-if="path.depricated"> Depricated </span>
           <div style="min-width:60px; flex:1"></div>
-          <div class="sw-summary in-title"> {{ path.summary || path.description}} </div>
-        </template>
+          <div class="sw-end-point-descr"> {{ path.summary }} </div>
+        </div>
 
-        <!-- Render the body only when it is expanded, that way it will do lazy rendering -->
-        <template v-if="activeNames.indexOf(path.method+path.path) !== -1">
-          <div class="sw-summary" style="max-height:reset">
-            <div class="sw-title">{{ path.summary || path.description }} </div>
-            <div style="margin-left:5px">{{ path.description}}</div>
+        <!-- Collapse Body -->
+        <div v-if="path.expanded" :class="'sw-collapse-body '+path.method">
+          <div class="sw-end-point-summary">
+            <div class="sw-end-point-title">{{path.summary}} </div>
+            <div class="sw-end-point-descr" v-if="path.summary !== path.description">{{path.description}}</div>
           </div>  
           <div :style="'display:flex; margin-top:16px; flex-direction:'+layout ">
-            <request-parameters class="sw-request" :parameters="path.parameters" :consumes="path.consumes" ></request-parameters>
+            <request-parameters class="sw-request"  :method="path.method" :url="path.path" :parameters="path.parameters" :consumes="path.consumes"></request-parameters>
             <response-types :responses="path.responses" :produces="path.produces" class="sw-response"></response-types>
           </div>
+        </div>
+      </div>  
+    </div>
 
-         </template> 
-      </el-collapse-item>
-    </el-collapse>
-  </div>  
 </template>
 
 <script>
-//import RequestParameters from '@/components/RequestParameters';
-//import ResponseTypes from '@/components/ResponseTypes';
-import { Multipane, MultipaneResizer } from 'vue-multipane';
 
 export default {
   props: {
@@ -42,88 +40,173 @@ export default {
   },
   data:function(){
     return{
-      layout:"column",
+      layout:"row",
       activeNames:[]
     }
   },
-
-  methods:{
-
-  },
+  
   components:{
     // Lazy load the component
-    Multipane, 
-    MultipaneResizer,
     RequestParameters : () => import("@/components/RequestParameters"),
     ResponseTypes: () => import("@/components/ResponseTypes")
     //RequestParameters
     //ResponseTypes
   }
+
+
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 @import "~@/assets/styles/_vars.scss";
-.sw-path{
-  font-family: monospace;
-  display:block;
-}
-// Hide the summary when expanded and show in details section
-.el-collapse-item__header.is-active{
-  .sw-summary.in-title {  
-    visibility: hidden;
-  }
-}
-.el-collapse-item__header{
-  .sw-summary{
-    max-height: 45px;
-  }
-}
-.el-collapse-item.is-active{
+
+.sw-collapse-wrapper {
+  //margin:8px 0;
+  border: 1px solid transparent; 
+  border-left-width: 5px;
+  border-top-color: #eee;
   &.delete{ 
-    border: 1px solid $sw-red; 
-    border-left-width: 3px;
+    &.sw-expanded{
+      border: 1px solid $sw-red; 
+      border-left-width: 5px;
+    }
   }
   &.put{ 
-    border: 1px solid $sw-orange; 
-    border-left-width: 3px;  
+    &.sw-expanded{
+      border: 1px solid $sw-orange; 
+      border-left-width: 5px;
+    }
+
   }
   &.post{ 
-    border: 1px solid $sw-info; border-left-width: 3px;
-    border-left-width: 3px;  
+    &.sw-expanded{
+      border: 1px solid $sw-info; 
+      border-left-width: 5px;
+    }
+ 
   }
   &.get{ 
-    border: 1px solid $sw-green; 
-    border-left-width: 3px;  
+    &.sw-expanded{
+      border: 1px solid $sw-green; 
+      border-left-width: 5px;
+    }
+
   }
-  
 }
 
-.sw-title{
-  font-size:20px;
-  margin:0 200px 0 0;
-  padding:5px;
-  white-space:nowrap;
-  color:#333;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.sw-collapse-header {
+  display:flex;
+  padding:8px 16px;
+  align-items: baseline;
+  cursor: pointer;
+  border-left:5px solid transparent;
+
+  &.sw-collapsed{
+    border-left:5px solid transparent;
+  }
+
+  &.delete.sw-expanded{ 
+    background-color: lighten($sw-red, 57%); 
+  }
+  &.put.sw-expanded{ 
+    background-color: lighten($sw-orange, 45%); 
+  }
+  &.post.sw-expanded{ 
+    background-color: lighten($sw-info, 37%); 
+  }
+  &.get.sw-expanded{
+    background-color: lighten($sw-green, 57%); 
+  }
+
+
+  &.delete:hover{ 
+    background-color: lighten($sw-red, 57%); 
+    border-left:5px solid $sw-red;
+    &.sw-expanded{
+      border-left:5px solid transparent;
+    }
+    &.sw-collapsed{
+      border-left:5px solid $sw-red;
+    }
+  }
+
+  &.put:hover{ 
+    background-color: lighten($sw-orange, 45%); 
+    border-left:5px solid $sw-orange;
+    &.sw-expanded{
+      border-left:5px solid transparent;
+    }
+    &.sw-collapsed{
+      border-left:5px solid $sw-orange;
+    }
+  }
+
+  &.post:hover{ 
+    background-color: lighten($sw-info, 37%); 
+    border-left:5px solid $sw-info;
+    &.sw-expanded{
+      border-left:5px solid transparent;
+    }
+    &.sw-collapsed{
+      border-left:5px solid $sw-info;
+    }
+  }
+  &.get:hover{
+    background-color: lighten($sw-green, 57%); 
+    &.sw-expanded{
+      border-left:5px solid transparent;
+    }
+    &.sw-collapsed{
+      border-left:5px solid $sw-green;
+    }
+  }
 }
-.sw-summary{
-  line-height: 15px;
-  color:gray;
-  margin:0 10px 0 0;
+
+.sw-collapse-body{
+  padding:16px 8px;
+  &.delete{ border-top: 1px solid $sw-red;}
+  &.put{ border-top: 1px solid $sw-orange;}
+  &.post{border-top: 1px solid $sw-info;}
+  &.get{ border-top: 1px solid $sw-green;}
+}
+
+.sw-path{
+  font-family: monospace;
+  display: flex;
+  align-items: center;
+}
+
+.sw-end-point-descr{
+  font-size: 12px;
   font-weight:400;
-  //max-height: 45px;
   overflow: hidden;
+  display: flex;
+  align-items: center;
 }
+
+.sw-end-point-summary{
+  padding:8px;
+  .sw-end-point-title{
+    font-size:20px;
+    white-space:nowrap;
+    color:#333;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .sw-end-point-descr{
+    margin-top:5px;
+    color:gray;
+  }
+
+}
+
 .sw-depricated{
   text-decoration: line-through $sw-red;
 }
 
 .sw-method{
   padding:2px 5px;
-  margin:2px 5px;
   vertical-align: middle;
   height: 24px;
   line-height: 26px;
@@ -134,10 +217,27 @@ export default {
   text-align: center;
   font-weight: bold;
   text-transform:uppercase;
-  &.delete{ background-color: $sw-red; color:#efefef}
-  &.put{ background-color: $sw-orange; }
-  &.post{ background-color: $sw-info; }
-  &.get{ background-color: $sw-green; }
+  margin-right:5px;
+  &.delete{ 
+    //background-color: $sw-red; 
+    border: 2px solid $sw-red; 
+    //color:#efefef;
+  }
+  &.put{ 
+    //background-color: $sw-orange; 
+    border: 2px solid $sw-orange; 
+    color:#333;
+  }
+  &.post{ 
+    //background-color: $sw-info; 
+    border: 2px solid $sw-info; 
+    color:#333;
+  }
+  &.get{ 
+    //background-color: $sw-green; 
+    border: 2px solid $sw-green; 
+    color:#333;
+  }
 }
 
 .sw-request{
