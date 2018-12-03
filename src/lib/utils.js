@@ -150,15 +150,14 @@ function parseSpec(specUrl){
     let methods=['get','put','post','delete','patch'];
     console.time("Time to Parse Spec");
 
-    return parser.validate(specUrl, { validate: {spec: false, schema:false }, function(err, api){
-        debugger;
-    } })
+    return parser.validate(specUrl, { validate: {spec: false, schema:false } })
     .then(function(api) {
-
-        // If Tags are defined in the Spec then store it in an Array, else  create a Default Tag
+        // If Tags are defined in the Spec then store it in an Array
+        /*
         if (api.tags){
             tags = api.tags.sort((a,b) => (a.name < b.name) ? -1 : (a.name  > b.name ) ? 1 : 0);
         }
+        */
 
         // For each path find the tag and push it into the corrosponding tag
         for (let path in api.paths) {
@@ -170,7 +169,11 @@ function parseSpec(specUrl){
                     // Get the tag from Tags array
                     if(api.paths[path][methodName].tags){
                         tag = tags.find(v => v.name == api.paths[path][methodName].tags[0] );
-
+                        // if the Tag is not found in Tag Array then 
+                        if (!tag){
+                            tag = { "name": api.paths[path][methodName].tags[0], show:true}
+                            tags.push(tag);
+                        }
                     }
                     else{
                         let tagText="";
@@ -256,10 +259,14 @@ function parseSpec(specUrl){
                 api.schemes.push("http")
             }
             if (api.host){
+                let tempHostBaseUrl = api.host.replace(/\/$/, "");
+                if (api.basePath){
+                    tempHostBaseUrl + "/" + api.basePath.replace(/^\/|\/$/g, '');
+                }
                 api.schemes.map(function(v){
                     servers.push({
-                        url         : v + "://" + api.host.replace(/\/$/, "") +"/" +  api.basePath.replace(/^\/|\/$/g, ''),
-                        description : v
+                        url         : v + "://" + tempHostBaseUrl,
+                        description : v + "://" + tempHostBaseUrl 
                     })
                 });
             }

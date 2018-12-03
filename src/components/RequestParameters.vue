@@ -56,7 +56,7 @@
       <parameter-inputs :parameters="cookieParams"></parameter-inputs>
     </div>
 
-    <div class="sw-make-request" style="margin: 8px 0 0 0">
+    <div v-if="$store.state.isDevMode" class="sw-make-request" style="margin: 8px 0 0 0">
       <el-button type="primary" size="medium" @click="onTry"> TRY </el-button>
       {{res}}
     </div>
@@ -70,6 +70,7 @@
   import { callEndPoint } from '@/lib/restUtils';
   import { schemaToElTree, schemaToObj, test} from '@/lib/utils';
   import ParameterInputs from '@/components/ParameterInputs';
+  import store from '@/store';
 
   export default {
     props: {
@@ -104,7 +105,7 @@
     methods:{
       onTry(){
         let res="";
-        //test();
+        
         this.res = callEndPoint(this.method, this.url, this.pathParams, this.queryParams, this.bodyParamText, this.headerParams, this.formParams, this.cookieParams)
       }
 

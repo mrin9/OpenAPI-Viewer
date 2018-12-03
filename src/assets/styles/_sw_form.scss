@@ -1,21 +1,5 @@
 @import "~@/assets/styles/_vars.scss";
 
-
-// Dark mode for some el-components
-.sw-dark {
-  color:$sw-light-text;
-  .el-switch__core {
-    background-color:#222;
-    border: 1px solid #888;
-  }
-  .el-switch__label{
-    color:$sw-light-text;
-    &.is-active{
-      color:$sw-green;
-    }
-  }
-}
-
 //Button
 .sw-btn{
   border-radius: $sw-border-radius;

@@ -3,8 +3,7 @@ import axios from 'axios';
 
 
 function  callEndPoint (method, url, pathParams, queryParams, bodyParams, headerParams, formParams, cookieParams ) {
-
-    let endPoint ;
+    let endPoint= url;
     let qParams = {};
     let hParams = {};
 
@@ -35,21 +34,11 @@ function  callEndPoint (method, url, pathParams, queryParams, bodyParams, header
 
     //TODO: Deal with formParams and cookieParams later
 
-    debugger;
 
-    //baseUrl= store.state.scheme+ "://"+ store.state.host + store.state.basePath + "/";
-    baseUrl= "http://10.21.83.83:8080/api";
-    baseUrl= "'https://fakerestapi.azurewebsites.net";
-    method = "get";
-    endPoint="/Users";
-    queryParams={};
-    bodyParams={};
-    hParams={};
-    
+    endPoint= store.state.selectedApiServer.replace(/^\/|\/$/g, '') +"/" + endPoint.replace(/^\/|\/$/g, '');
     axios.request({
         method  : method,
-        url     : "https://fakerestapi.azurewebsites.net/api/Users",
-        //url     : endPoint,
+        url     : endPoint,
         params  : queryParams,    // Query Params
         data    : bodyParams,     // Body Params
         headers : hParams,        // Header Params

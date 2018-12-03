@@ -9,20 +9,18 @@ export default new Vuex.Store({
   state: {
     lang:'en',
     baseUrl:'',
-    scheme:"http"
+    scheme:"http",
+    isDevMode:false,
+    selectedApiServer:""
   },
 
   mutations: {
-    lang(state, payload) {
-      state.lang = payload;
-    },
-    baseUrl(state, payload){
-      state.baseUrl = payload;
-    },
-    scheme(state, payload){
-      state.scheme = payload;
-    }
-
+    lang(state, payload)      { state.lang      = payload;  },
+    baseUrl(state, payload)   { state.baseUrl   = payload;  },
+    scheme(state, payload)    { state.scheme    = payload;  },
+    isDevMode(state, payload) { state.isDevMode = payload;  },
+    
+    selectedApiServer(state, payload) { state.selectedApiServer = payload; }
   },
   
   actions: {

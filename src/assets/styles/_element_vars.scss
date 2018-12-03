@@ -113,9 +113,7 @@ $--message-danger-color: #fff !default;
 .el-button + .el-button {
   margin-left:5px;
 }
-.el-input__inner{
-  padding:0 5px;
-}
+
 
 
 /* Button
@@ -163,10 +161,39 @@ $--message-danger-color: #fff !default;
   }
 }
 
+
+/* Inputs
+-------------------- */
 .el-input-group__append, 
 .el-input-group__prepend{
   padding: 0 8px;
 }
+
+
+.sw-dark{
+  .el-input__inner{
+    padding:0 5px;
+    border-color: darken($sw-primary-color,15%);
+    background-color:#222;
+    color:#fff;
+    &:focus,
+    &:active,
+    &:hover,{
+      border-color:$sw-primary-color;
+    }
+    
+    &:disabled{
+      border-color: darken($sw-primary-color,30%);
+      background-color:rgba(125,125,125, 0.2);
+      color:#666;
+      &::placeholder {
+        color:#666;
+      }
+    }
+  }
+}
+
+
 
 /* Dropdown and Select
 -------------------- */
@@ -184,28 +211,46 @@ $--message-danger-color: #fff !default;
   }
 }
 
-.sw-dark.el-dropdown-menu{
+//Select and Dropdown Menu
+.sw-dark.el-dropdown-menu,
+.sw-dark.el-select-dropdown
+{
   background-color: $sw-dark-bg1;
   border: 1px solid $sw-primary-color;
+
+  .el-select-dropdown__item,
   .el-dropdown-menu__item{
     color:$sw-light-text;
+    background-color: $sw-dark-bg1;
     &:hover{
       color:$sw-primary-color;
     }
   }
+
   .el-dropdown-menu__item--divided{
     border-top: 1px solid darken($sw-primary-color,30%);
     &::before{
       background-color: transparent;
     }
   }
+
+  .el-select-dropdown__item.is-disabled
   .el-dropdown-menu__item.is-disabled{
     color:darken($sw-light-text,40%);
   }
+
+  .el-select-dropdown__item:hover,
   .el-dropdown-menu__item:hover{
     background-color: lighten($sw-dark-bg1,10%);
   }
 }
+.sw-double-height-options{
+  .el-select-dropdown__item{
+    height:60px;
+    border-bottom: 1px solid #444;
+  }
+}
+
 
 /* Radio
 -------------------- */
@@ -225,6 +270,20 @@ $--message-danger-color: #fff !default;
 }
 .el-switch__label--left {
   margin-right:2px;
+}
+
+.sw-dark {
+  color:$sw-light-text;
+  .el-switch__core {
+    background-color:#222;
+    border: 1px solid #888;
+  }
+  .el-switch__label{
+    color:$sw-light-text;
+    &.is-active{
+      color:$sw-green;
+    }
+  }
 }
 
 
