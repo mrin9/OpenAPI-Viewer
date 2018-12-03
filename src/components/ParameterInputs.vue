@@ -9,7 +9,7 @@
 
     <el-table-column label="Value" width="180">
       <template slot-scope="scope">
-        <el-select v-if="scope.row.enum.length>0" v-model="scope.row.example" style="width:100%" class="sw-small" >
+        <el-select v-if="scope.row.enum.length>0" v-model="scope.row.example" style="width:100%" size="medium" >
           <el-option v-for="item in scope.row.enum" :key="item" :label="item" :value="item"></el-option>
         </el-select>
         <input v-else type="text" class="sw-medium" style="width:100%" v-model="scope.row.example">

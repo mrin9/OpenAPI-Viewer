@@ -49,20 +49,3 @@ td, th {
   }
 
 }
-
-.sortable-chosen.sortable-ghost td{
-  color:black;
-  font-weight:bold;
-}
-
-
-.sortable-chosen td{
-  border-top:1px solid #333;
-  border-bottom:1px solid #333 ;
-  &:first-child{ border-left:1px solid #333;}
-  &:last-child{ border-right:1px solid #333;}
-}
-
-td.sw-cell-align-top{
-  vertical-align:top !important;
-}

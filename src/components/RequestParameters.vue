@@ -50,6 +50,12 @@
       <parameter-inputs :parameters="headerParams"></parameter-inputs>
     </div>
 
+    <!-- Cookie Params -->
+    <div v-if="cookieParams.length>0" >
+      <div class="sw-param-type-title"> COOKIE PARAMETERS</div>
+      <parameter-inputs :parameters="cookieParams"></parameter-inputs>
+    </div>
+
     <div class="sw-make-request" style="margin: 8px 0 0 0">
       <el-button type="primary" size="medium" @click="onTry"> TRY </el-button>
       {{res}}
@@ -62,7 +68,7 @@
 
 <script>
   import { callEndPoint } from '@/lib/restUtils';
-  import { schemaToElTree, schemaToObj} from '@/lib/utils';
+  import { schemaToElTree, schemaToObj, test} from '@/lib/utils';
   import ParameterInputs from '@/components/ParameterInputs';
 
   export default {
@@ -98,7 +104,8 @@
     methods:{
       onTry(){
         let res="";
-        this.res = callEndPoint(this.url, this.pathParams, this.queryParams, this.bodyParamText, this.headerParams, this.formParams, this.cookieParams)
+        //test();
+        this.res = callEndPoint(this.method, this.url, this.pathParams, this.queryParams, this.bodyParamText, this.headerParams, this.formParams, this.cookieParams)
       }
 
     },
@@ -115,7 +122,6 @@
         }
         else if (v.in==="body"){
           arrName = "bodyParams"
-
           if (v.schema){
             me.bodyParamData = schemaToElTree(v.schema,[]);
             me.bodyParamText = JSON.stringify(schemaToObj(v.schema,{}),undefined,2);
@@ -123,6 +129,9 @@
         }
         else if (v.in==="header"){
           arrName = "headerParams"
+        }
+        else if (v.in==="cookie"){
+          arrName = "cookieParams"
         }
         else if (v.in==="formData"){
           arrName = "formParams"

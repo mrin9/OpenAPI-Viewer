@@ -1,5 +1,12 @@
 import SwaggerParser  from 'swagger-parser';
+import axios from 'axios';
 
+function test(){
+    debugger;
+    console.log(axios);
+}
+
+/* For Delayed Event Handler Execution */
 function debounce (fn, delay) {
     var timeoutID = null;
     return function () {
@@ -12,6 +19,7 @@ function debounce (fn, delay) {
     }
 }
 
+/* For changing JSON-Schema to a Sample Object, as per the schema */ 
 function schemaToObj (schema, obj) {
     if (schema.type==="object" || schema.properties){
         for( let key in schema.properties ){
@@ -226,19 +234,49 @@ function parseSpec(specUrl){
                         "produces"    : api.paths[path][methodName].produces,
                         "parameters"  : api.paths[path][methodName].parameters,
                         "responses"   : api.paths[path][methodName].responses,
-                        "security"    : api.paths[path][methodName].security,
                         "depricated"  : api.paths[path][methodName].deprecated,
+                        "security"    : api.paths[path][methodName].security,
+
                     });
                 }
             });
         }
 
+        let securitySchemes={};
+        let servers=[];
+
+        // Fix Version 2 and 3 Differences
+        if (api.swagger){
+            // Its a Swagger (Version 2 or less)
+
+            securitySchemes = api.securityDefinitions;
+
+            // Put Scheme, Host, BasePath in Servers Array Obj
+            if (api.schemes && api.schemes.length == 0){
+                api.schemes.push("http")
+            }
+            if (api.host){
+                api.schemes.map(function(v){
+                    servers.push({
+                        url         : v + "://" + api.host.replace(/\/$/, "") +"/" +  api.basePath.replace(/^\/|\/$/g, ''),
+                        description : v
+                    })
+                });
+            }
+        }
+        else if (api.openapi) {
+            // Its a OpenAPI (Version 3 and up)
+            securitySchemes = (api.components? api.components.securitySchemes:{});
+            servers = api.servers; //If the servers property is not provided, or is an empty array, the default value would be a Server Object with a url value of /
+        }
+
         let parsedSpec = {
             "info"    : api.info,
-            "host"    : api.host,
-            "basePath": api.basePath,
-            "schemes" : api.schemes,
-            "tags"    : tags
+            "tags"    : tags,
+            "externalDocs": api.externalDocs,
+            "securitySchemes": securitySchemes, // In Swagger 2, its called as securityDefinitions at root level
+            "servers" : servers, // In swagger 2, its generated from schemes, host and basePath properties
+            "basePath": api.basePath // Only available in swagger V2 
         }
         console.timeEnd("Time to Parse Spec");
         //return Promise.resolve(tags);
@@ -247,4 +285,4 @@ function parseSpec(specUrl){
     
 }
 
-export { parseSpec, debounce, schemaToObj, schemaToElTree }
+export { parseSpec, debounce, schemaToObj, schemaToElTree, test }

@@ -1,20 +1,12 @@
-import axios from 'axios';
 import store from '@/store';
+import axios from 'axios';
 
-export function callEndPoint (method, url, pathParams, queryParams, formParams, bodyParams, headerParams) {
 
-    let baseUrl="";
-    let endPoint = url;
+function  callEndPoint (method, url, pathParams, queryParams, bodyParams, headerParams, formParams, cookieParams ) {
+
+    let endPoint ;
     let qParams = {};
     let hParams = {};
-
-    /* Deal with form data or blob or multipart later 
-    // If request has form-data then set the content type in header
-    if (formParams.length > 0 ){
-        hParams['Content-Type']='multipart/form-data';
-    }
-    */
-
 
     // Path Params
     if (pathParams){
@@ -24,6 +16,13 @@ export function callEndPoint (method, url, pathParams, queryParams, formParams, 
     }
 
     // Query Params
+    if (queryParams){
+        queryParams.map(function(v){
+            if (v.example){
+                qParams[v.name] = v.example;
+            }
+        });
+    }
 
     // Header Params
     if (headerParams){
@@ -34,23 +33,27 @@ export function callEndPoint (method, url, pathParams, queryParams, formParams, 
         });
     }
 
-    baseUrl= store.state.scheme+ "://"+ store.state.host + store.state.basePath + "/";
-    debugger
-    axios({
-        baseURL : baseUrl,
+    //TODO: Deal with formParams and cookieParams later
+
+    debugger;
+
+    //baseUrl= store.state.scheme+ "://"+ store.state.host + store.state.basePath + "/";
+    baseUrl= "http://10.21.83.83:8080/api";
+    baseUrl= "'https://fakerestapi.azurewebsites.net";
+    method = "get";
+    endPoint="/Users";
+    queryParams={};
+    bodyParams={};
+    hParams={};
+    
+    axios.request({
         method  : method,
-        url     : endPoint,
+        url     : "https://fakerestapi.azurewebsites.net/api/Users",
+        //url     : endPoint,
         params  : queryParams,    // Query Params
-        data    : bodyParams, // Body Params
-        headers : hParams,    // Header Params
-        /* Basic Auth
-        auth: {
-            username: 'janedoe',
-            password: 's00pers3cret'
-        },
-        */  
-    })
-    .then(function (response) {
+        data    : bodyParams,     // Body Params
+        headers : hParams,        // Header Params
+    }).then(function (response) {
         console.log(response);
         debugger;
     })
@@ -59,7 +62,6 @@ export function callEndPoint (method, url, pathParams, queryParams, formParams, 
         debugger;
     });
     return endPoint;
-
-
 }
 
+export { callEndPoint }

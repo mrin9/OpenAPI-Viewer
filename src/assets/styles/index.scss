@@ -28,19 +28,7 @@ input, textarea, select, button {
   font-family: $sw-font-family, 'Nunito', sans-serif;
   font-weight:400;
 }
-/*
-input[type="text"],
-input[type="password"],
-.el-input{
-  width:175px;
-}
-*/
 
-.el-select{
-  .el-input{
-    width:100%;
-  }
-}
 
 #app {
   -webkit-font-smoothing: antialiased;
@@ -58,11 +46,10 @@ input[type="password"],
   }
 }
 
-.sw-toolbar {
+.sw-row {
   display:flex;
   align-items:center;
   flex-direction: row;
-  margin:16px 0 5px 0;
 }
 
 .sw-section-heading{
@@ -80,10 +67,4 @@ span.sw-section-heading{
   line-height: 12px;
   vertical-align: middle;
   color: #999;
-}
-
-//Quill editor overrides
-.ql-snow .ql-editor pre.ql-syntax {
-  background-color:transparent;
-  color: #555;
 }

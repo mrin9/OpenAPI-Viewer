@@ -2,15 +2,25 @@
   <div id="sw-app-shell" class="sw-app-shell" >
     <div class="sw-main-container" >
         <div class="sw-app-header-container" ref="headerContainer">
-          <mrin-logo style="height:36px;width:36px;margin-left:5px"></mrin-logo>
-          <div style="font-size:20px; color:orange; margin:2px 8px"> API Viewer </div>
-          <div style="margin: 2px 8px;">
-            <input ref='specUrl' style="width:400px; margin-right:5px" type="text" placeholder="Spec URL" class="sw-medium" v-model="specUrl" @keyup.enter="onExplore">
-            <el-button type="primary" size="medium" @click="onExplore">EXPLORE</el-button>
+          
+          <div class="sw-row" style="padding:16px 4px 8px 4px">
+            <mrin-logo style="height:36px;width:36px;margin-left:5px"></mrin-logo>
+            <div style="font-size:20px; color:orange; margin:2px 8px"> API Viewer </div>
+            <div style="margin: 2px 8px;">
+              <input ref='specUrl' style="width:400px; margin-right:5px" type="text" placeholder="Spec URL" class="sw-medium" v-model="specUrl" @keyup.enter="onExplore">
+              <el-button type="primary" size="medium" @click="onExplore">EXPLORE</el-button>
+            </div>
+            <div style="flex:1"></div>
+            <input style="width:150px; margin-right:20px" type="text" placeholder="Search" class="sw-medium sw-dark" v-model="searchVal" @keyup="onSearchKeyUp">
           </div>
-          <div style="flex:1"></div>
-          <input style="width:150px; margin-right:20px" type="text" placeholder="Search" class="sw-medium sw-dark" v-model="searchVal" @keyup="onSearchKeyUp">
+          <div class="sw-row" style="padding:8px 4px; background-color:#444">
+            <el-switch v-model="isDevMode" active-text="Developer Mode" class="sw-dark"> </el-switch>
+          </div>  
+
+
         </div>
+
+
         <div class="sw-page-container" ref="pageContainer">
 
           <div class="sw-tag-container" v-for="tag in parsedSpec.tags" v-if="tag.show" :key="tag.name">
@@ -25,7 +35,6 @@
 
 <script>
 import EndPoint from '@/components/EndPoint';
-
 import {parseSpec, debounce } from  '@/lib/utils';
 import MrinLogo from '@/components/Logo';
 import store from '@/store';
@@ -35,39 +44,34 @@ export default {
   data:function(){
     return{
       //specUrl: "https://petstore.swagger.io/v2/swagger.json",
-      specUrl  : "http://10.21.83.83:8080/api/swagger.json",
+      specUrl   : "http://10.21.83.83:8080/api/swagger.json",
       //specUrl  : "https://raw.githubusercontent.com/APIs-guru/unofficial_openapi_specs/master/github.com/v3/swagger.yaml",
-      searchVal:"",
+      searchVal :"",
       tagContainers:{}, // Each key is a container(tag-name) and the valu in it decides to show or hide a container 
-      parsedSpec :{},
-      group:{
-        name:"Head",
-        body:"Body",
-        open:true
-      }
+      parsedSpec:{},
+      isDevMode :true
     }
   },
   methods:{
 
     onExplore(){
       let me = this;
-      parseSpec(me.specUrl).then(function(parsedSpec){
+      parseSpec(me.specUrl).then(function(spec){
+        let serverUrl="";
         me.searchVal="";
-        me.parsedSpec = parsedSpec;
+        me.parsedSpec = spec;
 
-        if (!me.parsedSpec.host){
-          store.commit("baseUrl", "10.21.83.83:8080")
+
+        if ( (spec.server && spec.server.length == 0 ) || (!spec.server)   ){
+          serverUrl = me.specUrl.substring(0, me.specUrl.indexOf("/", me.specUrl.indexOf("//")+2));
+          if (spec.basePath){
+            serverUrl = serverUrl +"/" + spec.basePath.replace(/^\/|\/$/g, '');
+            me.parsedSpec.servers = [{ 
+              url: serverUrl ,
+              description:"Auto generated Server URI"
+            }];
+          }
         }
-        else{
-          store.commit("baseUrl", parsedSpec.host + parsedSpec.basePath) //remove the last slash from host if present
-        }
-        if (parsedSpec.scheme && parsedSpec.scheme.length > 0){
-          store.commit("scheme",parsedSpec.scheme[0]);
-        }
-        else{
-          store.commit("scheme","http");
-        }
-        
 
       })
       .catch(function(err) {
@@ -121,13 +125,13 @@ export default {
   flex-wrap: nowrap;
   justify-content: flex-start;
   align-content:stretch;
-
   .sw-main-container{
     display:flex;
     flex:1;
     order:1;
-    //background:$sw-light-bg1;
+    background:$sw-light-bg1;
     flex-direction:column;
+    align-items: stretch;
     padding:0;
     margin: 0;
     height:100%;
@@ -135,16 +139,14 @@ export default {
     .sw-app-header-container{
       position: fixed;
       top:0;
-      display:flex;
-      z-index:2000;
       width:100%;
-      background-color: #333;
-      flex-direction:row;
-      justify-content: left;
-      align-items: center;
+      display:flex;
+      flex-direction:column;
+      align-items: stretch;
       flex-wrap: nowrap;
+      background-color: #333;
       overflow: hidden;
-      padding:8px;
+      z-index:2000;
     }
     .sw-page-container{
       margin-top:45px;
