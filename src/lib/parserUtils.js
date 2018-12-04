@@ -4,9 +4,9 @@ import converter from 'swagger2openapi';
 
 export default function ProcessSpec(specUrl){
 
-    console.time("Time to Process Spec");
+    console.time("%Time to Process Spec");
     return converter.convertUrl(specUrl,{}).then(function(convertedObj) {
-        console.info("Convertion to OpenAPI 3.0 - Success !!! ");
+        console.info("%c Convertion to OpenAPI 3.0 - Success !!! ","color:cornflowerblue");
         let parser = new SwaggerParser();    
         return parser.validate(
             convertedObj.openapi, 
@@ -16,7 +16,7 @@ export default function ProcessSpec(specUrl){
         );
     })
     .then(function(deReffedSpec) {
-        console.info("OpenAPI 3.0 Dereferencing - Success !!! ");
+        console.info("%c OpenAPI 3.0 Dereferencing - Success !!! ","color:cornflowerblue");
 
         let methods=['get','put','post','delete','patch','options','head'];
         let tags=[];
@@ -122,7 +122,7 @@ export default function ProcessSpec(specUrl){
             "servers" : servers, // In swagger 2, its generated from schemes, host and basePath properties
             "basePath": deReffedSpec.basePath // Only available in swagger V2 
         }
-        console.time("Time to Process Spec");
+        console.timeEnd("Time to Process Spec");
         return Promise.resolve(parsedSpec);
     })
     .catch(function(err) {

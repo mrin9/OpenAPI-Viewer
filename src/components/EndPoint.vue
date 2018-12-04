@@ -26,10 +26,18 @@
             <div class="sw-end-point-descr" v-if="fullPath.summary !== fullPath.description">{{fullPath.description}}</div>
           </div>  
           <div :style="'display:flex; margin-top:16px; flex-direction:'+layout ">
-            <!--
-            <request-parameters class="sw-request"  :method="path.method" :url="path.path" :common-parameters="path.parameters" :parameters="path.parameters" :consumes="path.consumes"></request-parameters>
-            -->
-            <response-types class="sw-response" :responses="fullPath.responses" ></response-types>
+
+            <request-parameters class="sw-request sw-border" 
+              :method="fullPath.method" 
+              :url="fullPath.path" 
+              :parameters="fullPath.parameters"
+            >
+            </request-parameters>
+            
+            <response-types class="sw-response sw-border" 
+              :responses="fullPath.responses" 
+            >
+            </response-types>
           </div>
         </div>
       </div>  
@@ -75,6 +83,10 @@ export default {
   border: 1px solid transparent; 
   border-left-width: 5px;
   border-top-color: #eee;
+  &.sw-expanded { 
+    margin-bottom:16px; 
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);  
+  }
 
   &.put:hover,
   &.put.sw-expanded{
@@ -100,6 +112,12 @@ export default {
     border-left-width: 5px;
   }
 
+  &.patch:hover,
+  &.patch.sw-expanded{
+    border: 1px solid $sw-icon-warn-minor; 
+    border-left-width: 5px;
+  }
+
 }
 
 .sw-endpoint-head {
@@ -111,6 +129,9 @@ export default {
 
   &.delete.sw-expanded{ 
     background-color: lighten($sw-red, 57%); 
+  }
+  &.patch.sw-expanded{ 
+    background-color: lighten($sw-icon-warn-minor, 40%); 
   }
   &.put.sw-expanded{ 
     background-color: lighten($sw-orange, 45%); 
@@ -126,6 +147,7 @@ export default {
 .sw-endpoint-body {
   padding:16px 8px;
   &.delete{ border-top: 1px solid $sw-red;}
+  &.patch{ border-top: 1px solid $sw-icon-warn-minor;}
   &.put{ border-top: 1px solid $sw-orange;}
   &.post{border-top: 1px solid $sw-info;  }
   &.get{ border-top: 1px solid $sw-green; }
@@ -181,6 +203,9 @@ export default {
   &.delete{ 
     border: 2px solid $sw-red; 
   }
+  &.patch{ 
+    border: 2px solid $sw-icon-warn-minor; 
+  }
   &.put{ 
     border: 2px solid $sw-orange; 
     color:#333;
@@ -200,7 +225,6 @@ export default {
   flex:1;
   margin:5px;
   padding:5px;
-  border-radius: 2px;
 }
 
 </style>

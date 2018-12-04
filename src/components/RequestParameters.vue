@@ -1,29 +1,32 @@
 <template>
 
-  <div > 
-    <div> REQUEST</div>
+  <div> 
+    <div class="sw-section-heading1" style="display: flex; align-items: center;"> 
+      <i class="el-icon-upload2" style="font-sixe:16px;"></i> 
+      <div style="margin-left:5px">REQUEST</div>
+    </div>
 
     <!-- Path Params -->
     <div v-if="pathParams.length>0">
-      <div class="sw-section-heading"> PATH PARAMETERS</div>
+      <div class="sw-section-heading2"> PATH PARAMETERS</div>
       <parameter-inputs :parameters="pathParams"></parameter-inputs>
     </div>
 
     <!-- Query Params -->
     <div v-if="queryParams.length>0" >
-      <div class="sw-section-heading"> QUERY PARAMETERS</div>
+      <div class="sw-section-heading2"> QUERY PARAMETERS</div>
       <parameter-inputs :parameters="queryParams"></parameter-inputs>
     </div>
 
     <!-- Form Params -->
     <div v-if="formParams.length>0" >
-      <div class="sw-section-heading"> FORM DATA PARAMETERS</div>
+      <div class="sw-section-heading2"> FORM DATA PARAMETERS</div>
       <parameter-inputs :parameters="formParams"></parameter-inputs>
     </div>
 
     <!-- Body Param -->
     <div style="min-height:300px" v-if="bodyParams.length > 0 ">
-      <div class="sw-section-heading"> BODY PARAMETERS</div>
+      <div class="sw-section-heading2"> BODY PARAMETERS</div>
 
       <el-tabs v-model="activeTab" style="border:1px solid #ccc;padding:8px;">
         <el-tab-pane label="Example" name="bodyParamExample">
@@ -46,13 +49,13 @@
 
     <!-- Header Params -->
     <div v-if="headerParams.length>0">
-      <div class="sw-section-heading"> HEADER PARAMETERS</div>
+      <div class="sw-section-heading2"> HEADER PARAMETERS</div>
       <parameter-inputs :parameters="headerParams"></parameter-inputs>
     </div>
 
     <!-- Cookie Params -->
     <div v-if="cookieParams.length>0" >
-      <div class="sw-section-heading"> COOKIE PARAMETERS</div>
+      <div class="sw-section-heading2"> COOKIE PARAMETERS</div>
       <parameter-inputs :parameters="cookieParams"></parameter-inputs>
     </div>
 
@@ -154,7 +157,6 @@
         }
 
       })
-
     },
     components: {
       ParameterInputs
