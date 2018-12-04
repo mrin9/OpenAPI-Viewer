@@ -44,11 +44,9 @@ function  callEndPoint (method, url, pathParams, queryParams, bodyParams, header
         headers : hParams,        // Header Params
     }).then(function (response) {
         console.log(response);
-        debugger;
     })
     .catch(function (error) {
         console.log(error);
-        debugger;
     });
     return endPoint;
 }

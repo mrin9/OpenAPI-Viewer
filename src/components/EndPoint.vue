@@ -1,26 +1,35 @@
 <template>
 
     <div>
-      <div :class="'sw-collapse-wrapper ' + path.method + ' ' +(path.expanded?'sw-expanded':'sw-collapsed') " v-for="(path, index) in paths" v-if="path.show" :key="index">
+      <div 
+        v-for= "(fullPath, index) in paths" 
+        v-if = "fullPath.show" :key="index"
+        :class="'sw-endpoint-wrapper ' + fullPath.method + ' ' + (fullPath.expanded?'sw-expanded':'sw-collapsed') " 
+      >
 
-        <!-- Collapse Head -->
-        <div :class="'sw-collapse-header ' + path.method + ' ' +(path.expanded?'sw-expanded':'sw-collapsed') " @click="path.expanded = !path.expanded" >
-          <div :class="'sw-method ' + path.method"> {{path.method}} </div> 
-          <div :class="'sw-path ' + (path.depricated?' sw-depricated':'') "> {{path.path}} </div>
-          <span style="color:orangered; margin:2px 0 0 5px;" v-if="path.depricated"> Depricated </span>
+        <!-- EndPoint Head -->
+        <div 
+          :class="'sw-endpoint-head ' + fullPath.method + ' ' +(fullPath.expanded?'sw-expanded':'sw-collapsed') " 
+          @click="fullPath.expanded = !fullPath.expanded" 
+        >
+          <div :class="'sw-method ' + fullPath.method"> {{fullPath.method}} </div> 
+          <div :class="'sw-path ' + (fullPath.depricated?' sw-depricated':'') "> {{fullPath.path}} </div>
+          <span style="color:orangered; margin:2px 0 0 5px;" v-if="fullPath.depricated"> Depricated </span>
           <div style="min-width:60px; flex:1"></div>
-          <div class="sw-end-point-descr"> {{ path.summary }} </div>
+          <div class="sw-end-point-descr"> {{ fullPath.summary }} </div>
         </div>
 
-        <!-- Collapse Body -->
-        <div v-if="path.expanded" :class="'sw-collapse-body '+path.method">
+        <!-- EndPoint Body -->
+        <div v-if="fullPath.expanded" :class="'sw-endpoint-body '+fullPath.method">
           <div class="sw-end-point-summary">
-            <div class="sw-end-point-title">{{path.summary}} </div>
-            <div class="sw-end-point-descr" v-if="path.summary !== path.description">{{path.description}}</div>
+            <div class="sw-end-point-title">{{fullPath.summary}} </div>
+            <div class="sw-end-point-descr" v-if="fullPath.summary !== fullPath.description">{{fullPath.description}}</div>
           </div>  
           <div :style="'display:flex; margin-top:16px; flex-direction:'+layout ">
-            <request-parameters class="sw-request"  :method="path.method" :url="path.path" :parameters="path.parameters" :consumes="path.consumes"></request-parameters>
-            <response-types :responses="path.responses" :produces="path.produces" class="sw-response"></response-types>
+            <!--
+            <request-parameters class="sw-request"  :method="path.method" :url="path.path" :common-parameters="path.parameters" :parameters="path.parameters" :consumes="path.consumes"></request-parameters>
+            -->
+            <response-types class="sw-response" :responses="fullPath.responses" ></response-types>
           </div>
         </div>
       </div>  
@@ -61,50 +70,44 @@ export default {
 <style scoped lang="scss">
 @import "~@/assets/styles/_vars.scss";
 
-.sw-collapse-wrapper {
+.sw-endpoint-wrapper {
   //margin:8px 0;
   border: 1px solid transparent; 
   border-left-width: 5px;
   border-top-color: #eee;
-  &.delete{ 
-    &.sw-expanded{
-      border: 1px solid $sw-red; 
-      border-left-width: 5px;
-    }
-  }
-  &.put{ 
-    &.sw-expanded{
-      border: 1px solid $sw-orange; 
-      border-left-width: 5px;
-    }
 
+  &.put:hover,
+  &.put.sw-expanded{
+    border: 1px solid $sw-orange; 
+    border-left-width: 5px;
   }
-  &.post{ 
-    &.sw-expanded{
-      border: 1px solid $sw-info; 
-      border-left-width: 5px;
-    }
+
+  &.post:hover,
+  &.post.sw-expanded{
+    border: 1px solid $sw-info; 
+    border-left-width: 5px;
+  }
  
+  &.get:hover,
+  &.get.sw-expanded{
+    border: 1px solid $sw-green; 
+    border-left-width: 5px;
   }
-  &.get{ 
-    &.sw-expanded{
-      border: 1px solid $sw-green; 
-      border-left-width: 5px;
-    }
 
+  &.delete:hover,
+  &.delete.sw-expanded{
+    border: 1px solid $sw-red; 
+    border-left-width: 5px;
   }
+
 }
 
-.sw-collapse-header {
+.sw-endpoint-head {
   display:flex;
   padding:8px 16px;
   align-items: baseline;
   cursor: pointer;
   border-left:5px solid transparent;
-
-  &.sw-collapsed{
-    border-left:5px solid transparent;
-  }
 
   &.delete.sw-expanded{ 
     background-color: lighten($sw-red, 57%); 
@@ -118,57 +121,14 @@ export default {
   &.get.sw-expanded{
     background-color: lighten($sw-green, 57%); 
   }
-
-
-  &.delete:hover{ 
-    background-color: lighten($sw-red, 57%); 
-    border-left:5px solid $sw-red;
-    &.sw-expanded{
-      border-left:5px solid transparent;
-    }
-    &.sw-collapsed{
-      border-left:5px solid $sw-red;
-    }
-  }
-
-  &.put:hover{ 
-    background-color: lighten($sw-orange, 45%); 
-    border-left:5px solid $sw-orange;
-    &.sw-expanded{
-      border-left:5px solid transparent;
-    }
-    &.sw-collapsed{
-      border-left:5px solid $sw-orange;
-    }
-  }
-
-  &.post:hover{ 
-    background-color: lighten($sw-info, 37%); 
-    border-left:5px solid $sw-info;
-    &.sw-expanded{
-      border-left:5px solid transparent;
-    }
-    &.sw-collapsed{
-      border-left:5px solid $sw-info;
-    }
-  }
-  &.get:hover{
-    background-color: lighten($sw-green, 57%); 
-    &.sw-expanded{
-      border-left:5px solid transparent;
-    }
-    &.sw-collapsed{
-      border-left:5px solid $sw-green;
-    }
-  }
 }
 
-.sw-collapse-body{
+.sw-endpoint-body {
   padding:16px 8px;
   &.delete{ border-top: 1px solid $sw-red;}
   &.put{ border-top: 1px solid $sw-orange;}
-  &.post{border-top: 1px solid $sw-info;}
-  &.get{ border-top: 1px solid $sw-green;}
+  &.post{border-top: 1px solid $sw-info;  }
+  &.get{ border-top: 1px solid $sw-green; }
 }
 
 .sw-path{
@@ -219,36 +179,24 @@ export default {
   text-transform:uppercase;
   margin-right:5px;
   &.delete{ 
-    //background-color: $sw-red; 
     border: 2px solid $sw-red; 
-    //color:#efefef;
   }
   &.put{ 
-    //background-color: $sw-orange; 
     border: 2px solid $sw-orange; 
     color:#333;
   }
   &.post{ 
-    //background-color: $sw-info; 
     border: 2px solid $sw-info; 
     color:#333;
   }
   &.get{ 
-    //background-color: $sw-green; 
     border: 2px solid $sw-green; 
     color:#333;
   }
 }
 
+.sw-response,
 .sw-request{
-  //border:1px solid #ccc;
-  flex:1;
-  margin:5px;
-  padding:5px;
-  border-radius: 2px;
-}
-.sw-response{
-  //border:1px solid #ccc;
   flex:1;
   margin:5px;
   padding:5px;

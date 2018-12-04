@@ -38,7 +38,7 @@
               <el-option v-for="item in parsedSpec.servers" :key="item.url" :label="item.url" :value="item.url" >
                 <div style="display:flex; flex-direction:column">
                   <span>{{ item.url }}</span>
-                  <span style="color: #8492a6; font-size:12px; line-height:12px;">{{ item.description }}</span>
+                  <span style="color: #8492a6; font-size:12px; line-height:12px;">{{ item.description }} </span>
                 </div>  
               </el-option>
             </el-select>
@@ -51,7 +51,7 @@
 
           <div class="sw-tag-container" v-for="tag in parsedSpec.tags" v-if="tag.show" :key="tag.name">
             <div style="font-size:16px;font-weight:bold; color:#ccc; margin:16px 0 4px 0;">{{tag.name}}</div>
-            <end-point :paths="tag.paths"></end-point> 
+            <end-point :paths="tag.paths" :parameters="tag.parameters" ></end-point> 
           </div>
           
         </div>
@@ -62,6 +62,7 @@
 <script>
 import EndPoint from '@/components/EndPoint';
 import {parseSpec, debounce } from  '@/lib/utils';
+import ProcessSpec from  '@/lib/parserUtils';
 import MrinLogo from '@/components/Logo';
 import store from '@/store';
 
@@ -71,8 +72,8 @@ export default {
     return{
       //specUrl: "https://petstore.swagger.io/v2/swagger.json",
       //specUrl   : "http://10.21.83.83:8080/api/swagger.json",
-      //specUrl  : "https://raw.githubusercontent.com/APIs-guru/unofficial_openapi_specs/master/github.com/v3/swagger.yaml",
-      specUrl: "https://fakerestapi.azurewebsites.net/swagger/docs/v1",
+      specUrl  : "https://raw.githubusercontent.com/APIs-guru/unofficial_openapi_specs/master/github.com/v3/swagger.yaml",
+      //specUrl: "https://fakerestapi.azurewebsites.net/swagger/docs/v1",
       searchVal :"",
       tagContainers:{}, // Each key is a container(tag-name) and the valu in it decides to show or hide a container 
       parsedSpec:{},
@@ -85,7 +86,8 @@ export default {
 
     onExplore(){
       let me = this;
-      parseSpec(me.specUrl).then(function(spec){
+
+      ProcessSpec(me.specUrl).then(function( spec ){
         let serverUrl="";
         me.searchVal="";
         me.parsedSpec = spec;
@@ -101,7 +103,6 @@ export default {
           }
         }
         me.isSpecLoaded=true;
-
         me.isDevMode=true;
         me.selectedApiServer = spec.servers[0].url;
         store.commit("isDevMode", true);
