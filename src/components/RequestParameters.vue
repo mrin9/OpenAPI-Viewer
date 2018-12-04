@@ -8,25 +8,25 @@
 
     <!-- Path Params -->
     <div v-if="pathParams.length>0">
-      <div class="sw-section-heading2"> PATH PARAMETERS</div>
+      <div class="sw-section-heading3 sw-gray-text"> PATH PARAMETERS</div>
       <parameter-inputs :parameters="pathParams"></parameter-inputs>
     </div>
 
     <!-- Query Params -->
     <div v-if="queryParams.length>0" >
-      <div class="sw-section-heading2"> QUERY PARAMETERS</div>
+      <div class="sw-section-heading3 sw-gray-text"> QUERY PARAMETERS</div>
       <parameter-inputs :parameters="queryParams"></parameter-inputs>
     </div>
 
     <!-- Form Params -->
     <div v-if="formParams.length>0" >
-      <div class="sw-section-heading2"> FORM DATA PARAMETERS</div>
+      <div class="sw-section-heading3 sw-gray-text"> FORM DATA PARAMETERS</div>
       <parameter-inputs :parameters="formParams"></parameter-inputs>
     </div>
 
     <!-- Body Param -->
     <div style="min-height:300px" v-if="bodyParams.length > 0 ">
-      <div class="sw-section-heading2"> BODY PARAMETERS</div>
+      <div class="sw-section-heading3 sw-gray-text"> BODY PARAMETERS</div>
 
       <el-tabs v-model="activeTab" style="border:1px solid #ccc;padding:8px;">
         <el-tab-pane label="Example" name="bodyParamExample">
@@ -49,13 +49,13 @@
 
     <!-- Header Params -->
     <div v-if="headerParams.length>0">
-      <div class="sw-section-heading2"> HEADER PARAMETERS</div>
+      <div class="sw-section-heading3 sw-gray-text"> HEADER PARAMETERS</div>
       <parameter-inputs :parameters="headerParams"></parameter-inputs>
     </div>
 
     <!-- Cookie Params -->
     <div v-if="cookieParams.length>0" >
-      <div class="sw-section-heading2"> COOKIE PARAMETERS</div>
+      <div class="sw-section-heading3 sw-gray-text"> COOKIE PARAMETERS</div>
       <parameter-inputs :parameters="cookieParams"></parameter-inputs>
     </div>
 
