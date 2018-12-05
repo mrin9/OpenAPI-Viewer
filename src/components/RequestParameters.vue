@@ -169,6 +169,7 @@
               schemaExamples.push(generatedExample);
           }
 
+          //Only use $set else the new prop wont be recognized by vue
           me.$set(me.mimeRequestTypes, mimeReq, {
             "examples"   : schemaExamples,
             "schemaTree" : schemaTreeModel
@@ -203,10 +204,8 @@
           me[arrName].push({
             "name":v.name,
             "required":v.required?v.required:false,
-            "type":v.type?v.type:"",
-            "enum":v.enum?v.enum:[],
             "description":v.description?v.description:"",
-            "schema":v.schema?v.schema:"",
+            "schema":v.schema?v.schema:{"type":"string"},
             "example":v["x-example"]?v["x-example"]:"",
           })
         }
