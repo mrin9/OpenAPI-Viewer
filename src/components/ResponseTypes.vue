@@ -19,13 +19,16 @@
           <div style="flex:1"></div>
           <div style="position:relative; top:25px; min-width:160px; z-index:1; display:flex;">
               <!-- If only one Mime Response show a label -->
-              <span v-if="mimeRespCountForEachStatus[statusRespCode] =1" class="sw-section-heading" style="line-height:26px;"> {{ selectedMimeValueForEachStatus[statusRespCode] }}</span>
+              <span v-if="mimeRespCountForEachStatus[statusRespCode] == 1" class="sw-section-heading" style="line-height:26px;"> 
+                {{ selectedMimeValueForEachStatus[statusRespCode] }}
+              </span>
 
               <!-- If more than one Mime Response show a drop down -->
               <el-select 
                 v-else-if="mimeRespCountForEachStatus[statusRespCode] > 1"
                 v-model="selectedMimeValueForEachStatus[statusRespCode]" 
                 size="medium"
+                popper-class="sw-small-height-options"
               >
                 <el-option v-for="(mimeTypeObj, mimeTypeKey) in mimeResponsesForEachStatus[statusRespCode] " 
                   :key   = "mimeTypeKey" 
@@ -140,9 +143,9 @@
           me.selectedMimeValueForEachStatus[statusCode] = mimeResp;
           mimeRespCount++;
         }
-          me.activeTabForEachRespStatus[statusCode] = "exampleTab"; // set the default tab to example for each response status
-          me.mimeResponsesForEachStatus[statusCode] = allMimeResp;
-          me.mimeRespCountForEachStatus[statusCode] = mimeRespCount;
+        me.activeTabForEachRespStatus[statusCode] = "exampleTab"; // set the default tab to example for each response status
+        me.mimeResponsesForEachStatus[statusCode] = allMimeResp;
+        me.mimeRespCountForEachStatus[statusCode] = mimeRespCount;
           
        
       }

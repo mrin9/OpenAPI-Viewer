@@ -250,6 +250,12 @@ $--message-danger-color: #fff !default;
     border-bottom: 1px solid #444;
   }
 }
+.sw-small-height-options{
+  .el-select-dropdown__item{
+    height:26px;
+    line-height:26px;
+  }
+}
 
 
 /* Radio

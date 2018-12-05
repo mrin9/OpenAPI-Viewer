@@ -27,14 +27,15 @@
           </div>  
           <div :style="'display:flex; margin-top:16px; flex-direction:'+layout ">
 
-            <request-parameters class="sw-request sw-border" 
+            <request-parameters class="sw-request sw-light-border" 
               :method="fullPath.method" 
               :url="fullPath.path" 
               :parameters="fullPath.parameters"
+              :requestBody="fullPath.requestBody"
             >
             </request-parameters>
             
-            <response-types class="sw-response sw-border" 
+            <response-types class="sw-response sw-light-border" 
               :responses="fullPath.responses" 
             >
             </response-types>
@@ -223,8 +224,17 @@ export default {
 .sw-response,
 .sw-request{
   flex:1;
-  margin:5px;
-  padding:5px;
+  margin:0;
+}
+
+.sw-request{
+  border-width: 1px 1px 1px 0;
+  padding:8px 16px 8px 8px;
+
+}
+.sw-response{
+  border-width: 1px 0 1px 0;
+  padding:8px 8px 8px 16px;
 }
 
 </style>

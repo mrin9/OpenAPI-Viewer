@@ -7,34 +7,64 @@
     </div>
 
     <!-- Path Params -->
-    <div v-if="pathParams.length>0">
+    <div v-if="pathParams.length>0" class="sw-section-gap">
       <div class="sw-section-heading3 sw-gray-text"> PATH PARAMETERS</div>
       <parameter-inputs :parameters="pathParams"></parameter-inputs>
     </div>
 
     <!-- Query Params -->
-    <div v-if="queryParams.length>0" >
+    <div v-if="queryParams.length>0" class="sw-section-gap">
       <div class="sw-section-heading3 sw-gray-text"> QUERY PARAMETERS</div>
       <parameter-inputs :parameters="queryParams"></parameter-inputs>
     </div>
 
     <!-- Form Params -->
-    <div v-if="formParams.length>0" >
+    <div v-if="formParams.length>0" class="sw-section-gap">
       <div class="sw-section-heading3 sw-gray-text"> FORM DATA PARAMETERS</div>
       <parameter-inputs :parameters="formParams"></parameter-inputs>
     </div>
 
     <!-- Body Param -->
-    <div style="min-height:300px" v-if="bodyParams.length > 0 ">
+    <div v-if="requestBody!== undefined && Object.keys(requestBody).length > 0" style="min-height:300px"  class="sw-section-gap">
       <div class="sw-section-heading3 sw-gray-text"> BODY PARAMETERS</div>
 
-      <el-tabs v-model="activeTab" style="border:1px solid #ccc;padding:8px;">
+      <div class="sw-row" style="align-items:flex-end; padding:0 8px 2px 0;">
+        <div class="sw-gray-small-text">
+         {{requestBody.description }}
+        </div>
+        <div style="flex:1"></div>
+        <div style="position:relative; top:35px; min-width:160px; z-index:1; display:flex;">
+            <!-- If only one Mime Response show a label -->
+            <span v-if="mimeReqCount == 1" class="sw-section-heading" style="line-height:26px;"> 
+              {{ selectedMimeResponseKey }}
+            </span>
+            <!-- If more than one Mime Response show a drop down -->
+            <el-select v-else-if="mimeReqCount > 1" 
+              v-model="selectedMimeResponseKey" 
+              size="medium" 
+              popper-class="sw-small-height-options"
+            >
+              <el-option v-for="(mimeTypeObj, mimeTypeKey) in mimeRequestTypes " 
+                :key   = "mimeTypeKey" 
+                :label = "mimeTypeKey" 
+                :value = "mimeTypeKey"
+              > 
+              </el-option>
+            </el-select>
+        </div>
+      </div>  
+
+      <el-tabs v-if="mimeRequestTypes[selectedMimeResponseKey]" v-model="activeTab" class="sw-border" style="padding:8px;">
         <el-tab-pane label="Example" name="bodyParamExample">
-          <el-input class="sw-model-example-textarea" type="textarea" v-model="bodyParamText" :autosize="{ minRows: 12}"></el-input>
+          <el-input class="sw-model-example-textarea" 
+            type="textarea" 
+            v-model="mimeRequestTypes[selectedMimeResponseKey].examples[0]" 
+            :autosize="{ minRows: 12 }"
+          >
+          </el-input>
         </el-tab-pane>
-        <el-tab-pane label="Model" name="bodyParamModel"> Model
-          
-          <el-tree :data="bodyParamData" :props="defaultTreeProps" :default-expand-all="true">
+        <el-tab-pane label="Model" name="bodyParamModel"> 
+          <el-tree :data="mimeRequestTypes[selectedMimeResponseKey].schemaTree" :props="defaultTreeProps" :default-expand-all="true">
             <span class="sw-tree-node" slot-scope="{ node, data }">
               <span class="sw-fieldname">{{ node.label.label }}</span>
               <span class="sw-datatype">: {{ node.label.type }}</span>
@@ -48,13 +78,13 @@
     </div>
 
     <!-- Header Params -->
-    <div v-if="headerParams.length>0">
+    <div v-if="headerParams.length>0" class="sw-section-gap">
       <div class="sw-section-heading3 sw-gray-text"> HEADER PARAMETERS</div>
       <parameter-inputs :parameters="headerParams"></parameter-inputs>
     </div>
 
     <!-- Cookie Params -->
-    <div v-if="cookieParams.length>0" >
+    <div v-if="cookieParams.length>0" class="sw-section-gap">
       <div class="sw-section-heading3 sw-gray-text"> COOKIE PARAMETERS</div>
       <parameter-inputs :parameters="cookieParams"></parameter-inputs>
     </div>
@@ -83,15 +113,14 @@
         type: [Array,String],
         default: function () { return [] }
       },
-      consumes:{
-        type: [Array,String],
-        default:""
+      requestBody:{
+        type: Object
       }
     },
 
     data:function(){
       return {
-        defaultTreeProps: { children: 'children',label: 'label'},
+        defaultTreeProps: { children: 'children',label: 'label' },
         activeTab:'bodyParamExample',
         pathParams :[],
         queryParams:[],
@@ -101,7 +130,11 @@
         cookieParams:[],
         bodyParamData:[],
         bodyParamText:"",
-        res:""
+        res:"",
+        mimeRequestTypes:{},
+        mimeReqCount:0,
+        selectedMimeResponseKey:""
+        
       }
     },
 
@@ -115,7 +148,54 @@
     },
 
     mounted(){
-      var me = this;
+      let me = this;
+      let mimeReqCount=0;
+      let mimeRequestTypes=[];
+      if (me.requestBody !== undefined && Object.keys(me.requestBody.content).length > 0){
+        let content = me.requestBody.content;
+        for(let mimeReq in content ) {
+          let mimeReqObj = content[mimeReq];
+
+          // Generate the Schema Model  in Element UI tree format
+          let schemaTreeModel = schemaToElTree(mimeReqObj.schema, [] );
+
+          // Store Schema Examples (if provided)
+          let schemaExamples = [];
+          if (mimeReqObj.examples){
+            schemaExamples = mimeRespObj.examples;
+          }
+          if (mimeReqObj.example){
+            schemaExamples.push(mimeRespObj.example);
+          }
+          if (schemaExamples.length==0){
+            // If schema examples are not provided then generate one from Schema (only JSON fomat)
+            let generatedExample = JSON.stringify(schemaToObj(mimeReqObj.schema,{}),undefined,2);
+              schemaExamples.push(generatedExample);
+          }
+
+          me.$set(me.mimeRequestTypes, mimeReq, {
+            "examples"   : schemaExamples,
+            "schemaTree" : schemaTreeModel
+          });
+
+          me.selectedMimeResponseKey = mimeReq;
+          me.mimeReqCount++;
+        }
+        
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
       this.parameters.map(function(v){
         let arrName="";
         if (v.in==="path"){
@@ -126,10 +206,6 @@
         }
         else if (v.in==="body"){
           arrName = "bodyParams"
-          if (v.schema){
-            me.bodyParamData = schemaToElTree(v.schema,[]);
-            me.bodyParamText = JSON.stringify(schemaToObj(v.schema,{}),undefined,2);
-          }
         }
         else if (v.in==="header"){
           arrName = "headerParams"
@@ -190,6 +266,10 @@
   .sw-make-request{
     border:1px solid #ccc;
     padding: 16px;
+  }
+
+  .sw-section-gap{
+    margin-top:24px;  
   }
   
   textarea {

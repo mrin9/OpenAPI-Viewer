@@ -95,6 +95,7 @@ export default function ProcessSpec(specUrl){
                         "description" : fullPath.description,
                         "path"        : path,
                         "operationId" : fullPath.operationId,
+                        "requestBody" : fullPath.requestBody,
                         "parameters"  : fullPath.parameters ? commonPathProp.parameters.concat(fullPath.parameters):commonPathProp.parameters,
                         "servers"     : fullPath.servers    ? commonPathProp.servers.concat(fullPath.servers):commonPathProp.servers,
                         "responses"   : fullPath.responses,
