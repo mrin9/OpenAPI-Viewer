@@ -21,8 +21,8 @@
 
         <!-- EndPoint Body -->
         <div v-if="fullPath.expanded" :class="'sw-endpoint-body '+fullPath.method">
-          <div class="sw-end-point-summary">
-            <div class="sw-end-point-title">{{fullPath.summary}} </div>
+          <div class="sw-end-point-summary" v-if="fullPath.summary || fullPath.description">
+            <div class="sw-end-point-title">{{fullPath.summary}}</div>
             <div class="sw-end-point-descr" v-if="fullPath.summary !== fullPath.description">{{fullPath.description}}</div>
           </div>  
           <div :style="'display:flex; margin-top:16px; flex-direction:'+layout ">
@@ -123,7 +123,7 @@ export default {
 
 .sw-endpoint-head {
   display:flex;
-  padding:8px 16px;
+  padding:6px 16px;
   align-items: baseline;
   cursor: pointer;
   border-left:5px solid transparent;
@@ -181,7 +181,6 @@ export default {
     margin-top:5px;
     color:gray;
   }
-
 }
 
 .sw-depricated{
@@ -191,8 +190,8 @@ export default {
 .sw-method{
   padding:2px 5px;
   vertical-align: middle;
-  height: 24px;
-  line-height: 26px;
+  height: 20px;
+  line-height: 20px;
   min-width: 48px;
   border-radius: 2px;
   display:inline-block;

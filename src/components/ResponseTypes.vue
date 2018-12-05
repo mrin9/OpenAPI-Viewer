@@ -114,7 +114,6 @@
       let me = this;
       
       for(let statusCode in me.responsesLocalCopy) {
-        
         let allMimeResp={};
         let mimeRespCount=0;
         for(let mimeResp in me.responsesLocalCopy[statusCode].content ) {
@@ -146,10 +145,7 @@
         me.activeTabForEachRespStatus[statusCode] = "exampleTab"; // set the default tab to example for each response status
         me.mimeResponsesForEachStatus[statusCode] = allMimeResp;
         me.mimeRespCountForEachStatus[statusCode] = mimeRespCount;
-          
-       
       }
-
 
     },
     components: {

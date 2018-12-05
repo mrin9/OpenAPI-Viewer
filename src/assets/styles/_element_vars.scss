@@ -170,6 +170,20 @@ $--message-danger-color: #fff !default;
 }
 
 
+.sw-editor{
+  .el-textarea__inner {
+    font-family: monospace;
+    font-size: 12px;
+    border:2px solid $sw-light-border-color;
+    border-radius: 4px;
+    background-color: lighten($sw-primary-color,40%);
+    &:focus{
+      border-color:#FF791A;
+    }
+  }
+}
+
+
 .sw-dark{
   .el-input__inner{
     padding:0 5px;

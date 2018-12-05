@@ -36,11 +36,11 @@
         <div style="position:relative; top:35px; min-width:160px; z-index:1; display:flex;">
             <!-- If only one Mime Response show a label -->
             <span v-if="mimeReqCount == 1" class="sw-section-heading" style="line-height:26px;"> 
-              {{ selectedMimeResponseKey }}
+              {{ selectedMimeReqKey }}
             </span>
             <!-- If more than one Mime Response show a drop down -->
             <el-select v-else-if="mimeReqCount > 1" 
-              v-model="selectedMimeResponseKey" 
+              v-model="selectedMimeReqKey" 
               size="medium" 
               popper-class="sw-small-height-options"
             >
@@ -54,17 +54,17 @@
         </div>
       </div>  
 
-      <el-tabs v-if="mimeRequestTypes[selectedMimeResponseKey]" v-model="activeTab" class="sw-border" style="padding:8px;">
+      <el-tabs v-if="mimeRequestTypes[selectedMimeReqKey]" v-model="activeTab" class="sw-border" style="padding:8px;">
         <el-tab-pane label="Example" name="bodyParamExample">
-          <el-input class="sw-model-example-textarea" 
+          <el-input class="sw-editor sw-model-example-textarea" 
             type="textarea" 
-            v-model="mimeRequestTypes[selectedMimeResponseKey].examples[0]" 
+            v-model="mimeRequestTypes[selectedMimeReqKey].examples[0]" 
             :autosize="{ minRows: 12 }"
           >
           </el-input>
         </el-tab-pane>
         <el-tab-pane label="Model" name="bodyParamModel"> 
-          <el-tree :data="mimeRequestTypes[selectedMimeResponseKey].schemaTree" :props="defaultTreeProps" :default-expand-all="true">
+          <el-tree :data="mimeRequestTypes[selectedMimeReqKey].schemaTree" :props="defaultTreeProps" :default-expand-all="true">
             <span class="sw-tree-node" slot-scope="{ node, data }">
               <span class="sw-fieldname">{{ node.label.label }}</span>
               <span class="sw-datatype">: {{ node.label.type }}</span>
@@ -124,16 +124,13 @@
         activeTab:'bodyParamExample',
         pathParams :[],
         queryParams:[],
-        bodyParams :[],
         headerParams :[],
         formParams:[],
         cookieParams:[],
-        bodyParamData:[],
-        bodyParamText:"",
         res:"",
         mimeRequestTypes:{},
         mimeReqCount:0,
-        selectedMimeResponseKey:""
+        selectedMimeReqKey:""
         
       }
     },
@@ -142,7 +139,7 @@
       onTry(){
         let res="";
         
-        this.res = callEndPoint(this.method, this.url, this.pathParams, this.queryParams, this.bodyParamText, this.headerParams, this.formParams, this.cookieParams)
+        this.res = callEndPoint(this.method, this.url, this.pathParams, this.queryParams, this.selectedMimeReqKey, this.mimeRequestTypes, this.headerParams, this.formParams, this.cookieParams)
       }
 
     },
@@ -150,7 +147,6 @@
     mounted(){
       let me = this;
       let mimeReqCount=0;
-      let mimeRequestTypes=[];
       if (me.requestBody !== undefined && Object.keys(me.requestBody.content).length > 0){
         let content = me.requestBody.content;
         for(let mimeReq in content ) {
@@ -167,7 +163,7 @@
           if (mimeReqObj.example){
             schemaExamples.push(mimeRespObj.example);
           }
-          if (schemaExamples.length==0){
+          if (schemaExamples.length==0 && ( mimeReq.toLowerCase().includes("json") || mimeReq=="*/*") ){
             // If schema examples are not provided then generate one from Schema (only JSON fomat)
             let generatedExample = JSON.stringify(schemaToObj(mimeReqObj.schema,{}),undefined,2);
               schemaExamples.push(generatedExample);
@@ -178,22 +174,11 @@
             "schemaTree" : schemaTreeModel
           });
 
-          me.selectedMimeResponseKey = mimeReq;
+          me.selectedMimeReqKey = mimeReq;
           me.mimeReqCount++;
         }
         
       }
-
-
-
-
-
-
-
-
-
-
-
 
 
       this.parameters.map(function(v){
@@ -203,9 +188,6 @@
         }
         else if (v.in==="query"){
           arrName = "queryParams"
-        }
-        else if (v.in==="body"){
-          arrName = "bodyParams"
         }
         else if (v.in==="header"){
           arrName = "headerParams"
@@ -240,7 +222,7 @@
   }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 @import "~@/assets/styles/_vars.scss";
   .sw-param-type-title{
     font-weight:bold; 
@@ -270,12 +252,6 @@
 
   .sw-section-gap{
     margin-top:24px;  
-  }
-  
-  textarea {
-    font-family: monospace !important;
-    font-size: 12px !important;
-    border:none !important;
   }
   
 </style>
