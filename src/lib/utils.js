@@ -11,6 +11,18 @@ function debounce (fn, delay) {
     }
 }
 
+function copyToClipboard(elId) {
+    /* Get the text field */
+    var copyText = document.getElementById(elId);
+  
+    /* Select the text field */
+    copyText.select();
+  
+    /* Copy the text inside the text field */
+    document.execCommand("copy");
+    return copyText.value;
+}
+
 /* For changing JSON-Schema to a Sample Object, as per the schema */ 
 function schemaToObj (schema, obj) {
     if (schema.type==="object" || schema.properties){

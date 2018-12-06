@@ -5,7 +5,9 @@ import axios from 'axios';
 function  callEndPoint (method, url, pathParams, queryParams, reqBodyMimeType, requestBody, headerParams, formParams, cookieParams ) {
     let endPoint= url;
     let qParams = {};
+    let updatedQParams;
     let hParams = {};
+
 
     // Path Params
     if (pathParams){
@@ -13,7 +15,6 @@ function  callEndPoint (method, url, pathParams, queryParams, reqBodyMimeType, r
             endPoint = endPoint.replace("{"+v.name+"}", v.example);
         });
     }
-
     // Query Params
     if (queryParams){
         queryParams.map(function(v){
@@ -21,6 +22,8 @@ function  callEndPoint (method, url, pathParams, queryParams, reqBodyMimeType, r
                 qParams[v.name] = v.example;
             }
         });
+        //updatedQParams = parseQueryStringArrayParams(qParams);
+        //debugger;
     }
 
     // Header Params
@@ -52,19 +55,36 @@ function  callEndPoint (method, url, pathParams, queryParams, reqBodyMimeType, r
 
 
     endPoint= store.state.selectedApiServer.replace(/^\/|\/$/g, '') +"/" + endPoint.replace(/^\/|\/$/g, '');
-    axios.request({
-        method  : method,
-        url     : endPoint,
-        params  : queryParams,    // Query Params
-        data    : reqBodyContent, // Body Params
-        headers : hParams,        // Header Params
-    }).then(function (response) {
-        console.log(response);
-    })
-    .catch(function (error) {
-        console.log(error);
+    return axios.request({
+        'method'  : method,
+        'url'     : endPoint,
+        'params'  : qParams,    // Query Params
+        'data'    : reqBodyContent, // Body Params
+        'headers' : hParams,        // Header Params
+        'paramsSerializer': qParams => serealizeQueryString(qParams) 
     });
-    return endPoint;
+    //return endPoint;
 }
+
+function serealizeQueryString(params) {
+    const keys = Object.keys(params);
+    let options = '';
+  
+    keys.forEach((key) => {
+      const isParamTypeObject = typeof params[key] === 'object';
+      const isParamTypeArray = isParamTypeObject && (params[key].length >= 0);
+  
+      if (!isParamTypeObject) {
+        options += `${key}=${params[key]}&`;
+      }
+  
+      if (isParamTypeObject && isParamTypeArray) {      
+        params[key].forEach((element) => {
+          options += `${key}=${element}&`;
+        });
+      }
+    });
+    return options ? options.slice(0, -1) : options;
+  };
 
 export { callEndPoint }

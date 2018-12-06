@@ -89,9 +89,11 @@
       <parameter-inputs :parameters="cookieParams" :showItputs="true"></parameter-inputs>
     </div>
 
-    <div v-if="$store.state.isDevMode" class="sw-make-request" style="margin: 8px 0 0 0">
+    <div v-if="$store.state.isDevMode" v-loading="loading" class="sw-make-request" style="margin: 8px 0 0 0">
       <el-button type="primary" size="medium" @click="onTry"> TRY </el-button>
-      {{res}}
+      <br/>
+      <vue-json-pretty v-if="showJsonViewer" path="/" :data="jsonResponse.data" class="sw-live-response"></vue-json-pretty>
+      <pre v-else class="sw-live-response"> {{ jsonRespText}} </pre>
     </div>
 
   </div>
@@ -103,6 +105,8 @@
   import { callEndPoint } from '@/lib/restUtils';
   import { schemaToElTree, schemaToObj, test} from '@/lib/utils';
   import ParameterInputs from '@/components/ParameterInputs';
+  import VueJsonPretty from 'vue-json-pretty';
+
   import store from '@/store';
 
   export default {
@@ -120,6 +124,7 @@
 
     data:function(){
       return {
+        loading:false,
         defaultTreeProps: { children: 'children',label: 'label' },
         activeTab:'bodyParamExample',
         pathParams :[],
@@ -127,18 +132,57 @@
         headerParams :[],
         formParams:[],
         cookieParams:[],
-        res:"",
+        jsonResponse:{
+          "data":{},
+          "headers":{},
+        },
         mimeRequestTypes:{},
         mimeReqCount:0,
-        selectedMimeReqKey:""
+        selectedMimeReqKey:"",
+        showJsonViewer:false,
+        jsonRespText:"",
         
       }
     },
 
     methods:{
+
       onTry(){
+        let me = this;
         let res="";
-        this.res = callEndPoint(this.method, this.url, this.pathParams, this.queryParams, this.selectedMimeReqKey, this.mimeRequestTypes, this.headerParams, this.formParams, this.cookieParams)
+        me.loading=true;
+        this.res = callEndPoint(
+          this.method, 
+          this.url, 
+          this.pathParams, 
+          this.queryParams, 
+          this.selectedMimeReqKey, 
+          this.mimeRequestTypes, 
+          this.headerParams, 
+          this.formParams, 
+          this.cookieParams
+        )
+        .then(function(resp){
+          if (resp.request.responseText.length < 10000){
+            me.showJsonViewer=true;
+            me.jsonResponse.data = resp.data;
+          }
+          else{
+            me.showJsonViewer=false;
+            me.jsonRespText = JSON.stringify(resp.data, null, 2);
+          }
+          //  me.jsonResponse.data = resp.data;
+          //me.$set(me.jsonResponse.data,resp.data);
+          me.loading=false;
+        })
+        .catch(function(err){
+          me.$message({
+            showClose: true,
+            message: 'AJAX call failed',
+            type: 'error'
+          });
+          me.loading=false;
+        })
       }
 
     },
@@ -214,7 +258,8 @@
       })
     },
     components: {
-      ParameterInputs
+      ParameterInputs,
+      VueJsonPretty
     }
   }
 </script>
@@ -249,6 +294,11 @@
 
   .sw-section-gap{
     margin-top:24px;  
+  }
+  .sw-live-response{
+    max-height:400px;
+    max-width:100%;
+    overflow: scroll;
   }
   
 </style>
