@@ -89,11 +89,22 @@
       <parameter-inputs :parameters="cookieParams" :showItputs="true"></parameter-inputs>
     </div>
 
-    <div v-if="$store.state.isDevMode" v-loading="loading" class="sw-make-request" style="margin: 8px 0 0 0">
-      <el-button type="primary" size="medium" @click="onTry"> TRY </el-button>
-      <br/>
-      <vue-json-pretty v-if="showJsonViewer" path="/" :data="jsonResponse.data" class="sw-live-response"></vue-json-pretty>
-      <pre v-else class="sw-live-response"> {{ jsonRespText}} </pre>
+    <div v-if="$store.state.isDevMode" v-loading="loading" class="sw-make-request sw-light-border" style="margin: 8px 0 0 0">
+      <div class="sw-row" style="margin: 2px 0;">
+        <el-button type="primary" size="medium" @click="onTry"> TRY </el-button>
+        <div style="flex:1"></div>
+        <el-button type="plain" size="medium"> CLEAR </el-button>
+        <el-button type="plain" size="medium"> COPY </el-button>
+      </div>  
+      <vue-json-pretty v-if="showJsonViewer" path="/" :data="jsonResponse.data" class="sw-live-response sw-light-border"></vue-json-pretty>
+      <el-input class="sw-model-example-textarea" 
+        v-if="showJsonViewer===false"
+        type="textarea" 
+        v-model="jsonRespText" 
+        :autosize="{ minRows:10, maxRows:20 }"
+      >
+      </el-input>
+      <!-- pre v-else class="sw-live-response"> {{ jsonRespText}} </pre -->
     </div>
 
   </div>
@@ -288,8 +299,7 @@
     width: 100%;
   }
   .sw-make-request{
-    border:1px solid #ccc;
-    padding: 16px;
+    padding: 8px;
   }
 
   .sw-section-gap{
