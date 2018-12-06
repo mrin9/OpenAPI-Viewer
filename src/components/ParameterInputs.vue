@@ -1,5 +1,5 @@
 <template>
-  <el-table  style="width: 100%" :data="parameters" class="sw-hide-table-headers">
+  <el-table  style="width: 100%" :data="parameters" class="sw-hide-table-headers sw-light-border">
     <el-table-column prop="name" label="Name" width="180">
       <template slot-scope="scope">
         <div class="sw-param-name"><span v-if="scope.row.required"  class="sw-param-req">*</span>{{scope.row.name}}</div>

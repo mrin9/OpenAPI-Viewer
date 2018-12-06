@@ -138,7 +138,6 @@
     methods:{
       onTry(){
         let res="";
-        
         this.res = callEndPoint(this.method, this.url, this.pathParams, this.queryParams, this.selectedMimeReqKey, this.mimeRequestTypes, this.headerParams, this.formParams, this.cookieParams)
       }
 

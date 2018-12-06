@@ -7,14 +7,12 @@
     </div>
 
     <!-- For Each Status Responses -->
-    <div v-for="( statusRespObj, statusRespCode) in responsesLocalCopy" :key=statusRespCode>
-        <div class="sw-row" style="margin-top:16px; align-items:flex-end">
-          
+    <div v-for="(statusRespObj, statusRespCode) in responsesLocalCopy" :key=statusRespCode class="sw-response-status">
+        <div class="sw-row">
           <div> 
             <span class="sw-section-heading2"> {{statusRespCode}} </span> 
-            <span class="sw-gray-small-text"> : {{statusRespObj.description}} </span>
+            <span class="sw-small-text"> : {{statusRespObj.description}} </span>
           </div>
-
           <div style="flex:1"></div>
           <div style="position:relative; top:25px; min-width:160px; z-index:1; display:flex;">
               <!-- If only one Mime Response show a label -->
@@ -41,7 +39,7 @@
         
         <div class="sw-row" v-if="statusRespObj.content">
           <el-tabs style="flex:1" v-model="activeTabForEachRespStatus[statusRespCode]">
-            <el-tab-pane label="Example" name="exampleTab">
+            <el-tab-pane label="Example" name="exampleTab" class="sw-tab-pane">
               
               <vue-json-pretty 
                 v-if=" selectedMimeValueForEachStatus[statusRespCode] && selectedMimeValueForEachStatus[statusRespCode].includes('json')  "
@@ -55,11 +53,11 @@
                 class="sw-model-example-textarea" 
                 type="textarea"
                 v-model="mimeResponsesForEachStatus[statusRespCode][selectedMimeValueForEachStatus[statusRespCode]].examples[0]" 
-                :autosize="{ minRows: 12}"
+                :autosize="{ minRows:12}"
                 >
               </el-input>
             </el-tab-pane>
-            <el-tab-pane label="Model" name="schemaTab" style="min-height:265px; padding:8px">
+            <el-tab-pane label="Model" name="schemaTab" class="sw-tab-pane">
               <el-tree 
                 v-if="selectedMimeValueForEachStatus[statusRespCode]"
                 :data="mimeResponsesForEachStatus[statusRespCode][selectedMimeValueForEachStatus[statusRespCode]].schemaTree" 
@@ -81,7 +79,6 @@
           <div class="sw-section-heading3 sw-gray-text"> Response Headers</div>
           <parameter-inputs :parameters="headersForEachRespStatus[statusRespCode]" :showInputs="false"></parameter-inputs>
         </div>  
-
     </div> <!-- End For -->
   </div>
 
@@ -178,5 +175,18 @@
 
 <style scoped lang="scss">
 @import "~@/assets/styles/_vars.scss";
+.sw-tab-pane{
+  min-height:230px; 
+  padding:8px;
+}
+
+.sw-response-status {
+  margin-top:24px; 
+  align-items:flex-end;
+  & + .sw-response-status{
+    padding-top:16px;
+    border-top:1px solid #777;
+  }
+}
 </style>
 
