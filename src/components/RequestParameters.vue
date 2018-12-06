@@ -21,7 +21,7 @@
     <!-- Form Params -->
     <div v-if="formParams.length>0" class="sw-section-gap">
       <div class="sw-section-heading3 sw-gray-text"> FORM DATA PARAMETERS</div>
-      <parameter-inputs :parameters="formParams"></parameter-inputs>
+      <parameter-inputs :parameters="formParams" :showItputs="true"></parameter-inputs>
     </div>
 
     <!-- Body Param -->
@@ -80,13 +80,13 @@
     <!-- Header Params -->
     <div v-if="headerParams.length>0" class="sw-section-gap">
       <div class="sw-section-heading3 sw-gray-text"> HEADER PARAMETERS</div>
-      <parameter-inputs :parameters="headerParams"></parameter-inputs>
+      <parameter-inputs :parameters="headerParams" :showItputs="true"></parameter-inputs>
     </div>
 
     <!-- Cookie Params -->
     <div v-if="cookieParams.length>0" class="sw-section-gap">
       <div class="sw-section-heading3 sw-gray-text"> COOKIE PARAMETERS</div>
-      <parameter-inputs :parameters="cookieParams"></parameter-inputs>
+      <parameter-inputs :parameters="cookieParams" :showItputs="true"></parameter-inputs>
     </div>
 
     <div v-if="$store.state.isDevMode" class="sw-make-request" style="margin: 8px 0 0 0">
@@ -199,7 +199,6 @@
         else if (v.in==="formData"){
           arrName = "formParams"
         }
-
         if (me[arrName]){
           me[arrName].push({
             "name":v.name,

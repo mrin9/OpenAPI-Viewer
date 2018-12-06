@@ -13,7 +13,6 @@
           <div> 
             <span class="sw-section-heading2"> {{statusRespCode}} </span> 
             <span class="sw-gray-small-text"> : {{statusRespObj.description}} </span>
-            {{selectedMimeValueForEachStatus[statusRespCode]}}
           </div>
 
           <div style="flex:1"></div>
@@ -78,11 +77,9 @@
           </el-tabs>
         </div>
 
-        <div class="sw-row" v-if="statusRespObj.headers">
-          Response Headers : <br/> 
-          <div v-for="( headerObj, headerName) in statusRespObj.headers" :key=headerName>
-            {{headerObj.description}}
-          </div> <br/>
+        <div v-if="statusRespObj.headers">
+          <div class="sw-section-heading3 sw-gray-text"> Response Headers</div>
+          <parameter-inputs :parameters="headersForEachRespStatus[statusRespCode]" :showInputs="false"></parameter-inputs>
         </div>  
 
     </div> <!-- End For -->
@@ -92,8 +89,9 @@
 </template>
 
 <script>
-  import{schemaToElTree, schemaToObj} from '@/lib/utils'
-  import VueJsonPretty from 'vue-json-pretty'
+  import{schemaToElTree, schemaToObj} from '@/lib/utils';
+  import VueJsonPretty from 'vue-json-pretty';
+  import ParameterInputs from '@/components/ParameterInputs';
 
   export default {
     props: {
@@ -111,6 +109,7 @@
         mimeResponsesForEachStatus   :{}, 
         selectedMimeValueForEachStatus:{},
         mimeRespCountForEachStatus   :{},
+        headersForEachRespStatus     :{}
       }
     },
     methods:{
@@ -146,7 +145,7 @@
               schemaExamples.push('<?xml version="1.0" encoding="UTF-8"?> Unable to generate schema' );
             }
             else{
-              schemaExamples.push(' ' );
+              schemaExamples.push(' ');
             }
           }
           allMimeResp[mimeResp]={
@@ -158,6 +157,12 @@
           mimeRespCount++;
           
         }
+        // Headers for each response status
+        let tempHeaders=[];
+        for (let key in me.responsesLocalCopy[statusCode].headers){
+          tempHeaders.push ( { "name":key, ...me.responsesLocalCopy[statusCode].headers[key]} );
+        }
+        me.$set(me.headersForEachRespStatus,statusCode,tempHeaders);
         me.activeTabForEachRespStatus[statusCode] = "exampleTab"; // set the default tab to example for each response status
         me.mimeResponsesForEachStatus[statusCode] = allMimeResp;
         me.mimeRespCountForEachStatus[statusCode] = mimeRespCount;
@@ -165,7 +170,8 @@
 
     },
     components: {
-      VueJsonPretty
+      VueJsonPretty,
+      ParameterInputs
     }
   }
 </script>
