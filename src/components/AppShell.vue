@@ -44,7 +44,6 @@
             </el-select>
             <el-button v-if="isDevMode" style="width:105px" type="primary" size="medium" @click="onExplore">AUTHORIZE</el-button>
             <div style="flex:1"></div>
-            <!--
             <el-switch 
               v-model="expandAll" 
               active-text="Expand All"  
@@ -53,7 +52,6 @@
               @change= "onExpandAll"
             > 
             </el-switch>
-            -->
           </div>  
         </div>
 
@@ -120,6 +118,7 @@ export default {
         store.commit("isDevMode", true);
         store.commit("selectedApiServer", spec.servers[0].url);
 
+
       })
       .catch(function(err) {
         me.$message({
@@ -166,6 +165,11 @@ export default {
   mounted(){
     this.$refs.specUrl.focus();
   },
+
+  updated(){
+    console.log("updated");
+  },
+
   components: {
     EndPoint,
     MrinLogo

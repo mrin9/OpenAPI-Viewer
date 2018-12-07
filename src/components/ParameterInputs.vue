@@ -1,63 +1,68 @@
 <template>
-  <el-table  style="width: 100%" :data="parameters" class="sw-hide-table-headers sw-light-border">
-    <el-table-column prop="name" label="Name" width="180">
-      <template slot-scope="scope">
-        <div class="sw-param-name"><span v-if="scope.row.required"  class="sw-param-req">*</span>{{scope.row.name}}</div>
-        <div class="sw-param-type">{{scope.row.schema.type}}</div>
-      </template>
-    </el-table-column>
+  <table style="width: 100%" class="sw-table">
 
-    <el-table-column v-if="showInputs" label="Value" width="180">
-      <template slot-scope="scope">
+
+    <tr v-for="(param, index) in parameters" :key="index">
+
+      <!-- Field Name Column-->  
+      <td style="width:180px">
+        <div class="sw-param-name"><span v-if="param.required"  class="sw-param-req">*</span>{{param.name}}</div>
+        <div class="sw-param-type">{{param.schema.type}}</div>
+      </td>  
+
+      <!-- Field Input Column-->  
+      <td style="min-width:180px">
+
 
         <!-- if Type is enum then show a select -->  
-        <el-select v-if="scope.row.schema.type==='string' && scope.row.schema.enum " 
-          v-model="scope.row.example" 
+        <el-select v-if="param.schema.type==='string' && param.schema.enum " 
+          v-model="param.example" 
           style="width:100%" 
           popper-class="sw-small-height-options"
           size="medium" 
         >
-          <el-option v-for="item in scope.row.schema.enum" :key="item" :label="item" :value="item"></el-option>
+          <el-option v-for="item in param.schema.enum" :key="item" :label="item" :value="item"></el-option>
         </el-select>
 
-        <!-- if Type is Array then show a select if array items are of enum type (with multiselect options)-->  
-        <template v-else-if="scope.row.schema.type==='array' && scope.row.schema.items " >
-          <el-select v-if="scope.row.schema.items.type==='string' && scope.row.schema.items.enum" 
-            v-model="scope.row.example" 
+        <!-- if Type is Array then show a select if array items are of enum type (with multiselect options)--> 
+        <template v-else-if="param.schema.type==='array' && param.schema.items " >
+          <el-select v-if="param.schema.items.type==='string' && param.schema.items.enum" 
+            v-model="param.example" 
             multiple
             style="width:100%" 
             popper-class="sw-small-height-options"
             size="medium" 
           >
-            <el-option v-for="item in scope.row.schema.items.enum" :key="item" :label="item" :value="item"></el-option>
+            <el-option v-for="item in param.schema.items.enum" :key="item" :label="item" :value="item"></el-option>
           </el-select>
-          <!-- If array items are not enum, show a textarea -->
+
           <el-input v-else
             class="sw-editor sw-model-example-textarea" 
             type="textarea" 
-            v-model="scope.row.example" 
+            v-model="param.example" 
             :autosize="{ minRows:3 }"
           >
           </el-input>
         </template> 
-
+        
         <!-- For all other types, show a textbox-->  
-        <input v-else type="text" class="sw-medium" style="width:100%" v-model="scope.row.example">
-      </template>
-    </el-table-column>
+        <input v-else type="text" class="sw-medium" style="width:100%" v-model="param.example">
+      </td>  
 
-    <el-table-column prop="description" label="Description">
-      <template slot-scope="scope">
+
+
+
+      <!-- Field Desciption Column-->  
+      <td>
         <div class="sw-gray-small-text" style="word-break: break-word;">
-          <span>{{scope.row.description }}</span>
-          <span v-if="scope.row.schema.enum"> 
-            {{ scope.row.schema.pattern? "Pattern: " + scope.row.schema.pattern : "" }} 
+          <span>{{param.description }}</span>
+          <span v-if="param.schema.enum"> 
+            {{ param.schema.pattern? "Pattern: " + param.schema.pattern : "" }} 
           </span>
-
         </div>
-      </template>
-    </el-table-column>
-  </el-table>
+      </td>  
+    </tr>  
+  </table>
 </template>
 
 <script>
@@ -73,6 +78,7 @@
       }
     },
     methods:{
+      
     }
 
   }

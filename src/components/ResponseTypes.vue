@@ -40,14 +40,12 @@
         <div class="sw-row" v-if="statusRespObj.content">
           <el-tabs style="flex:1" v-model="activeTabForEachRespStatus[statusRespCode]">
             <el-tab-pane label="Example" name="exampleTab" class="sw-tab-pane">
-              
               <vue-json-pretty 
                 v-if=" selectedMimeValueForEachStatus[statusRespCode] && selectedMimeValueForEachStatus[statusRespCode].includes('json')  "
                 path="root" 
-                :data=" JSON.parse(mimeResponsesForEachStatus[statusRespCode][selectedMimeValueForEachStatus[statusRespCode]].examples[0])"
+                :data="mimeResponsesForEachStatus[statusRespCode][selectedMimeValueForEachStatus[statusRespCode]].examples[0]"
               >
               </vue-json-pretty>
-              
               <el-input
                 v-else-if="selectedMimeValueForEachStatus[statusRespCode]"
                 class="sw-model-example-textarea" 
@@ -57,7 +55,7 @@
                 >
               </el-input>
             </el-tab-pane>
-            <el-tab-pane label="Model" name="schemaTab" class="sw-tab-pane">
+            <el-tab-pane v-if=" 1==2" label="Model" name="schemaTab" class="sw-tab-pane">
               <el-tree 
                 v-if="selectedMimeValueForEachStatus[statusRespCode]"
                 :data="mimeResponsesForEachStatus[statusRespCode][selectedMimeValueForEachStatus[statusRespCode]].schemaTree" 
@@ -110,7 +108,7 @@
       }
     },
     methods:{
-
+      
 
     },
 
@@ -123,7 +121,7 @@
         for(let mimeResp in me.responsesLocalCopy[statusCode].content ) {
           let mimeRespObj = me.responsesLocalCopy[statusCode].content[mimeResp];
           // Generate the Schema Model  in Element UI tree format
-          let schemaTreeModel = schemaToElTree(mimeRespObj.schema, [] );
+          //let schemaTreeModel = schemaToElTree(mimeRespObj.schema, [] );
           // Store Schema Examples (if provided)
           let schemaExamples = [];
           if (mimeRespObj.examples){
@@ -135,7 +133,8 @@
           if (schemaExamples.length==0){
             // If schema examples are not provided then generate one from Schema (only JSON fomat)
             if (mimeResp.toLowerCase().includes("json")){
-              let generatedExample = JSON.stringify(schemaToObj(mimeRespObj.schema,{}),undefined,2);
+              //let generatedExample = JSON.stringify(schemaToObj(mimeRespObj.schema,{}),undefined,2);
+              let generatedExample = schemaToObj(mimeRespObj.schema,{});
               schemaExamples.push(generatedExample);
             }
             else if(mimeResp.toLowerCase().includes("xml")){
@@ -147,7 +146,7 @@
           }
           allMimeResp[mimeResp]={
             "examples"  : schemaExamples,
-            "schemaTree": schemaTreeModel
+            //"schemaTree": schemaTreeModel
           }
           me.selectedMimeValue=mimeResp;
           me.$set(me.selectedMimeValueForEachStatus,statusCode, mimeResp); // !important use me.$set only
@@ -166,6 +165,7 @@
       }
 
     },
+
     components: {
       VueJsonPretty,
       ParameterInputs

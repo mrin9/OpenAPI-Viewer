@@ -152,7 +152,6 @@
         selectedMimeReqKey:"",
         showJsonViewer:false,
         jsonRespText:"",
-        
       }
     },
 
