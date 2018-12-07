@@ -89,7 +89,7 @@
       <parameter-inputs :parameters="cookieParams" :showItputs="true"></parameter-inputs>
     </div>
 
-    <div v-if="$store.state.isDevMode" v-loading="loading" class="sw-make-request sw-light-border" style="margin: 8px 0 0 0">
+    <div v-show="$store.state.isDevMode" v-loading="loading" class="sw-make-request sw-light-border" style="margin: 8px 0 0 0">
       <div class="sw-row" style="margin: 2px 0;">
         <el-button type="primary" size="medium" @click="onTry"> TRY </el-button>
         <div style="flex:1"></div>

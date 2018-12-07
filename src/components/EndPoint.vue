@@ -20,7 +20,7 @@
         </div>
 
         <!-- EndPoint Body -->
-        <div v-if="fullPath.expanded" :class="'sw-endpoint-body '+fullPath.method">
+        <div v-show="fullPath.expanded" :class="'sw-endpoint-body '+fullPath.method">
           <div class="sw-end-point-summary" v-if="fullPath.summary || fullPath.description">
             <div class="sw-end-point-title">{{fullPath.summary}}</div>
             <div class="sw-end-point-descr" v-if="fullPath.summary !== fullPath.description">{{fullPath.description}}</div>
@@ -47,6 +47,8 @@
 </template>
 
 <script>
+//import RequestParameters from "@/components/RequestParameters";
+//import ResponseTypes from "@/components/ResponseTypes" ;
 
 export default {
   props: {
@@ -67,7 +69,7 @@ export default {
     // Lazy load the component
     RequestParameters : () => import("@/components/RequestParameters"),
     ResponseTypes: () => import("@/components/ResponseTypes")
-    //RequestParameters
+    //RequestParameters,
     //ResponseTypes
   }
 
@@ -78,7 +80,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 @import "~@/assets/styles/_vars.scss";
-
 .sw-endpoint-wrapper {
   //margin:8px 0;
   border: 1px solid transparent; 

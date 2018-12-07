@@ -43,6 +43,17 @@
               </el-option>
             </el-select>
             <el-button v-if="isDevMode" style="width:105px" type="primary" size="medium" @click="onExplore">AUTHORIZE</el-button>
+            <div style="flex:1"></div>
+            <!--
+            <el-switch 
+              v-model="expandAll" 
+              active-text="Expand All"  
+              style="width:200px; margin:0 3px;" 
+              class="sw-dark"
+              @change= "onExpandAll"
+            > 
+            </el-switch>
+            -->
           </div>  
         </div>
 
@@ -70,17 +81,17 @@ export default {
 
   data:function(){
     return{
-      specUrl: "https://petstore.swagger.io/v2/swagger.json",
+      //specUrl: "https://petstore.swagger.io/v2/swagger.json",
       //specUrl   : "http://10.21.83.83:8080/api/swagger.json",
-      //specUrl  : "https://raw.githubusercontent.com/APIs-guru/unofficial_openapi_specs/master/github.com/v3/swagger.yaml",
+      specUrl  : "https://raw.githubusercontent.com/APIs-guru/unofficial_openapi_specs/master/github.com/v3/swagger.yaml",
       //specUrl: "https://fakerestapi.azurewebsites.net/swagger/docs/v1",
 
       searchVal :"",
-      tagContainers:{}, // Each key is a container(tag-name) and the valu in it decides to show or hide a container 
       parsedSpec:{},
       isDevMode :false,
       selectedApiServer:"",
-      isSpecLoaded:false
+      isSpecLoaded:false,
+      expandAll:false
     }
   },
   methods:{
@@ -141,7 +152,15 @@ export default {
       })
     }, 500),
 
-    onSearch(){}
+    onExpandAll( val){
+      console.log("Expanded", val);
+      this.parsedSpec.tags.map(function(tag){
+          tag.paths.map(function(path){
+            path.expanded=val;
+          })
+      });
+      
+    }
 
   },
   mounted(){
