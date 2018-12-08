@@ -1,6 +1,6 @@
 <template>
   <div id="sw-app-shell" class="sw-app-shell" >
-    <div class="sw-main-container" >
+    <div class="sw-main-container" v-loading.fullscreen.lock="loading" >
         <div class="sw-app-header-container" ref="headerContainer">
           
           <div class="sw-row" style="padding:16px 4px 8px 4px">
@@ -57,9 +57,8 @@
 
 
         <div class="sw-page-container" ref="pageContainer">
-
-          <div class="sw-tag-container" v-for="tag in parsedSpec.tags" v-if="tag.show" :key="tag.name">
-            <div style="font-size:16px;font-weight:bold; color:#ccc; margin:16px 0 4px 0;">{{tag.name}}</div>
+          <div class="sw-tag-container" v-for="tag in parsedSpec.tags" v-show="tag.show" :key="tag.name">
+            <div class="sw-tag-title">{{tag.name}}</div>
             <end-point :paths="tag.paths" :parameters="tag.parameters" ></end-point> 
           </div>
           
@@ -74,6 +73,7 @@ import {parseSpec, debounce } from  '@/lib/utils';
 import ProcessSpec from  '@/lib/parserUtils';
 import MrinLogo from '@/components/Logo';
 import store from '@/store';
+import { Loading } from 'element-ui';
 
 export default {
 
@@ -83,51 +83,57 @@ export default {
       //specUrl   : "http://10.21.83.83:8080/api/swagger.json",
       specUrl  : "https://raw.githubusercontent.com/APIs-guru/unofficial_openapi_specs/master/github.com/v3/swagger.yaml",
       //specUrl: "https://fakerestapi.azurewebsites.net/swagger/docs/v1",
+      //specUrl: "https://api.apis.guru/v2/specs/twilio.com/2010-04-01/swagger.json",  //xml responses
 
       searchVal :"",
       parsedSpec:{},
       isDevMode :false,
       selectedApiServer:"",
       isSpecLoaded:false,
-      expandAll:false
+      expandAll:false,
+      loading:false,
     }
   },
   methods:{
 
     onExplore(){
       let me = this;
+      me.loading=true;
+      me.$nextTick(function(){
+        ProcessSpec(me.specUrl).then(function( spec ){
+          let serverUrl="";
+          me.searchVal="";
+          me.parsedSpec = spec;
 
-      ProcessSpec(me.specUrl).then(function( spec ){
-        let serverUrl="";
-        me.searchVal="";
-        me.parsedSpec = spec;
+          if ( (spec.server && spec.server.length == 0 ) || (!spec.server)   ){
+            serverUrl = me.specUrl.substring(0, me.specUrl.indexOf("/", me.specUrl.indexOf("//")+2));
 
-        if ( (spec.server && spec.server.length == 0 ) || (!spec.server)   ){
-          serverUrl = me.specUrl.substring(0, me.specUrl.indexOf("/", me.specUrl.indexOf("//")+2));
-          if (spec.basePath){
-            serverUrl = serverUrl +"/" + spec.basePath.replace(/^\/|\/$/g, '');
-            me.parsedSpec.servers = [{ 
-              url: serverUrl ,
-              description:"Auto generated Server URI"
-            }];
+            if (spec.basePath){
+              serverUrl = serverUrl +"/" + spec.basePath.replace(/^\/|\/$/g, '');
+              me.parsedSpec.servers = [{ 
+                url: serverUrl ,
+                description:"Auto generated Server URI"
+              }];
+            }
           }
-        }
-        me.isSpecLoaded=true;
-        me.isDevMode=true;
-        me.selectedApiServer = spec.servers[0].url;
-        store.commit("isDevMode", true);
-        store.commit("selectedApiServer", spec.servers[0].url);
+          me.isSpecLoaded=true;
+          me.isDevMode=true;
+          me.selectedApiServer = spec.servers[0].url;
+          store.commit("isDevMode", true);
+          store.commit("selectedApiServer", spec.servers[0].url);
+          setTimeout(()=>me.loading=false,(spec.totalPathCount*8) )
 
-
-      })
-      .catch(function(err) {
-        me.$message({
-          showClose: true,
-          message: 'Oops, Error encountered while parsing the Spec',
-          type: 'error'
+        })
+        .catch(function(err) {
+          me.loading=false;
+          me.$message({
+            showClose: true,
+            message: 'Oops, Error encountered while parsing the Spec',
+            type: 'error'
+          });
+          console.error('Onoes! The API is invalid. ' + err.message);
+          return false;
         });
-        console.error('Onoes! The API is invalid. ' + err.message);
-        return false;
       });
 
 
@@ -166,10 +172,6 @@ export default {
     this.$refs.specUrl.focus();
   },
 
-  updated(){
-    console.log("updated");
-  },
-
   components: {
     EndPoint,
     MrinLogo
@@ -199,6 +201,14 @@ export default {
     margin: 0;
     height:100%;
     overflow:hidden;
+
+    .sw-tag-title{
+      font-size: 18px;
+      color: #555;
+      margin: 28px 0px 4px;
+      text-transform: uppercase;
+    }
+
     .sw-app-header-container{
       position: fixed;
       top:0;

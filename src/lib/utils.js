@@ -45,6 +45,9 @@ function getSampleValueByType(schemaObj) {
     if (schemaObj.example) {
       return schemaObj.example;
     }
+    if (Object.keys(schemaObj).length === 0  || schemaObj.nullable) {
+        return null;
+    }
   
     const typeValue = schemaObj.format || schemaObj.type || (schemaObj.enum ? 'enum' : null);
     switch (typeValue) {
@@ -61,7 +64,7 @@ function getSampleValueByType(schemaObj) {
           ? schemaObj.enum[0]
           : schemaObj.pattern
             ? rx(new RegExp(schemaObj.pattern))
-            : 'string';
+            : "string"
       case 'byte':
         return btoa('string');
       case 'binary':

@@ -89,16 +89,18 @@
       <parameter-inputs :parameters="cookieParams" :showItputs="true"></parameter-inputs>
     </div>
 
-    <div v-show="$store.state.isDevMode" v-loading="loading" class="sw-make-request sw-light-border" style="margin: 8px 0 0 0">
+
+    <!-- Try out Button -->
+    <div v-show="$store.state.isDevMode" v-loading="loading" class="sw-make-request">
       <div class="sw-row" style="margin: 2px 0;">
         <el-button type="primary" size="medium" @click="onTry"> TRY </el-button>
         <div style="flex:1"></div>
-        <el-button type="plain" size="medium"> CLEAR </el-button>
-        <el-button type="plain" size="medium"> COPY </el-button>
+        <el-button v-if="showTextViewer || showJsonViewer" type="plain" size="medium" @click="onClearResponseData"> CLEAR </el-button>
+        <el-button v-if="showTextViewer || showJsonViewer" type="plain" size="medium"> COPY </el-button>
       </div>  
       <vue-json-pretty v-if="showJsonViewer" path="/" :data="jsonResponse.data" class="sw-live-response sw-light-border"></vue-json-pretty>
       <el-input class="sw-model-example-textarea" 
-        v-if="showJsonViewer===false"
+        v-if="showTextViewer"
         type="textarea" 
         v-model="jsonRespText" 
         :autosize="{ minRows:10, maxRows:20 }"
@@ -143,15 +145,16 @@
         headerParams :[],
         formParams:[],
         cookieParams:[],
+        mimeRequestTypes:{},
+        mimeReqCount:0,
+        selectedMimeReqKey:"",
+        jsonRespText:"",
         jsonResponse:{
           "data":{},
           "headers":{},
         },
-        mimeRequestTypes:{},
-        mimeReqCount:0,
-        selectedMimeReqKey:"",
         showJsonViewer:false,
-        jsonRespText:"",
+        showTextViewer:false,
       }
     },
 
@@ -173,15 +176,17 @@
           this.cookieParams
         )
         .then(function(resp){
-          if (resp.request.responseText.length < 10000){
+          if (resp.request.responseText.length < 20000){
             me.showJsonViewer=true;
+            me.showTextViewer=false;
             me.jsonResponse.data = resp.data;
           }
           else{
             me.showJsonViewer=false;
+            me.showTextViewer=true;
             me.jsonRespText = JSON.stringify(resp.data, null, 2);
           }
-          //  me.jsonResponse.data = resp.data;
+          //me.jsonResponse.data = resp.data;
           //me.$set(me.jsonResponse.data,resp.data);
           me.loading=false;
         })
@@ -193,9 +198,21 @@
           });
           me.loading=false;
         })
+      },
+
+      onClearResponseData(){
+        this.jsonRespText="",
+        this.jsonResponse={
+          "data":{},
+          "headers":{},
+        };
+        this.showJsonViewer=false;
+        this.showTextViewer=false;
       }
 
+
     },
+
 
     mounted(){
       let me = this;
@@ -298,7 +315,8 @@
     width: 100%;
   }
   .sw-make-request{
-    padding: 8px;
+    padding: 0;
+    margin-top:8px;
   }
 
   .sw-section-gap{

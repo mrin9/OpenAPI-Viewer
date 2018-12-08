@@ -25,9 +25,9 @@
             <div class="sw-end-point-title">{{fullPath.summary}}</div>
             <div class="sw-end-point-descr" v-if="fullPath.summary !== fullPath.description">{{fullPath.description}}</div>
           </div>  
-          <div :style="'display:flex; margin-top:16px; flex-direction:'+layout ">
 
-            <request-parameters class="sw-request sw-light-border" 
+          <div :class="'sw-req-resp-container '+ layoutClass">
+            <request-parameters class="sw-request" 
               :method="fullPath.method" 
               :url="fullPath.path" 
               :parameters="fullPath.parameters"
@@ -35,7 +35,7 @@
             >
             </request-parameters>
             
-            <response-types class="sw-response sw-light-border" 
+            <response-types class="sw-response"
               :responses="fullPath.responses" 
             >
             </response-types>
@@ -60,7 +60,7 @@ export default {
   },
   data:function(){
     return{
-      layout:"row",
+      layoutClass:"sw-row",
       activeNames:[]
     }
   },
@@ -221,19 +221,67 @@ export default {
   }
 }
 
+.sw-req-resp-container{
+  margin-top:16px;
+  align-items: stretch;
+}
+
 .sw-response,
 .sw-request{
   flex:1;
   margin:0;
+  border-style:solid;
 }
 
+.delete{ 
+  .sw-response,
+  .sw-request{
+    border-color:$sw-red;
+    border-top-color: #eee;
+  }  
+}
+
+.patch{ 
+  .sw-response,
+  .sw-request{
+    border-color:$sw-icon-warn-minor;
+    border-top-color: #eee;
+  }  
+}
+
+.put{ 
+  .sw-response,
+  .sw-request{
+    border-color:$sw-orange;
+    border-top-color: #eee;
+  }  
+}
+
+.post{ 
+  .sw-response,
+  .sw-request{
+    border-color:$sw-info;
+    border-top-color: #eee;
+  }  
+}
+
+.get{ 
+  .sw-response,
+  .sw-request{
+    border-color:$sw-green;
+    border-top-color: #eee;
+  }  
+}
+
+
+
 .sw-request{
-  border-width: 1px 1px 1px 0;
+  border-width: 1px 1px 0px 0;
   padding:8px 16px 8px 8px;
 
 }
 .sw-response{
-  border-width: 1px 0 1px 0;
+  border-width: 1px 0 0px 0;
   padding:8px 8px 8px 16px;
 }
 

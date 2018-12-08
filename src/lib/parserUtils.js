@@ -20,6 +20,7 @@ export default function ProcessSpec(specUrl){
 
         let methods=['get','put','post','delete','patch','options','head'];
         let tags=[];
+        let totalPathCount=0;
         // For each path find the tag and push it into the corrosponding tag
         for (let path in deReffedSpec.paths) {
             let commonPathProp = {
@@ -104,6 +105,7 @@ export default function ProcessSpec(specUrl){
                         "commonSummary"     : commonPathProp.summary,
                         "commonDescription" : commonPathProp.description,
                     });
+                    totalPathCount++;
                 }
             }); // End of Methods
 
@@ -121,7 +123,8 @@ export default function ProcessSpec(specUrl){
             "externalDocs": deReffedSpec.externalDocs,
             "securitySchemes": securitySchemes, 
             "servers" : servers, // In swagger 2, its generated from schemes, host and basePath properties
-            "basePath": deReffedSpec.basePath // Only available in swagger V2 
+            "basePath": deReffedSpec.basePath, // Only available in swagger V2 
+            "totalPathCount" : totalPathCount
         }
         console.timeEnd("Time to Process Spec");
         return Promise.resolve(parsedSpec);
