@@ -93,8 +93,8 @@ export default {
     return{
       //specUrl: "https://petstore.swagger.io/v2/swagger.json",
       //specUrl   : "http://10.21.83.83:8080/api/swagger.json",
-      //specUrl  : "https://raw.githubusercontent.com/APIs-guru/unofficial_openapi_specs/master/github.com/v3/swagger.yaml",
-      specUrl: "https://fakerestapi.azurewebsites.net/swagger/docs/v1",
+      specUrl  : "https://raw.githubusercontent.com/APIs-guru/unofficial_openapi_specs/master/github.com/v3/swagger.yaml",
+      //specUrl: "https://fakerestapi.azurewebsites.net/swagger/docs/v1",
       //specUrl: "https://api.apis.guru/v2/specs/twilio.com/2010-04-01/swagger.json",  //xml responses
 
       searchVal :"",
