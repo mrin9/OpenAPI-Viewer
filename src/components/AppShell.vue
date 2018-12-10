@@ -42,7 +42,7 @@
                 </div>  
               </el-option>
             </el-select>
-            <el-button v-if="isDevMode" style="width:105px" type="primary" size="medium" @click="onExplore">AUTHORIZE</el-button>
+            <!-- el-button v-if="isDevMode" style="width:105px" type="primary" size="medium" @click="onExplore">AUTHORIZE</el-button -->
             <div style="flex:1"></div>
             <el-switch 
               v-model="expandAll" 
