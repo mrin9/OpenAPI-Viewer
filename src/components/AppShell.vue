@@ -3,10 +3,10 @@
     <div class="sw-main-container" v-loading.fullscreen.lock="loading" >
         <div class="sw-app-header-container" ref="headerContainer">
           
-          <div class="sw-row" style="padding:16px 4px 8px 4px">
-            <div style="width:200px; display:flex">
+          <div class="sw-row" style="padding:16px 4px 8px 4px;">
+            <div style="width:200px; display:flex; align-items: center;">
               <mrin-logo style="height:36px;width:36px;margin-left:5px"></mrin-logo>
-              <div style="font-size:20px; color:orange; margin:2px 8px"> API Viewer </div>
+              <div style="font-size:24px; color:orange; margin:2px 8px"> MrinDoc </div>
             </div>  
             <div style="margin: 2px 8px;">
               <input ref='specUrl' style="width:400px; margin-right:5px" type="text" placeholder="Spec URL" class="sw-dark sw-medium" v-model="specUrl" @keyup.enter="onExplore">
@@ -56,7 +56,19 @@
         </div>
 
 
-        <div class="sw-page-container" ref="pageContainer">
+        <div v-if="isSpecLoaded" class="sw-page-container" ref="pageContainer">
+          <div class="sw-doc-info" v-if="parsedSpec.info">
+            <div class="sw-doc-title">
+              {{parsedSpec.info.title}} 
+              <span v-if="parsedSpec.info.version" style="font-size:14px;font-weight:bold">  {{parsedSpec.info.version}}</span>
+            </div>  
+            <div v-if="parsedSpec.info.description" class="sw-gray-small-text"> {{parsedSpec.info.description}} </div>  
+            <div  v-if="parsedSpec.info.license && parsedSpec.info.license.name" style="font-size:12px;margin:8px 0 0 0;"> 
+              {{parsedSpec.info.license.name}} 
+              <a v-if="parsedSpec.info.license.url"  :href="parsedSpec.info.license.url"> {{parsedSpec.info.license.url}}</a></div>    
+          </div>
+
+
           <div class="sw-tag-container" v-for="tag in parsedSpec.tags" v-show="tag.show" :key="tag.name">
             <div class="sw-tag-title">{{tag.name}}</div>
             <end-point :paths="tag.paths" :parameters="tag.parameters" ></end-point> 
@@ -81,8 +93,8 @@ export default {
     return{
       //specUrl: "https://petstore.swagger.io/v2/swagger.json",
       //specUrl   : "http://10.21.83.83:8080/api/swagger.json",
-      specUrl  : "https://raw.githubusercontent.com/APIs-guru/unofficial_openapi_specs/master/github.com/v3/swagger.yaml",
-      //specUrl: "https://fakerestapi.azurewebsites.net/swagger/docs/v1",
+      //specUrl  : "https://raw.githubusercontent.com/APIs-guru/unofficial_openapi_specs/master/github.com/v3/swagger.yaml",
+      specUrl: "https://fakerestapi.azurewebsites.net/swagger/docs/v1",
       //specUrl: "https://api.apis.guru/v2/specs/twilio.com/2010-04-01/swagger.json",  //xml responses
 
       searchVal :"",
@@ -135,8 +147,6 @@ export default {
           return false;
         });
       });
-
-
     },
 
     onSearchKeyUp:debounce(function(e) {
@@ -202,6 +212,14 @@ export default {
     height:100%;
     overflow:hidden;
 
+    .sw-doc-info{
+      margin:24px 0 16px;
+      .sw-doc-title{
+        font-size:32px;
+        margin-bottom:5px;
+      }
+    }
+
     .sw-tag-title{
       font-size: 18px;
       color: #555;
@@ -222,7 +240,7 @@ export default {
       z-index:2000;
     }
     .sw-page-container{
-      margin-top:90px;
+      margin-top:100px;
       padding:8px 16px 16px 16px;
       overflow:auto;
       display:flex;

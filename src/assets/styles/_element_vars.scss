@@ -174,9 +174,9 @@ $--message-danger-color: #fff !default;
   .el-textarea__inner {
     font-family: monospace;
     font-size: 12px;
-    border:2px solid $sw-light-border-color;
-    border-radius: 4px;
-    background-color: lighten($sw-primary-color,40%);
+    border:1px solid #C5D9E8;
+    border-radius: $sw-border-radius;
+    background-color: #fefefe;
     &:focus{
       border-color:#FF791A;
     }

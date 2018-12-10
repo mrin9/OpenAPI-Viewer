@@ -14,7 +14,7 @@
         >
           <div :class="'sw-method ' + fullPath.method"> {{fullPath.method}} </div> 
           <div :class="'sw-path ' + (fullPath.depricated?' sw-depricated':'') "> {{fullPath.path}} </div>
-          <span style="color:orangered; margin:2px 0 0 5px;" v-if="fullPath.depricated"> Depricated </span>
+          <span style="font-size:12px; text-transform:uppercase; font-weight:bold; color:orangered; margin:2px 0 0 5px;" v-if="fullPath.depricated"> Depricated </span>
           <div style="min-width:60px; flex:1"></div>
           <div class="sw-end-point-descr"> {{ fullPath.summary }} </div>
         </div>
@@ -80,6 +80,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 @import "~@/assets/styles/_vars.scss";
+
 .sw-endpoint-wrapper {
   //margin:8px 0;
   border: 1px solid transparent; 
@@ -147,7 +148,8 @@ export default {
 }
 
 .sw-endpoint-body {
-  padding:16px 8px;
+  //padding:16px 8px;
+  padding:16px 0px 0 0px;
   &.delete{ border-top: 1px solid $sw-red;}
   &.patch{ border-top: 1px solid $sw-icon-warn-minor;}
   &.put{ border-top: 1px solid $sw-orange;}
@@ -230,6 +232,7 @@ export default {
 .sw-request{
   flex:1;
   margin:0;
+  padding:16px;
   border-style:solid;
 }
 
@@ -274,15 +277,32 @@ export default {
 }
 
 
-
-.sw-request{
-  border-width: 1px 1px 0px 0;
-  padding:8px 16px 8px 8px;
-
+.sw-row{
+  .sw-request{
+    border-width: 1px 1px 0px 0;
+  }
+  .sw-response{
+    border-width: 1px 0 0px 0;
+  }
 }
+
+.sw-col{
+  .sw-request{
+    border-width: 0px 0px 1px 0;
+  }
+  .sw-response{
+    border-width: 0;
+  }
+}
+
 .sw-response{
-  border-width: 1px 0 0px 0;
-  padding:8px 8px 8px 16px;
+  &.sw-row{
+    border-width: 1px 0 0px 0;
+  }
+  &.sw-col{
+    border-width: 0;
+  }
+  
 }
 
 </style>

@@ -54,8 +54,8 @@
         </div>
       </div>  
 
-      <el-tabs v-if="mimeRequestTypes[selectedMimeReqKey]" v-model="activeTab" class="sw-border" style="padding:8px;">
-        <el-tab-pane label="Example" name="bodyParamExample">
+      <el-tabs v-if="mimeRequestTypes[selectedMimeReqKey]" v-model="activeTab" style="padding:8px; 0">
+        <el-tab-pane label="Value" name="bodyParamExample">
           <el-input class="sw-editor sw-model-example-textarea" 
             type="textarea" 
             v-model="mimeRequestTypes[selectedMimeReqKey].examples[0]" 

@@ -4,7 +4,7 @@ import converter from 'swagger2openapi';
 
 export default function ProcessSpec(specUrl){
 
-    console.time("%Time to Process Spec");
+    
     return converter.convertUrl(specUrl,{}).then(function(convertedObj) {
         console.info("%c Convertion to OpenAPI 3.0 - Success !!! ","color:cornflowerblue");
         let parser = new SwaggerParser();    
@@ -116,7 +116,6 @@ export default function ProcessSpec(specUrl){
 
         securitySchemes = (deReffedSpec.components? deReffedSpec.components.securitySchemes:{});
         servers = deReffedSpec.servers;
-
         let parsedSpec = {
             "info"    : deReffedSpec.info,
             "tags"    : tags,
@@ -126,7 +125,6 @@ export default function ProcessSpec(specUrl){
             "basePath": deReffedSpec.basePath, // Only available in swagger V2 
             "totalPathCount" : totalPathCount
         }
-        console.timeEnd("Time to Process Spec");
         return Promise.resolve(parsedSpec);
     })
     .catch(function(err) {

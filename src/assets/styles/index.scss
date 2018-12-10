@@ -29,6 +29,10 @@ input, textarea, select, button {
   font-weight:400;
 }
 
+a{
+  color: darken($sw-info,5%);
+}
+
 
 #app {
   -webkit-font-smoothing: antialiased;

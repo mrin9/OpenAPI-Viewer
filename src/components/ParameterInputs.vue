@@ -13,7 +13,6 @@
       <!-- Field Input Column-->  
       <td style="min-width:180px">
 
-
         <!-- if Type is enum then show a select -->  
         <el-select v-if="param.schema.type==='string' && param.schema.enum " 
           v-model="param.example" 
@@ -49,13 +48,12 @@
         <input v-else type="text" class="sw-medium" style="width:100%" v-model="param.example">
       </td>  
 
-
-
-
       <!-- Field Desciption Column-->  
       <td>
         <div class="sw-gray-small-text" style="word-break: break-word;">
-          <span>{{param.description }}</span>
+          <span>
+            {{param.description }}
+          </span>
           <span v-if="param.schema.enum"> 
             {{ param.schema.pattern? "Pattern: " + param.schema.pattern : "" }} 
           </span>

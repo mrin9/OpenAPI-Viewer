@@ -45,7 +45,7 @@ function getSampleValueByType(schemaObj) {
     if (schemaObj.example) {
       return schemaObj.example;
     }
-    if (Object.keys(schemaObj).length === 0  || schemaObj.nullable) {
+    if (Object.keys(schemaObj).length === 0) {
         return null;
     }
   
@@ -80,9 +80,14 @@ function getSampleValueByType(schemaObj) {
       case 'enum':
         return schemaObj.enum[0];
       default:
-        // tslint:disable-next-line:no-console
-        console.warn('Unknown schema value', schemaObj);
-        return '?';
+        if (schemaObj.nullable){
+            return null;
+        }
+        else{
+            console.warn('Unknown schema value', schemaObj);
+            return '?';
+        }
+        
     }
   }
 
