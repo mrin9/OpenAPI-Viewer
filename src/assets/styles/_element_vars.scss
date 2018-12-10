@@ -333,6 +333,12 @@ $--message-danger-color: #fff !default;
   line-height:32px;
 }
 
+.sw-no-tab-header-margin{
+  .el-tabs__header.is-top{
+    margin: 0;
+  }
+}
+
 
 /* Dialog
 -------------------------- */

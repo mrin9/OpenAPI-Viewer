@@ -54,17 +54,17 @@
         </div>
       </div>  
 
-      <el-tabs v-if="mimeRequestTypes[selectedMimeReqKey]" v-model="activeTab" style="padding:8px; 0">
+      <el-tabs v-if="mimeRequestTypes[selectedMimeReqKey]" v-model="activeTab" class="sw-no-tab-header-margin">
         <el-tab-pane label="Value" name="bodyParamExample">
           <el-input class="sw-editor sw-model-example-textarea" 
             type="textarea" 
             v-model="mimeRequestTypes[selectedMimeReqKey].examples[0]" 
-            :autosize="{ minRows: 12 }"
+            :autosize="{ minRows:10}"
           >
           </el-input>
         </el-tab-pane>
         <el-tab-pane label="Model" name="bodyParamModel"> 
-          <el-tree :data="mimeRequestTypes[selectedMimeReqKey].schemaTree" :props="defaultTreeProps" :default-expand-all="true">
+          <el-tree :data="mimeRequestTypes[selectedMimeReqKey].schemaTree" :props="defaultTreeProps" :default-expand-all="true" class="sw-border" style="min-height:190px">
             <span class="sw-tree-node" slot-scope="{ node, data }">
               <span class="sw-fieldname">{{ node.label.label }}</span>
               <span class="sw-datatype">: {{ node.label.type }}</span>

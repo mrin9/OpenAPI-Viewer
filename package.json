@@ -11,8 +11,8 @@
     "element-ui": "^2.4.11",
     "swagger-parser": "^6.0.2",
     "swagger2openapi": "^3.2.14",
-    "vue": "^2.5.17",
-    "vue-i18n": "^8.3.2",
+    "vue": "^2.5.19",
+    "vue-i18n": "^8.4.0",
     "vue-json-pretty": "^1.4.1",
     "vue-multipane": "^0.9.5",
     "vue-router": "^3.0.1",
@@ -24,8 +24,8 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.2.0",
     "@vue/cli-service": "^3.2.0",
-    "node-sass": "^4.10.0",
+    "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0",
-    "vue-template-compiler": "^2.5.17"
+    "vue-template-compiler": "^2.5.19"
   }
 }
