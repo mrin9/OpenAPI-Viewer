@@ -48,7 +48,7 @@
               </vue-json-pretty>
               <el-input
                 v-else-if="selectedMimeValueForEachStatus[statusRespCode]"
-                class="sw-model-example-textarea" 
+                class="sw-mono-font" 
                 type="textarea"
                 v-model="mimeResponsesForEachStatus[statusRespCode][selectedMimeValueForEachStatus[statusRespCode]].examples[0]" 
                 :autosize="{ minRows:12}"

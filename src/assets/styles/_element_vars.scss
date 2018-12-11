@@ -169,16 +169,28 @@ $--message-danger-color: #fff !default;
   padding: 0 8px;
 }
 
-
 .sw-editor{
   .el-textarea__inner {
-    font-family: monospace;
+    font-family: roboto-mono, Monaco, Menlo, Consolas;
     font-size: 12px;
     border:1px solid #C5D9E8;
     border-radius: $sw-border-radius;
     background-color: #fefefe;
     &:focus{
       border-color:#FF791A;
+    }
+  }
+}
+
+.sw-mono-font{
+  textarea{
+    font-family: roboto-mono, Monaco, Menlo, Consolas;
+    font-size: 12px;
+    white-space: nowrap;  overflow: auto;
+  }
+  &.sw-4xx{
+    textarea{
+      color:$sw-red;
     }
   }
 }

@@ -36,7 +36,7 @@
           </el-select>
 
           <el-input v-else
-            class="sw-editor sw-model-example-textarea" 
+            class="sw-editor sw-mono-font" 
             type="textarea" 
             v-model="param.example" 
             :autosize="{ minRows:3 }"

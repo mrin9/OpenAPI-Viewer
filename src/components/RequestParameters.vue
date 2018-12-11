@@ -54,9 +54,9 @@
         </div>
       </div>  
 
-      <el-tabs v-if="mimeRequestTypes[selectedMimeReqKey]" v-model="activeTab" class="sw-no-tab-header-margin">
+      <el-tabs v-if="mimeRequestTypes[selectedMimeReqKey]" v-model="requestBodyActiveTab" class="sw-no-tab-header-margin">
         <el-tab-pane label="Value" name="bodyParamExample">
-          <el-input class="sw-editor sw-model-example-textarea" 
+          <el-input class="sw-editor sw-mono-font" 
             type="textarea" 
             v-model="mimeRequestTypes[selectedMimeReqKey].examples[0]" 
             :autosize="{ minRows:10}"
@@ -90,23 +90,38 @@
     </div>
 
 
-    <!-- Try out Button -->
+    <!-- TRY out Button -->
     <div v-show="$store.state.isDevMode" v-loading="loading" class="sw-make-request">
       <div class="sw-row" style="margin: 2px 0;">
         <el-button type="primary" size="medium" @click="onTry"> TRY </el-button>
+        <div :class="'sw-response-status ' + responseStatusCssClass" v-if="responseStatusCode">
+          {{responseStatusCode}} : {{responseStatusText}}
+        </div>  
         <div style="flex:1"></div>
         <el-button v-if="showTextViewer || showJsonViewer" type="plain" size="medium" @click="onClearResponseData"> CLEAR </el-button>
         <el-button v-if="showTextViewer || showJsonViewer" type="plain" size="medium"> COPY </el-button>
+      </div> 
+      <div class="sw-response-details" v-if="showTextViewer || showJsonViewer">
+        <el-tabs v-model="responseDetailsActiveTab" class="sw-no-tab-header-margin">
+          <!-- Response Data -->
+          <el-tab-pane label="Response Text" name="responseData">
+              <vue-json-pretty v-if="showJsonViewer" path="/" :data="jsonResponse.data" class="sw-live-response sw-light-border"></vue-json-pretty>
+              <el-input :class="'sw-response-data sw-mono-font ' +  responseStatusCssClass"
+                v-if="showTextViewer"
+                type="textarea" 
+                v-model="jsonRespText" 
+                :autosize="{ minRows:10, maxRows:20 }"
+              >
+              </el-input>
+          </el-tab-pane>
+
+          <!-- Response HEADERS -->
+          <el-tab-pane label="Response Headers" name="responseHeader"> 
+            <vue-json-pretty path="/" :data="responseHeaders" class="sw-light-border"></vue-json-pretty>
+          </el-tab-pane>
+        </el-tabs>
       </div>  
-      <vue-json-pretty v-if="showJsonViewer" path="/" :data="jsonResponse.data" class="sw-live-response sw-light-border"></vue-json-pretty>
-      <el-input class="sw-model-example-textarea" 
-        v-if="showTextViewer"
-        type="textarea" 
-        v-model="jsonRespText" 
-        :autosize="{ minRows:10, maxRows:20 }"
-      >
-      </el-input>
-      <!-- pre v-else class="sw-live-response"> {{ jsonRespText}} </pre -->
+
     </div>
 
   </div>
@@ -139,7 +154,8 @@
       return {
         loading:false,
         defaultTreeProps: { children: 'children',label: 'label' },
-        activeTab:'bodyParamExample',
+        requestBodyActiveTab:'bodyParamExample',
+        responseDetailsActiveTab:"responseData",
         pathParams :[],
         queryParams:[],
         headerParams :[],
@@ -155,6 +171,10 @@
         },
         showJsonViewer:false,
         showTextViewer:false,
+        responseStatusCode:"",
+        responseStatusText:"",
+        responseHeaders:{},
+        responseStatusCssClass:""
       }
     },
 
@@ -176,6 +196,10 @@
           this.cookieParams
         )
         .then(function(resp){
+          me.responseStatusCode = resp.status;
+          me.responseStatusText = resp.statusText;
+          me.responseStatusCssClass="sw-2xx";
+          me.responseHeaders = resp.headers;
           if (resp.request.responseText.length < 20000){
             me.showJsonViewer=true;
             me.showTextViewer=false;
@@ -191,16 +215,32 @@
           me.loading=false;
         })
         .catch(function(err){
+          me.responseStatusCode = err.response.status;
+          me.responseStatusText = err.response.statusText;
+          me.responseStatusCssClass="sw-4xx";
+          me.responseHeaders = err.response.headers;
+          me.showJsonViewer=false;
+          me.showTextViewer=true;
+          me.jsonRespText = JSON.stringify(err.response.data, null, 2);
+          me.loading=false;
+
+
+          /*
           me.$message({
             showClose: true,
             message: 'AJAX call failed',
             type: 'error'
           });
+          */
           me.loading=false;
         })
+        
       },
 
       onClearResponseData(){
+        this.responseStatusCode="";
+        this.responseStatusText="";
+        this.responseHeaders={};
         this.jsonRespText="",
         this.jsonResponse={
           "data":{},
@@ -318,7 +358,17 @@
     padding: 0;
     margin-top:8px;
   }
-
+  .sw-response-status{
+    margin-left:5px;
+    font-size:12px;
+    font-weight:bold;
+    &.sw-2xx {
+      color:darken($sw-green,10%);
+    }
+    &.sw-3xx,&.sw-4xx{
+      color:$sw-red;
+    }
+  }
   .sw-section-gap{
     margin-top:24px;  
   }
@@ -327,6 +377,7 @@
     max-width:100%;
     overflow: scroll;
   }
+
   
 </style>
 

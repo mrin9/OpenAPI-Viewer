@@ -3,7 +3,6 @@
 //Light
 @font-face {
   font-family: 'Metropolis';
-  src: url($font_path + 'Metropolis-Light.eot');
   src: url($font_path + 'Metropolis-Light.woff2')format('woff2') ;
   font-weight: 200;
   font-style: normal;
@@ -12,7 +11,6 @@
 //Regular
 @font-face {
   font-family: 'Metropolis';
-  src: url($font_path + 'Metropolis-Regular.eot');
   src: url($font_path + 'Metropolis-Regular.woff2')format('woff2') ;
   font-weight: 400;
   font-style: normal;
@@ -21,7 +19,6 @@
 //Semibold
 @font-face {
   font-family: 'Metropolis';
-  src: url($font_path + 'Metropolis-Medium.eot');
   src: url($font_path + 'Metropolis-Medium.woff2')format('woff2') ;
   font-weight: 500;
   font-style: normal;
@@ -30,11 +27,27 @@
 //Bold
 @font-face {
   font-family: 'Metropolis';
-  src: url($font_path + 'Metropolis-SemiBold.eot');
   src: url($font_path + 'Metropolis-SemiBold.woff2')format('woff2') ;
   font-weight: 600;
   font-style: normal;
 }
+
+//Monospaced font
+//Regular
+@font-face {
+  font-family: 'roboto-mono';
+  src: url($font_path + 'roboto-mono-regular.woff2')format('woff2') ;
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'roboto-mono';
+  src: url($font_path + 'roboto-mono-bold.woff2')format('woff2') ;
+  font-weight: 500;
+  font-style: normal;
+}
+
 
 h1{ font-family:$sw-font-family; font-size:32px; font-weight:200; letter-spacing:normal; }
 h2{ font-family:$sw-font-family; font-size:28px; font-weight:200; letter-spacing:normal; }

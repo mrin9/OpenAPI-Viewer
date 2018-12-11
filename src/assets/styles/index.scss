@@ -24,7 +24,7 @@ body, html{
   }
 }
 
-input, textarea, select, button {
+input, select, button {
   font-family: $sw-font-family, 'Nunito', sans-serif;
   font-weight:400;
 }
@@ -111,7 +111,9 @@ a{
 // Style Overrides dor vue-json-prettyfy
 .vjs__tree{
   font-size:12px !important;
-
+  .vjs__value__string{
+    color: darken($sw-green,10%) !important;
+  }
   .vjs__tree__node {
     cursor: pointer;
     padding-right:25px;
@@ -119,6 +121,5 @@ a{
       background-color: #eee;
     }
   }
-  
-
 }
+
