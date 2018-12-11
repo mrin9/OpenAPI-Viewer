@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["lang-en"],{"3fab":function(a,n,e){"use strict";e.r(n),n["default"]={m:{product_name:"API View",change_lang:"Change Language",login:"LOGIN",username:"User Name",password:"Password",domain:"Domain"}}}}]);
-//# sourceMappingURL=lang-en.392c7ed7.js.map
