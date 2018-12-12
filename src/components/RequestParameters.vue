@@ -56,12 +56,7 @@
 
       <el-tabs v-if="mimeRequestTypes[selectedMimeReqKey]" v-model="requestBodyActiveTab" class="sw-no-tab-header-margin">
         <el-tab-pane label="Value" name="bodyParamExample">
-          <el-input class="sw-editor sw-mono-font" 
-            type="textarea" 
-            v-model="mimeRequestTypes[selectedMimeReqKey].examples[0]" 
-            :autosize="{ minRows:10}"
-          >
-          </el-input>
+          <textarea class="sw-mono-font" v-model="mimeRequestTypes[selectedMimeReqKey].examples[0]" style="min-height:150px"/>
         </el-tab-pane>
         <el-tab-pane label="Model" name="bodyParamModel"> 
           <el-tree :data="mimeRequestTypes[selectedMimeReqKey].schemaTree" :props="defaultTreeProps" :default-expand-all="true" class="sw-border" style="min-height:190px">
@@ -93,26 +88,24 @@
     <!-- TRY out Button -->
     <div v-show="$store.state.isDevMode" v-loading="loading" class="sw-make-request">
       <div class="sw-row" style="margin: 2px 0;">
-        <el-button type="primary" size="medium" @click="onTry"> TRY </el-button>
+        <button class="sw-btn sw-primary" @click="onTry"> TRY </button>
         <div :class="'sw-response-status ' + responseStatusCssClass" v-if="responseStatusCode">
           {{responseStatusCode}} : {{responseStatusText}}
         </div>  
         <div style="flex:1"></div>
-        <el-button v-if="showTextViewer || showJsonViewer" type="plain" size="medium" @click="onClearResponseData"> CLEAR </el-button>
-        <el-button v-if="showTextViewer || showJsonViewer" type="plain" size="medium"> COPY </el-button>
+        <button class="sw-btn sw-plain" v-if="showTextViewer || showJsonViewer" style="margin-right:5px;" @click="onClearResponseData"> CLEAR </button>
+        <button class="sw-btn sw-plain" v-if="showTextViewer || showJsonViewer" > COPY </button>
       </div> 
       <div class="sw-response-details" v-if="showTextViewer || showJsonViewer">
         <el-tabs v-model="responseDetailsActiveTab" class="sw-no-tab-header-margin">
           <!-- Response Data -->
           <el-tab-pane label="Response Text" name="responseData">
               <vue-json-pretty v-if="showJsonViewer" path="/" :data="jsonResponse.data" class="sw-live-response sw-light-border"></vue-json-pretty>
-              <el-input :class="'sw-response-data sw-mono-font ' +  responseStatusCssClass"
+              <textarea :class="'sw-response-data sw-mono-font ' +  responseStatusCssClass"
                 v-if="showTextViewer"
-                type="textarea" 
                 v-model="jsonRespText" 
-                :autosize="{ minRows:10, maxRows:20 }"
-              >
-              </el-input>
+                style="min-height:175px"
+              />
           </el-tab-pane>
 
           <!-- Response HEADERS -->

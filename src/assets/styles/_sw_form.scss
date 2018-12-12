@@ -6,7 +6,7 @@
   font-weight: 600;
   display: inline-block;
   padding: 6px 16px;
-  font-size: 11px;
+  font-size: 12px;
   outline: 0;
   line-height: 1;
   text-align: center;
@@ -34,6 +34,16 @@
       background-color:darken( $sw-primary-color, 8% );
     }
   }
+
+  &.sw-plain{
+    background-color:#fff;
+    border-color:#333;
+    color:#333;
+    &:hover{
+      border-color:$sw-primary-color;
+    }
+  }
+
 }
 
 // Form Inputs
@@ -89,7 +99,23 @@ input[type="password"]:not(.el-input__inner){
   }
 }
 
+textarea{
+  &::-webkit-scrollbar-track{
+    background-color: transparent;
+  }
+  
+  &::-webkit-scrollbar{
+    width: 8px;
+    height: 8px;
+    background-color: transparent;
+  }
+  
+  &::-webkit-scrollbar-thumb{
+    background-color: rgba(50,50,50, .5);
+  }
 
+
+}
 
 
 //Radio

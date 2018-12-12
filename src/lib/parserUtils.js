@@ -115,6 +115,15 @@ export default function ProcessSpec(specUrl){
         let servers=[];
 
         securitySchemes = (deReffedSpec.components? deReffedSpec.components.securitySchemes:{});
+        if (deReffedSpec.servers){
+            
+            deReffedSpec.servers.map(function(v){
+                if (v.url && v.url.substr(0,1) === "/"){
+                    let paths = specUrl.split("/");
+                    v.url = paths[0]+"//"+paths[2]+v.url;
+                }
+            })
+        }
         servers = deReffedSpec.servers;
         let parsedSpec = {
             "info"    : deReffedSpec.info,

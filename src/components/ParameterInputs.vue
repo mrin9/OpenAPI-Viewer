@@ -5,13 +5,13 @@
     <tr v-for="(param, index) in parameters" :key="index">
 
       <!-- Field Name Column-->  
-      <td style="width:180px">
+      <td style="min-width:80px">
         <div class="sw-param-name"><span v-if="param.required"  class="sw-param-req">*</span>{{param.name}}</div>
         <div class="sw-param-type">{{param.schema.type}}</div>
       </td>  
 
       <!-- Field Input Column-->  
-      <td style="min-width:180px">
+      <td style="min-width:100px">
 
         <!-- if Type is enum then show a select -->  
         <el-select v-if="param.schema.type==='string' && param.schema.enum " 
@@ -34,14 +34,7 @@
           >
             <el-option v-for="item in param.schema.items.enum" :key="item" :label="item" :value="item"></el-option>
           </el-select>
-
-          <el-input v-else
-            class="sw-editor sw-mono-font" 
-            type="textarea" 
-            v-model="param.example" 
-            :autosize="{ minRows:3 }"
-          >
-          </el-input>
+          <textarea v-else class="sw-mono-font" v-model="param.example" style="min-height:42px"/>
         </template> 
         
         <!-- For all other types, show a textbox-->  

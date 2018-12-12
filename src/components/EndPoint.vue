@@ -1,6 +1,6 @@
 <template>
 
-    <div>
+    <div style="width:100%">
       <div 
         v-for= "(fullPath, index) in paths" 
         v-if = "fullPath.show" :key="index"
@@ -149,6 +149,7 @@ export default {
 
 .sw-endpoint-body {
   //padding:16px 8px;
+  flex-wrap:wrap;
   padding:16px 0px 0 0px;
   &.delete{ border-top: 1px solid $sw-red;}
   &.patch{ border-top: 1px solid $sw-icon-warn-minor;}
@@ -226,6 +227,7 @@ export default {
 .sw-req-resp-container{
   margin-top:16px;
   align-items: stretch;
+  flex-wrap: wrap;
 }
 
 .sw-response,
@@ -234,6 +236,7 @@ export default {
   margin:0;
   padding:16px;
   border-style:solid;
+  min-width:400px;
 }
 
 .delete{ 

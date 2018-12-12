@@ -46,6 +46,14 @@
                 :data="mimeResponsesForEachStatus[statusRespCode][selectedMimeValueForEachStatus[statusRespCode]].examples[0]"
               >
               </vue-json-pretty>
+              <textarea 
+                v-else-if="selectedMimeValueForEachStatus[statusRespCode]" 
+                class="sw-mono-font" 
+                v-model="mimeResponsesForEachStatus[statusRespCode][selectedMimeValueForEachStatus[statusRespCode]].examples[0]" 
+                style="min-height:150px"
+              />
+
+              <!--
               <el-input
                 v-else-if="selectedMimeValueForEachStatus[statusRespCode]"
                 class="sw-mono-font" 
@@ -54,6 +62,7 @@
                 :autosize="{ minRows:12}"
                 >
               </el-input>
+              -->
             </el-tab-pane>
             <el-tab-pane v-if=" 1==2" label="Model" name="schemaTab" class="sw-tab-pane">
               <el-tree 

@@ -2,11 +2,12 @@ import Vue from 'vue'
 import router from './router'
 import store from './store'
 
-//import i18n, {loadLang} from '@/lang/index';
-import App from '@/App.vue';
-//import ElementUI from 'element-ui';
-//import locale from 'element-ui/lib/locale/lang/en'; //Its ok if this line shows error in VSCode
 
+import App from '@/App.vue';
+
+import elementLocale from 'element-ui/lib/locale'
+import elementLang from 'element-ui/lib/locale/lang/en'; //Its ok if this line shows error in VSCode
+//import ElementUI from 'element-ui';
 /*
 import Button from 'element-ui/lib/button'
 import Input from 'element-ui/lib/input'
@@ -18,10 +19,9 @@ import Tree from 'element-ui/lib/tree'
 import Loading from 'element-ui/lib/loading'
 import Message from 'element-ui/lib/message'
 */
+//import i18n, {loadLang} from '@/lang/index';
 
 import {
-  Button,
-  Input,
   Switch,
   Select,
   Tabs,
@@ -34,13 +34,13 @@ import {
 
 
 Vue.config.productionTip = false
-Vue.use(Button);
-Vue.use(Input);
+
+elementLocale.use(elementLang);
 Vue.use(Switch);
 Vue.use(Select);
+Vue.use(Option);
 Vue.use(Tabs);
 Vue.use(TabPane);
-Vue.use(Option);
 Vue.use(Tree);
 Vue.use(Loading.directive);
 Vue.prototype.$message = Message;

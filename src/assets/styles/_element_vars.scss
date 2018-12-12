@@ -182,6 +182,8 @@ $--message-danger-color: #fff !default;
   }
 }
 
+
+
 .sw-mono-font{
   textarea{
     font-family: roboto-mono, Monaco, Menlo, Consolas;
@@ -194,6 +196,19 @@ $--message-danger-color: #fff !default;
     }
   }
 }
+
+textarea.sw-mono-font{
+  font-family: roboto-mono, Monaco, Menlo, Consolas;
+  font-size: 12px;
+  white-space: nowrap;  overflow: auto;
+  resize: vertical;
+  width:100%;
+  &.sw-4xx{
+    color:$sw-red;
+  }
+}
+
+
 
 
 .sw-dark{

@@ -1,58 +1,64 @@
 <template>
   <div id="sw-app-shell" class="sw-app-shell" >
     <div class="sw-main-container" v-loading.fullscreen.lock="loading" >
-        <div class="sw-app-header-container" ref="headerContainer">
+        <div class="sw-app-header-container">
           
-          <div class="sw-row" style="padding:16px 4px 8px 4px;">
-            <div style="width:200px; display:flex; align-items: center;">
+          <div class="sw-row" style="padding:8px 4px 8px 4px;min-height:54px">
+            <div style="display:flex; align-items: center;">
               <mrin-logo style="height:36px;width:36px;margin-left:5px"></mrin-logo>
-              <div style="font-size:24px; color:orange; margin:2px 8px"> MrinDoc </div>
+              <div class="sw-prod-title" style="font-size:24px; color:orange; margin:2px 8px"> MrinDoc </div>
             </div>  
-            <div style="margin: 2px 8px;">
-              <input ref='specUrl' style="width:400px; margin-right:5px" type="text" placeholder="Spec URL" class="sw-dark sw-medium" v-model="specUrl" @keyup.enter="onExplore">
-              <el-button style="width:105px" type="primary" size="medium" @click="onExplore">EXPLORE</el-button>
+            <div style="margin: 0px 8px;">
+              <input ref="specUrl" style="width:300px; margin-right:-1px" type="text" placeholder="Spec URL" class="sw-dark sw-medium" v-model="specUrl" @keyup.enter="onExplore">
+              <button class="sw-btn sw-primary"  style="border-radius: 0 2px 2px 0; padding-left:5px; padding-right:5px;" @click="onExplore">OPEN</button>
             </div>
-            <div style="flex:1"></div>
-            <input style="width:150px; margin-right:20px" type="text" placeholder="Search" class="sw-medium sw-dark" v-model="searchVal" @keyup="onSearchKeyUp">
+            <div style="display:flex; flex-direction:column; margin-right:8px; align-items:flex-end;">
+              <input style="width:100px;" type="text" placeholder="Search" class="sw-medium sw-dark" v-model="searchVal" @keyup="onSearchKeyUp">
+            </div>  
+            <div style="flex:1"></div>  
+            <div v-if="isDevMode" style="display:flex; width:200px; flex-direction:column; margin-right:8px; align-items:stretch;">
+              <el-select 
+                v-model="selectedApiServer" 
+                size="medium" 
+                placeholder="Select API Server" 
+                class="sw-dark" 
+                popper-class="sw-dark"
+                @change= "$store.commit('selectedApiServer', selectedApiServer)"
+              >
+              <!--
+                <el-option v-for="item in parsedSpec.servers" :key="item.url" :label="item.url" :value="item.url" >
+                  <div style="display:flex; flex-direction:column">
+                    <span>{{ item.url }}</span>
+                    <span style="color: #8492a6; font-size:12px; line-height:12px;">{{ item.description }} </span>
+                  </div>  
+                </el-option>
+              -->
+                <el-option v-for="item in parsedSpec.servers" :key="item.url" :label="item.url" :value="item.url"></el-option>
+              </el-select>
+              <div style="display:flex;margin-top:2px;">
+                <input style="margin-right:-1px" type="text" placeholder="Token" class="sw-dark sw-medium" @keyup.enter="onExplore">
+                <button class="sw-btn sw-primary"  style="border-radius: 0 2px 2px 0; padding-left:5px; padding-right:5px;">SAVE</button>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; margin-right:8px; align-items:flex-start;">
+              <el-switch 
+                v-model="expandAll" 
+                active-text="Expand All"  
+                style="margin-bottom:2px;" 
+                class="sw-dark"
+                @change= "onExpandAll"
+              > 
+              </el-switch>
+              <el-switch v-model="isDevMode" 
+                active-text="Developer Mode"  
+                class="sw-dark"
+                @change= "$store.commit('isDevMode', isDevMode)"
+              > 
+              </el-switch>
+            </div>  
           </div>
 
 
-          <div v-if="isSpecLoaded" class="sw-row" style="min-height:26px; padding:8px 4px; background-color:#444">
-            <el-switch v-model="isDevMode" 
-              active-text="Developer Mode"  
-              style="width:200px; margin:0 3px;" 
-              class="sw-dark"
-              @change= "$store.commit('isDevMode', isDevMode)"
-            > 
-            </el-switch>
-              
-            <el-select v-if="isDevMode" 
-              v-model="selectedApiServer" 
-              size="medium" 
-              placeholder="Select API Server" 
-              style="width:400px;margin-right:5px" 
-              class="sw-dark" 
-              popper-class="sw-dark sw-double-height-options"
-              @change= "$store.commit('selectedApiServer', selectedApiServer)"
-            >
-              <el-option v-for="item in parsedSpec.servers" :key="item.url" :label="item.url" :value="item.url" >
-                <div style="display:flex; flex-direction:column">
-                  <span>{{ item.url }}</span>
-                  <span style="color: #8492a6; font-size:12px; line-height:12px;">{{ item.description }} </span>
-                </div>  
-              </el-option>
-            </el-select>
-            <!-- el-button v-if="isDevMode" style="width:105px" type="primary" size="medium" @click="onExplore">AUTHORIZE</el-button -->
-            <div style="flex:1"></div>
-            <el-switch 
-              v-model="expandAll" 
-              active-text="Expand All"  
-              style="width:200px; margin:0 3px;" 
-              class="sw-dark"
-              @change= "onExpandAll"
-            > 
-            </el-switch>
-          </div>  
         </div>
 
 
@@ -168,7 +174,9 @@ export default {
     }, 500),
 
     onExpandAll( val){
-      console.log("Expanded", val);
+      if (this.parsedSpec.tags===undefined){
+        return;
+      }
       this.parsedSpec.tags.map(function(tag){
           tag.paths.map(function(path){
             path.expanded=val;
@@ -195,6 +203,7 @@ export default {
 
 .sw-app-shell {
   height:100%;
+  min-width:760px;
   display:flex;
   flex-direction:row;
   flex-wrap: nowrap;
@@ -231,6 +240,7 @@ export default {
       position: fixed;
       top:0;
       width:100%;
+      min-width:750px;
       display:flex;
       flex-direction:column;
       align-items: stretch;
@@ -250,6 +260,12 @@ export default {
     }
     .shadow {
       box-shadow: 0 5px 4px -4px #ccc
+    }
+  }
+
+  @media only screen and (max-width : 999px) {
+    .sw-prod-title{
+      display:none;
     }
   }
 
