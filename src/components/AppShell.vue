@@ -1,91 +1,89 @@
 <template>
-  <div id="sw-app-shell" class="sw-app-shell" >
-    <div class="sw-main-container" v-loading.fullscreen.lock="loading" >
-        <div class="sw-app-header-container">
-          
-          <div class="sw-row" style="padding:8px 4px 8px 4px;min-height:54px">
-            <div style="display:flex; align-items: center;">
-              <mrin-logo style="height:36px;width:36px;margin-left:5px"></mrin-logo>
-              <div class="sw-prod-title"> MrinDoc </div>
-            </div>  
-            <div style="margin: 0px 8px;">
-              <input ref="specUrl" style="width:260px; margin-right:-1px" type="text" placeholder="Spec URL" class="sw-dark sw-medium" v-model="specUrl" @keyup.enter="onExplore">
-              <button class="sw-btn sw-primary"  style="border-radius: 0 2px 2px 0; padding-left:5px; padding-right:5px;" @click="onExplore">OPEN</button>
-            </div>
-            <div style="display:flex; flex-direction:column; margin-right:8px; align-items:flex-end;">
-              <input style="width:100px;" type="text" placeholder="Search" class="sw-medium sw-dark" v-model="searchVal" @keyup="onSearchKeyUp">
-            </div>  
-            <div style="flex:1"></div>  
-            <div v-if="isDevMode" style="display:flex; width:200px; flex-direction:column; margin-right:8px; align-items:stretch;">
-              <el-select 
-                v-model="selectedApiServer" 
-                size="medium" 
-                placeholder="Select API Server" 
-                class="sw-dark" 
-                popper-class="sw-dark"
-                @change= "$store.commit('selectedApiServer', selectedApiServer)"
-              >
-              <!--
-                <el-option v-for="item in parsedSpec.servers" :key="item.url" :label="item.url" :value="item.url" >
-                  <div style="display:flex; flex-direction:column">
-                    <span>{{ item.url }}</span>
-                    <span style="color: #8492a6; font-size:12px; line-height:12px;">{{ item.description }} </span>
-                  </div>  
-                </el-option>
-              -->
-                <el-option v-for="item in parsedSpec.servers" :key="item.url" :label="item.url" :value="item.url"></el-option>
-              </el-select>
-              <div style="display:flex;margin-top:2px;">
-                <input style="margin-right:-1px" type="text" placeholder="Token" class="sw-dark sw-medium" @keyup.enter="onExplore">
-                <button class="sw-btn sw-primary"  style="border-radius: 0 2px 2px 0; padding-left:5px; padding-right:5px;">SAVE</button>
-              </div>
-            </div>
-            <div style="display:flex; flex-direction:column; margin-right:8px; align-items:flex-start;">
-              <el-switch 
-                v-model="expandAll" 
-                active-text="Expand All"  
-                style="margin-bottom:2px;" 
-                class="sw-dark"
-                @change= "onExpandAll"
-              > 
-              </el-switch>
-              <el-switch v-model="isDevMode" 
-                active-text="Developer Mode"  
-                class="sw-dark"
-                @change= "$store.commit('isDevMode', isDevMode)"
-              > 
-              </el-switch>
-            </div>  
+  <div id="sw-app-shell"  v-loading.fullscreen.lock="loading" class="sw-app-shell" >
+      <div class="sw-app-header-container">
+        
+        <div class="sw-row" style="padding:8px 4px 8px 4px;min-height:54px">
+          <div style="display:flex; align-items: center;">
+            <mrin-logo style="height:36px;width:36px;margin-left:5px"></mrin-logo>
+            <div class="sw-prod-title"> MrinDoc </div>
+          </div>  
+          <div style="margin: 0px 8px;">
+            <input ref="specUrl" style="width:260px; margin-right:-1px" type="text" placeholder="Spec URL" class="sw-dark sw-medium" v-model="specUrl" @keyup.enter="onExplore">
+            <button class="sw-btn sw-primary"  style="border-radius: 0 2px 2px 0; padding-left:5px; padding-right:5px;" @click="onExplore">OPEN</button>
           </div>
-
-
+          <div style="display:flex; flex-direction:column; margin-right:8px; align-items:flex-end;">
+            <input style="width:100px;" type="text" placeholder="Search" class="sw-medium sw-dark" v-model="searchVal" @keyup="onSearchKeyUp">
+          </div>  
+          <div style="flex:1"></div>  
+          <div v-if="isDevMode" style="display:flex; width:200px; flex-direction:column; margin-right:8px; align-items:stretch;">
+            <el-select 
+              v-model="selectedApiServer" 
+              size="medium" 
+              placeholder="Select API Server" 
+              class="sw-dark" 
+              popper-class="sw-dark"
+              @change= "$store.commit('selectedApiServer', selectedApiServer)"
+            >
+            <!--
+              <el-option v-for="item in parsedSpec.servers" :key="item.url" :label="item.url" :value="item.url" >
+                <div style="display:flex; flex-direction:column">
+                  <span>{{ item.url }}</span>
+                  <span style="color: #8492a6; font-size:12px; line-height:12px;">{{ item.description }} </span>
+                </div>  
+              </el-option>
+            -->
+              <el-option v-for="item in parsedSpec.servers" :key="item.url" :label="item.url" :value="item.url"></el-option>
+            </el-select>
+            <div style="display:flex;margin-top:2px;">
+              <input style="margin-right:-1px" type="text" placeholder="Token" class="sw-dark sw-medium" @keyup.enter="onExplore">
+              <button class="sw-btn sw-primary"  style="border-radius: 0 2px 2px 0; padding-left:5px; padding-right:5px;">SAVE</button>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; margin-right:8px; align-items:flex-start;">
+            <el-switch 
+              v-model="expandAll" 
+              active-text="Expand All"  
+              style="margin-bottom:2px;" 
+              class="sw-dark"
+              @change= "onExpandAll"
+            > 
+            </el-switch>
+            <el-switch v-model="isDevMode" 
+              active-text="Developer Mode"  
+              class="sw-dark"
+              @change= "$store.commit('isDevMode', isDevMode)"
+            > 
+            </el-switch>
+          </div>  
         </div>
 
 
-        <div v-if="isSpecLoaded" class="sw-page-container" ref="pageContainer">
-          <div class="sw-doc-info" v-if="parsedSpec.info">
-            <div class="sw-doc-title">
-              {{parsedSpec.info.title}} 
-              <span v-if="parsedSpec.info.version" style="font-size:14px;font-weight:bold">{{parsedSpec.info.version}}</span>
-            </div>  
-            <!-- div v-if="parsedSpec.info.description" class="sw-gray-small-text"> {{parsedSpec.info.description}} </div -->  
-            <div class="sw-markdown-block" v-if="docDescription"> 
-              <span v-html="docDescription">  </span>  
-            </div>  
-            <div  v-if="parsedSpec.info.license && parsedSpec.info.license.name" style="font-size:12px;margin:8px 0 0 0;"> 
-              {{parsedSpec.info.license.name}} 
-              <a v-if="parsedSpec.info.license.url"  :href="parsedSpec.info.license.url"> {{parsedSpec.info.license.url}}</a></div>    
-          </div>
+      </div>
 
 
-          <div class="sw-tag-container" v-for="tag in parsedSpec.tags" v-show="tag.show" :key="tag.name">
-            <div class="sw-tag-title">{{tag.name}}</div>
-            <span v-if="tag.description" class="sw-gray-small-text"> {{tag.description}} </span>
-            <end-point :paths="tag.paths" :parameters="tag.parameters" ></end-point> 
-          </div>
-          
+      <div v-if="isSpecLoaded" class="sw-page-container" ref="pageContainer">
+        <div class="sw-doc-info" v-if="parsedSpec.info">
+          <div class="sw-doc-title">
+            {{parsedSpec.info.title}} 
+            <span v-if="parsedSpec.info.version" style="font-size:14px;font-weight:bold">{{parsedSpec.info.version}}</span>
+          </div>  
+          <!-- div v-if="parsedSpec.info.description" class="sw-gray-small-text"> {{parsedSpec.info.description}} </div -->  
+          <div class="sw-markdown-block" v-if="docDescription"> 
+            <span v-html="docDescription">  </span>  
+          </div>  
+          <div  v-if="parsedSpec.info.license && parsedSpec.info.license.name" style="font-size:12px;margin:8px 0 0 0;"> 
+            {{parsedSpec.info.license.name}} 
+            <a v-if="parsedSpec.info.license.url"  :href="parsedSpec.info.license.url"> {{parsedSpec.info.license.url}}</a></div>    
         </div>
-    </div>
+
+
+        <div class="sw-tag-container" v-for="tag in parsedSpec.tags" v-show="tag.show" :key="tag.name">
+          <div class="sw-tag-title">{{tag.name}}</div>
+          <span v-if="tag.description" class="sw-gray-small-text"> {{tag.description}} </span>
+          <end-point :paths="tag.paths" :parameters="tag.parameters" ></end-point> 
+        </div>
+        
+      </div>
   </div>
 </template>
 
@@ -211,31 +209,20 @@ export default {
 @import "~@/assets/styles/_vars.scss";
 
 .sw-app-shell {
+  position:fixed;
+  top:0;
   height:100vh;
   width:100vw;
   min-width:760px;
   display:flex;
-  flex-direction:row;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  align-content:stretch;
-  .sw-prod-title{
-    font-size:24px; 
-    color:$sw-primary-color; 
-    margin:2px 8px;
-  }
-  .sw-main-container{
-    display:flex;
-    flex:1;
-    order:1;
-    //background:$sw-light-bg1;
-    flex-direction:column;
-    align-items: stretch;
-    padding:0;
-    margin: 0;
-    height:100%;
-    overflow:hidden;
-
+  flex-direction:column;
+  align-items: stretch;
+  overflow: auto;
+    .sw-prod-title{
+      font-size:24px; 
+      color:$sw-primary-color; 
+      margin:2px 8px;
+    }
     .sw-doc-info{
       margin:24px 0 16px;
       .sw-doc-title{
@@ -253,16 +240,16 @@ export default {
     }
 
     .sw-app-header-container{
-      position: fixed;
+      position: absolute;
       top:0;
-      width:100vw;
+      left:0;
+      right:0;
       min-width:750px;
       display:flex;
       flex-direction:column;
       align-items: stretch;
       flex-wrap: nowrap;
       background-color: #333;
-      //overflow: hidden;
       z-index:2000;
     }
     .sw-page-container{
@@ -274,17 +261,14 @@ export default {
       flex-direction: column;
       height:100%;
     }
-    .shadow {
-      box-shadow: 0 5px 4px -4px #ccc
-    }
-  }
-
-  @media only screen and (max-width : 999px) {
-    .sw-prod-title{
-      display:none;
-    }
-  }
-
 }
+
+@media only screen and (max-width : 999px) {
+  .sw-prod-title{
+    display:none;
+  }
+}
+
+
 
 </style>

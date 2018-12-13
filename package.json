@@ -12,7 +12,7 @@
     "marked": "^0.5.2",
     "swagger-parser": "^6.0.2",
     "swagger2openapi": "^3.2.14",
-    "vue": "^2.5.19",
+    "vue": "^2.5.21",
     "vue-json-pretty": "^1.4.1",
     "vue-router": "^3.0.1",
     "vue-slideout-panel": "^3.0.0",
@@ -25,6 +25,6 @@
     "babel-plugin-component": "^1.1.1",
     "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0",
-    "vue-template-compiler": "^2.5.19"
+    "vue-template-compiler": "^2.5.21"
   }
 }
