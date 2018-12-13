@@ -49,9 +49,49 @@
 }
 
 
-h1{ font-family:$sw-font-family; font-size:32px; font-weight:200; letter-spacing:normal; }
-h2{ font-family:$sw-font-family; font-size:28px; font-weight:200; letter-spacing:normal; }
+h1{ font-family:$sw-font-family; font-size:26px; font-weight:200; letter-spacing:normal; }
+h2{ font-family:$sw-font-family; font-size:24px; font-weight:200; letter-spacing:normal; }
 h3{ font-family:$sw-font-family; font-size:22px; font-weight:200; letter-spacing:normal; }
 h4{ font-family:$sw-font-family; font-size:18px; font-weight:200; letter-spacing:normal; }
 h5{ font-family:$sw-font-family; font-size:16px; font-weight:200; letter-spacing:normal; }
 h6{ font-family:$sw-font-family; font-size:14px; font-weight:200; letter-spacing:normal; }
+
+h1,h2,h3,h4,h5,h5{
+  margin-block-end: 0.2em;
+}
+p{margin-block-start: 0.5em;}
+code,
+pre{
+  font-family: 'roboto-mono';
+}
+
+.sw-markdown-block{
+  p:only-child{
+    color:#999;
+    font-size: 12px;
+  }
+  code{
+    background-color: rgba(0, 0, 0, 0.02);
+    padding: 0px 6px;
+    border: 1px solid #eee;
+    border-radius: 3px;
+    color: #666;
+    font-size: 12px;
+  }
+  pre{
+    code {
+      border:none;
+      background-color:transparent;
+      color:#ccc;
+
+    }
+    white-space: pre-wrap;
+    background-color: #263238;
+    color: white;
+    padding: 12px 14px 15px 14px;
+    overflow-x: auto;
+    line-height: normal;
+    border-radius: 2px;
+    border: 1px solid rgba(38, 50, 56, 0.1);
+  }
+}

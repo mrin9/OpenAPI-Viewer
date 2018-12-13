@@ -15,8 +15,9 @@ body, html{
   font-family: $sw-font-family, 'Nunito', sans-serif;
   font-weight:400;
   font-size: 14px;
+  color:#333;
   letter-spacing:normal;
-  &::-webkit-scrollbar {width: 8px;}
+  &::-webkit-scrollbar {width: 8px; height:8px}
   &::-webkit-scrollbar-track {background-color: transparent;}
   &::-webkit-scrollbar-thumb {
     background-color: rgba(0,0,0,0.4);
@@ -31,23 +32,6 @@ input, select, button {
 
 a{
   color: darken($sw-info,5%);
-}
-
-
-#app {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  height:100%;
-  width:100%;
-  margin:0;
-  padding:0;
-  &::-webkit-scrollbar {width: 8px;}
-  &::-webkit-scrollbar-track {background-color: transparent;}
-  &::-webkit-scrollbar-thumb {
-    background-color: rgba(0,0,0,0.4);
-    border-radius:3px;
-  }
 }
 
 .sw-row {

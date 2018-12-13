@@ -6,10 +6,10 @@
           <div class="sw-row" style="padding:8px 4px 8px 4px;min-height:54px">
             <div style="display:flex; align-items: center;">
               <mrin-logo style="height:36px;width:36px;margin-left:5px"></mrin-logo>
-              <div class="sw-prod-title" style="font-size:24px; color:orange; margin:2px 8px"> MrinDoc </div>
+              <div class="sw-prod-title"> MrinDoc </div>
             </div>  
             <div style="margin: 0px 8px;">
-              <input ref="specUrl" style="width:300px; margin-right:-1px" type="text" placeholder="Spec URL" class="sw-dark sw-medium" v-model="specUrl" @keyup.enter="onExplore">
+              <input ref="specUrl" style="width:260px; margin-right:-1px" type="text" placeholder="Spec URL" class="sw-dark sw-medium" v-model="specUrl" @keyup.enter="onExplore">
               <button class="sw-btn sw-primary"  style="border-radius: 0 2px 2px 0; padding-left:5px; padding-right:5px;" @click="onExplore">OPEN</button>
             </div>
             <div style="display:flex; flex-direction:column; margin-right:8px; align-items:flex-end;">
@@ -66,9 +66,12 @@
           <div class="sw-doc-info" v-if="parsedSpec.info">
             <div class="sw-doc-title">
               {{parsedSpec.info.title}} 
-              <span v-if="parsedSpec.info.version" style="font-size:14px;font-weight:bold">  {{parsedSpec.info.version}}</span>
+              <span v-if="parsedSpec.info.version" style="font-size:14px;font-weight:bold">{{parsedSpec.info.version}}</span>
             </div>  
-            <div v-if="parsedSpec.info.description" class="sw-gray-small-text"> {{parsedSpec.info.description}} </div>  
+            <!-- div v-if="parsedSpec.info.description" class="sw-gray-small-text"> {{parsedSpec.info.description}} </div -->  
+            <div class="sw-markdown-block" v-if="docDescription"> 
+              <span v-html="docDescription">  </span>  
+            </div>  
             <div  v-if="parsedSpec.info.license && parsedSpec.info.license.name" style="font-size:12px;margin:8px 0 0 0;"> 
               {{parsedSpec.info.license.name}} 
               <a v-if="parsedSpec.info.license.url"  :href="parsedSpec.info.license.url"> {{parsedSpec.info.license.url}}</a></div>    
@@ -77,6 +80,7 @@
 
           <div class="sw-tag-container" v-for="tag in parsedSpec.tags" v-show="tag.show" :key="tag.name">
             <div class="sw-tag-title">{{tag.name}}</div>
+            <span v-if="tag.description" class="sw-gray-small-text"> {{tag.description}} </span>
             <end-point :paths="tag.paths" :parameters="tag.parameters" ></end-point> 
           </div>
           
@@ -92,14 +96,16 @@ import ProcessSpec from  '@/lib/parserUtils';
 import MrinLogo from '@/components/Logo';
 import store from '@/store';
 import { Loading } from 'element-ui';
+import marked from 'marked';
 
 export default {
 
   data:function(){
     return{
+      //specUrl:"http://developer.twinehealth.com/swagger.json",
       //specUrl: "https://petstore.swagger.io/v2/swagger.json",
-      //specUrl   : "http://10.21.83.83:8080/api/swagger.json",
-      specUrl  : "https://raw.githubusercontent.com/APIs-guru/unofficial_openapi_specs/master/github.com/v3/swagger.yaml",
+      //specUrl: "http://10.21.83.83:8080/api/swagger.json",
+      specUrl: "https://raw.githubusercontent.com/APIs-guru/unofficial_openapi_specs/master/github.com/v3/swagger.yaml",
       //specUrl: "https://fakerestapi.azurewebsites.net/swagger/docs/v1",
       //specUrl: "https://api.apis.guru/v2/specs/twilio.com/2010-04-01/swagger.json",  //xml responses
 
@@ -110,6 +116,7 @@ export default {
       isSpecLoaded:false,
       expandAll:false,
       loading:false,
+      docDescription:""
     }
   },
   methods:{
@@ -122,7 +129,9 @@ export default {
           let serverUrl="";
           me.searchVal="";
           me.parsedSpec = spec;
-
+          if (spec.info.description){
+            me.docDescription = marked(spec.info.description);
+          }
           if ( (spec.server && spec.server.length == 0 ) || (!spec.server)   ){
             serverUrl = me.specUrl.substring(0, me.specUrl.indexOf("/", me.specUrl.indexOf("//")+2));
 
@@ -202,13 +211,19 @@ export default {
 @import "~@/assets/styles/_vars.scss";
 
 .sw-app-shell {
-  height:100%;
+  height:100vh;
+  width:100vw;
   min-width:760px;
   display:flex;
   flex-direction:row;
   flex-wrap: nowrap;
   justify-content: flex-start;
   align-content:stretch;
+  .sw-prod-title{
+    font-size:24px; 
+    color:$sw-primary-color; 
+    margin:2px 8px;
+  }
   .sw-main-container{
     display:flex;
     flex:1;
@@ -225,6 +240,7 @@ export default {
       margin:24px 0 16px;
       .sw-doc-title{
         font-size:32px;
+        color:#0079b8;
         margin-bottom:5px;
       }
     }
@@ -239,18 +255,18 @@ export default {
     .sw-app-header-container{
       position: fixed;
       top:0;
-      width:100%;
+      width:100vw;
       min-width:750px;
       display:flex;
       flex-direction:column;
       align-items: stretch;
       flex-wrap: nowrap;
       background-color: #333;
-      overflow: hidden;
+      //overflow: hidden;
       z-index:2000;
     }
     .sw-page-container{
-      margin-top:100px;
+      margin-top:70px;
       padding:8px 16px 16px 16px;
       overflow:auto;
       display:flex;

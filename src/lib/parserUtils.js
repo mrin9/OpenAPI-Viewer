@@ -33,12 +33,18 @@ export default function ProcessSpec(specUrl){
             methods.forEach(function(methodName){
                 let tagObj;
                 let tagText;
+                let tagDescr;
                 
                 if (deReffedSpec.paths[path][methodName]){
                     let fullPath = deReffedSpec.paths[path][methodName];
                     // If path.methods are tagged, else generate it from path 
                     if(fullPath.tags){
                         tagText = fullPath.tags[0];
+                        if (deReffedSpec.tags){
+                            tagDescr = deReffedSpec.tags.find(function(v){
+                                return (v.name === tagText)
+                            });
+                        }
                     }
                     else {
                         let firstWordEndIndex = path.indexOf("/",1);
@@ -56,6 +62,7 @@ export default function ProcessSpec(specUrl){
                         tagObj = { 
                             show    : true,
                             "name"  : tagText,
+                            "description" : tagDescr?tagDescr.description:"",
                             "paths" : []
                         }
                         tags.push(tagObj);

@@ -38,7 +38,7 @@
         </div>
         
         <div class="sw-row" v-if="statusRespObj.content">
-          <el-tabs style="flex:1" v-model="activeTabForEachRespStatus[statusRespCode]">
+          <el-tabs style="flex:1; width:100%" v-model="activeTabForEachRespStatus[statusRespCode]">
             <el-tab-pane label="Example" name="exampleTab" class="sw-tab-pane">
               <vue-json-pretty 
                 v-if=" selectedMimeValueForEachStatus[statusRespCode] && selectedMimeValueForEachStatus[statusRespCode].includes('json')  "

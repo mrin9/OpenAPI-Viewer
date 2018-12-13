@@ -75,6 +75,8 @@ function getSampleValueByType(schemaObj) {
         return (new Date(0)).toISOString().split('T')[0];
       case 'date-time':
         return (new Date(0)).toISOString();
+      case 'dateTime':
+        return (new Date(0)).toISOString();
       case 'password':
         return 'password';
       case 'enum':

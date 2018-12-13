@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --modern" 
+    "build": "vue-cli-service build --modern"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "element-ui": "^2.4.11",
+    "marked": "^0.5.2",
     "swagger-parser": "^6.0.2",
     "swagger2openapi": "^3.2.14",
     "vue": "^2.5.19",

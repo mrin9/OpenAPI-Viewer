@@ -23,7 +23,9 @@
         <div v-show="fullPath.expanded" :class="'sw-endpoint-body '+fullPath.method">
           <div class="sw-end-point-summary" v-if="fullPath.summary || fullPath.description">
             <div class="sw-end-point-title">{{fullPath.summary}}</div>
-            <div class="sw-end-point-descr" v-if="fullPath.summary !== fullPath.description">{{fullPath.description}}</div>
+            <div class="sw-markdown-block" v-if="fullPath.summary !== fullPath.description"> 
+              <span v-html=toHtml(fullPath.description)></span>
+            </div>  
           </div>  
 
           <div :class="'sw-req-resp-container '+ layoutClass">
@@ -47,6 +49,7 @@
 </template>
 
 <script>
+import marked from 'marked';
 //import RequestParameters from "@/components/RequestParameters";
 //import ResponseTypes from "@/components/ResponseTypes" ;
 
@@ -60,11 +63,14 @@ export default {
   },
   data:function(){
     return{
-      layoutClass:"sw-row",
-      activeNames:[]
+      layoutClass:"sw-row"
     }
   },
-  
+  methods:{
+    toHtml(markdown){
+      return marked(markdown);
+    }
+  },
   components:{
     // Lazy load the component
     RequestParameters : () => import("@/components/RequestParameters"),
