@@ -135,11 +135,23 @@
           let schemaExamples = [];
           if (mimeRespObj.examples){
             for (let eg in mimeRespObj.examples){
-              schemaExamples.push(mimeRespObj.examples[eg].value);
+              if (typeof mimeRespObj.examples[eg].value === "string"){
+                schemaExamples.push(JSON.parse(mimeRespObj.examples[eg].value));
+              }
+              else{
+                schemaExamples.push(mimeRespObj.examples[eg].value);
+              }
             }
           }
           if (mimeRespObj.example){
-            schemaExamples.push(mimeRespObj.example.value);
+            if (mimeResp.toLowerCase().includes("json")){
+              if ( typeof mimeRespObj.example.value === "string"){
+                schemaExamples.push(JSON.parse(mimeRespObj.example.value));
+              }
+              else{
+                schemaExamples.push(mimeRespObj.example.value);
+              }
+            }
           }
           if (schemaExamples.length==0){
             // If schema examples are not provided then generate one from Schema (only JSON fomat)
