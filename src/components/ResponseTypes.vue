@@ -134,10 +134,12 @@
           // Store Schema Examples (if provided)
           let schemaExamples = [];
           if (mimeRespObj.examples){
-            schemaExamples = mimeRespObj.examples;
+            for (let eg in mimeRespObj.examples){
+              schemaExamples.push(mimeRespObj.examples[eg].value);
+            }
           }
           if (mimeRespObj.example){
-            schemaExamples.push(mimeRespObj.example);
+            schemaExamples.push(mimeRespObj.example.value);
           }
           if (schemaExamples.length==0){
             // If schema examples are not provided then generate one from Schema (only JSON fomat)

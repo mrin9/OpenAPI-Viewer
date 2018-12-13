@@ -103,9 +103,10 @@ export default {
       //specUrl:"http://developer.twinehealth.com/swagger.json",
       //specUrl: "https://petstore.swagger.io/v2/swagger.json",
       //specUrl: "http://10.21.83.83:8080/api/swagger.json",
-      specUrl: "https://raw.githubusercontent.com/APIs-guru/unofficial_openapi_specs/master/github.com/v3/swagger.yaml",
+      //specUrl: "https://raw.githubusercontent.com/APIs-guru/unofficial_openapi_specs/master/github.com/v3/swagger.yaml",
       //specUrl: "https://fakerestapi.azurewebsites.net/swagger/docs/v1",
       //specUrl: "https://api.apis.guru/v2/specs/twilio.com/2010-04-01/swagger.json",  //xml responses
+      specUrl:"https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/api-with-examples.yaml", // OpenAPI 3 with examples
 
       searchVal :"",
       parsedSpec:{},
@@ -132,14 +133,14 @@ export default {
           }
           if ( (spec.server && spec.server.length == 0 ) || (!spec.server)   ){
             serverUrl = me.specUrl.substring(0, me.specUrl.indexOf("/", me.specUrl.indexOf("//")+2));
-
             if (spec.basePath){
               serverUrl = serverUrl +"/" + spec.basePath.replace(/^\/|\/$/g, '');
-              me.parsedSpec.servers = [{ 
-                url: serverUrl ,
-                description:"Auto generated Server URI"
-              }];
             }
+            me.parsedSpec.servers = [{ 
+              url: serverUrl ,
+              description:"Auto generated Server URI"
+            }];
+
           }
           me.isSpecLoaded=true;
           me.isDevMode=true;

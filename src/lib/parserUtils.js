@@ -17,7 +17,6 @@ export default function ProcessSpec(specUrl){
     })
     .then(function(deReffedSpec) {
         console.info("%c OpenAPI 3.0 Dereferencing - Success !!! ","color:cornflowerblue");
-
         let methods=['get','put','post','delete','patch','options','head'];
         let tags=[];
         let totalPathCount=0;

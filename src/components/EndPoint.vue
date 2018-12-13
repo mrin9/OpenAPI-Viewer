@@ -68,7 +68,7 @@ export default {
   },
   methods:{
     toHtml(markdown){
-      return marked(markdown);
+      return markdown ? marked(markdown):"";
     }
   },
   components:{

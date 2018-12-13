@@ -25,7 +25,7 @@
     </div>
 
     <!-- Body Param -->
-    <div v-if="requestBody!== undefined && Object.keys(requestBody).length > 0" style="min-height:300px"  class="sw-section-gap">
+    <div v-if="requestBody!== undefined && Object.keys(requestBody).length > 0" class="sw-section-gap">
       <div class="sw-section-heading3 sw-gray-text"> BODY PARAMETERS</div>
 
       <div class="sw-row" style="align-items:flex-end; padding:0 8px 2px 0;">
@@ -56,10 +56,10 @@
 
       <el-tabs v-if="mimeRequestTypes[selectedMimeReqKey]" v-model="requestBodyActiveTab" class="sw-no-tab-header-margin">
         <el-tab-pane label="Value" name="bodyParamExample">
-          <textarea class="sw-mono-font" v-model="mimeRequestTypes[selectedMimeReqKey].examples[0]" style="min-height:150px"/>
+          <textarea class="sw-mono-font" v-model="mimeRequestTypes[selectedMimeReqKey].examples[0]" style="min-height:170px"/>
         </el-tab-pane>
         <el-tab-pane label="Model" name="bodyParamModel"> 
-          <el-tree :data="mimeRequestTypes[selectedMimeReqKey].schemaTree" :props="defaultTreeProps" :default-expand-all="true" class="sw-border" style="min-height:190px">
+          <el-tree :data="mimeRequestTypes[selectedMimeReqKey].schemaTree" :props="defaultTreeProps" :default-expand-all="true" class="sw-border" style="min-height:170px">
             <span class="sw-tree-node" slot-scope="{ node, data }">
               <span class="sw-fieldname">{{ node.label.label }}</span>
               <span class="sw-datatype">: {{ node.label.type }}</span>
