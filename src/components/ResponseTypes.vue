@@ -145,11 +145,11 @@
           }
           if (mimeRespObj.example){
             if (mimeResp.toLowerCase().includes("json")){
-              if ( typeof mimeRespObj.example.value === "string"){
-                schemaExamples.push(JSON.parse(mimeRespObj.example.value));
+              if ( typeof mimeRespObj.example === "string"){
+                schemaExamples.push(JSON.parse(mimeRespObj.example));
               }
               else{
-                schemaExamples.push(mimeRespObj.example.value);
+                schemaExamples.push(mimeRespObj.example);
               }
             }
           }

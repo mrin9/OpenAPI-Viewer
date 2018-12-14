@@ -182,6 +182,7 @@ export default {
   padding:8px;
   .sw-end-point-title{
     font-size:20px;
+    margin-bottom: 6px;
     white-space:nowrap;
     color:#333;
     overflow: hidden;

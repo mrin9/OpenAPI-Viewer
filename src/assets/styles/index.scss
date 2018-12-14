@@ -83,6 +83,21 @@ a{
   color: #999;
 }
 
+.sw-blue-small-text{
+  font-size: 12px;
+  line-height: 12px;
+  vertical-align: middle;
+  color: $sw-blue-text;;
+}
+.sw-blue-bold-small-text{
+  font-size: 12px;
+  font-weight:bold;
+  line-height: 12px;
+  vertical-align: middle;
+  color: $sw-blue-text;;
+}
+
+
 .sw-border{
   border:1px solid $sw-border-color;
   border-radius: $sw-border-radius;

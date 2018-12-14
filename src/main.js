@@ -4,9 +4,10 @@ import store from './store'
 
 
 import App from '@/App.vue';
-
+import marked from 'marked';
 import elementLocale from 'element-ui/lib/locale'
 import elementLang from 'element-ui/lib/locale/lang/en'; //Its ok if this line shows error in VSCode
+
 //import ElementUI from 'element-ui';
 /*
 import Button from 'element-ui/lib/button'
@@ -45,7 +46,7 @@ Vue.use(Tree);
 Vue.use(Loading.directive);
 Vue.prototype.$message = Message;
 Vue.prototype.$loading = Loading.service;
-
+Vue.prototype.$marked = marked;
 
 //Vue.use(ElementUI,{locale});
 

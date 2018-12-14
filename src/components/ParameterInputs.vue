@@ -20,7 +20,7 @@
           popper-class="sw-small-height-options"
           size="medium" 
         >
-          <el-option v-for="item in param.schema.enum" :key="item" :label="item" :value="item"></el-option>
+          <el-option v-for="item in param.schema.enum" :key="item" :label="item.toString()" :value="item"></el-option>
         </el-select>
 
         <!-- if Type is Array then show a select if array items are of enum type (with multiselect options)--> 
@@ -32,7 +32,7 @@
             popper-class="sw-small-height-options"
             size="medium" 
           >
-            <el-option v-for="item in param.schema.items.enum" :key="item" :label="item" :value="item"></el-option>
+            <el-option v-for="item in param.schema.items.enum" :key="item" :label="item.toString()" :value="item"></el-option>
           </el-select>
           <textarea v-else class="sw-mono-font" v-model="param.example" style="min-height:42px"/>
         </template> 
@@ -43,10 +43,8 @@
 
       <!-- Field Desciption Column-->  
       <td>
-        <div class="sw-gray-small-text" style="word-break: break-word;">
-          <span>
-            {{param.description }}
-          </span>
+        <div class="sw-markdown-block" style="word-break: break-word;">
+          <span v-html="$marked(param.description?param.description:'')">  </span>   
           <span v-if="param.schema.enum"> 
             {{ param.schema.pattern? "Pattern: " + param.schema.pattern : "" }} 
           </span>

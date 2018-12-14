@@ -68,7 +68,12 @@ pre{
 .sw-markdown-block{
   p:only-child{
     color:#999;
-    font-size: 12px;
+    font-size:12px;
+    line-height:normal;
+    margin-top:0;
+  }
+  p{
+    line-height: 16px;
   }
   code{
     background-color: rgba(0, 0, 0, 0.02);
@@ -93,5 +98,11 @@ pre{
     line-height: normal;
     border-radius: 2px;
     border: 1px solid rgba(38, 50, 56, 0.1);
+  }
+  ul,ol{
+    padding-inline-start:30px
+  }
+  li{
+    line-height: 1.2em;
   }
 }

@@ -56,18 +56,16 @@
             </el-switch>
           </div>  
         </div>
-
-
       </div>
 
 
       <div v-if="isSpecLoaded" class="sw-page-container" ref="pageContainer">
+        <!-- Doc Info Section -->
         <div class="sw-doc-info" v-if="parsedSpec.info">
           <div class="sw-doc-title">
             {{parsedSpec.info.title}} 
             <span v-if="parsedSpec.info.version" style="font-size:14px;font-weight:bold">{{parsedSpec.info.version}}</span>
           </div>  
-          <!-- div v-if="parsedSpec.info.description" class="sw-gray-small-text"> {{parsedSpec.info.description}} </div -->  
           <div class="sw-markdown-block" v-if="docDescription"> 
             <span v-html="docDescription">  </span>  
           </div>  
@@ -75,6 +73,49 @@
             {{parsedSpec.info.license.name}} 
             <a v-if="parsedSpec.info.license.url"  :href="parsedSpec.info.license.url"> {{parsedSpec.info.license.url}}</a></div>    
         </div>
+
+        <!-- Doc Security Section -->  
+        <div  v-if="parsedSpec.securitySchemes">
+          <div class="sw-doc-title sw-blue-bold-small-text"> Security</div>
+          <table style="margin-top:5px;" class="sw-table">
+            <tr>
+              <th style="width:70px"> Type     </th>  
+              <th style="width:400px"> Authentication Procedure </th>  
+              <th> Description </th>  
+            </tr>  
+            <tr v-for="(scheme,key) in parsedSpec.securitySchemes" :key="key">
+              <td> {{scheme.type}}  </td>  
+              <!-- If scheme is apiKey -->
+              <td v-if="scheme.type==='apiKey'">
+                Send <code>'{{scheme.name}}'</code> key in <b>{{scheme.in}}</b> 
+              </td>  
+              <!-- If scheme is oauth2 -->
+              <td v-else-if="scheme.type==='oauth2'"> 
+                <span v-for="(flow,flowName) in scheme.flows" :key="flowName">
+                  <div v-if="flow.authorizationUrl"> <b>Auth URL:</b> {{flow.authorizationUrl}}</div>
+                  <div v-if="flow.tokenUrl"> <b>Token URL: </b>{{flow.tokenUrl}}</div>
+                  <div v-if="flow.refreshUrl"> <b>Refresh URL: </b>{{flow.refreshUrl}}</div>
+                  <template v-if="flow.scopes">
+                    <b>Scopes:</b>
+                    <code v-for="(scope, scopeName) in flow.scopes" :key="scopeName"> 
+                      {{scopeName}} - '{{scope}}', 
+                    </code>
+                  </template>  
+                </span>  
+              </td>  
+              <td v-else> 
+                
+              </td>  
+
+              <td class="sw-markdown-block"> 
+                <span v-html="$marked(scheme.description?scheme.description:'')">  </span>   
+              </td>  
+            </tr>  
+
+          </table>
+
+        </div>
+
 
 
         <div class="sw-tag-container" v-for="tag in parsedSpec.tags" v-show="tag.show" :key="tag.name">
@@ -103,10 +144,11 @@ export default {
       //specUrl:"http://developer.twinehealth.com/swagger.json",
       //specUrl: "https://petstore.swagger.io/v2/swagger.json",
       //specUrl: "http://10.21.83.83:8080/api/swagger.json",
-      //specUrl: "https://raw.githubusercontent.com/APIs-guru/unofficial_openapi_specs/master/github.com/v3/swagger.yaml",
+      specUrl: "https://raw.githubusercontent.com/APIs-guru/unofficial_openapi_specs/master/github.com/v3/swagger.yaml",
       //specUrl: "https://fakerestapi.azurewebsites.net/swagger/docs/v1",
       //specUrl: "https://api.apis.guru/v2/specs/twilio.com/2010-04-01/swagger.json",  //xml responses
-      specUrl:"https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/api-with-examples.yaml", // OpenAPI 3 with examples
+      //specUrl:"https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/uspto.yaml", // OpenAPI 3 with examples
+      //specUrl:"https://api.apis.guru/v2/specs/stackexchange.com/2.0/swagger.json",
 
       searchVal :"",
       parsedSpec:{},
@@ -228,7 +270,7 @@ export default {
       margin:24px 0 16px;
       .sw-doc-title{
         font-size:32px;
-        color:#0079b8;
+        color:$sw-blue-text;
         margin-bottom:5px;
       }
     }
