@@ -108,7 +108,7 @@
                   <div v-if="flow.authorizationUrl"> <b>Auth URL:</b> {{flow.authorizationUrl}}</div>
                   <div v-if="flow.tokenUrl"> <b>Token URL: </b>{{flow.tokenUrl}}</div>
                   <div v-if="flow.refreshUrl"> <b>Refresh URL: </b>{{flow.refreshUrl}}</div>
-                  <template v-if="flow.scopes">
+                  <template v-if="flow.scopes && 1===2">
                     <b>Scopes:</b>
                     <code v-for="(scope, scopeName) in flow.scopes" :key="scopeName"> 
                       {{scopeName}} - '{{scope}}', 
@@ -153,10 +153,10 @@ export default {
 
   data:function(){
     return{
-      //specUrl:"http://developer.twinehealth.com/swagger.json",
+      specUrl:"http://developer.twinehealth.com/swagger.json",
       //specUrl: "https://petstore.swagger.io/v2/swagger.json",
       //specUrl: "http://10.21.83.83:8080/api/swagger.json",
-      specUrl: "https://raw.githubusercontent.com/APIs-guru/unofficial_openapi_specs/master/github.com/v3/swagger.yaml",
+      specUrl: "https://raw.githubusercontent.com/APIs-guru/unofficial_openapi_specs/master/github.com/v3/swagger.yaml", //large spec
       //specUrl: "https://fakerestapi.azurewebsites.net/swagger/docs/v1",
       //specUrl: "https://api.apis.guru/v2/specs/twilio.com/2010-04-01/swagger.json",  //xml responses
       //specUrl:"https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/uspto.yaml", // OpenAPI 3 with examples
@@ -185,7 +185,6 @@ export default {
           if (spec.info.description){
             me.docDescription = marked(spec.info.description);
           }
-          debugger;
           if ( (spec.servers && spec.servers.length == 0 ) || (!spec.servers)   ){
             serverUrl = me.specUrl.substring(0, me.specUrl.indexOf("/", me.specUrl.indexOf("//")+2));
             if (spec.basePath){
@@ -243,15 +242,25 @@ export default {
       this.parsedSpec.tags.map(function(tag){
           tag.paths.map(function(path){
             path.expanded=val;
+            path.expandedAtLeastOnce=true;
           })
       });
+      this.$nextTick(function(){
+        console.log("After Expand/Cpllapse");
+      })
+
       
     }
 
   },
+
+  updated(){
+    console.log("Updated");
+  },
   mounted(){
     this.$refs.specUrl.focus();
   },
+
 
   components: {
     EndPoint,

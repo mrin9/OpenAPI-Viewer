@@ -7,7 +7,7 @@
       <!-- Field Name Column-->  
       <td style="min-width:80px">
         <div class="sw-param-name"><span v-if="param.required"  class="sw-param-req">*</span>{{param.name}}</div>
-        <div class="sw-param-type">{{param.schema.type}}</div>
+        <div class="sw-param-type" v-html="getTypeInfoHtml(param.schema)"></div>
       </td>  
 
       <!-- Field Input Column-->  
@@ -55,7 +55,8 @@
 </template>
 
 <script>
-  
+  import {getTypeInfo} from '@/lib/utils';
+
   export default {
     props: {
       parameters : {type:Array, default:()=>[]},
@@ -67,6 +68,9 @@
       }
     },
     methods:{
+      getTypeInfoHtml(schema){
+        return getTypeInfo(schema);
+      }
       
     }
 
@@ -89,7 +93,6 @@
     line-height: 12px;
   }
   .sw-param-type{
-    font-family: monospace;
     margin:0; 
     color:#aaa;
     text-align:right;

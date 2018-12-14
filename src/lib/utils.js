@@ -23,6 +23,52 @@ function copyToClipboard(elId) {
     return copyText.value;
 }
 
+/* Generates an HTML string containing type and constraint info */
+function getTypeInfo(schema){
+    //debugger;
+    let html ="";
+    if (schema.enum){
+        html = html + "enum - ";
+    }
+    if (schema.type){
+        html = html + schema.type ;
+    }
+    if (schema.type==="integer" || schema.type==="number"){
+        if (schema.minimum!==undefined && schema.maximum!==undefined){
+            html = html+" ( " + (schema.exclusiveMinimum?"> ":"") + schema.minimum + " to " +  (schema.exclusiveMaximum?"< ":"") + schema.maximum + " )";
+        }
+        else if (schema.minimum!==undefined && schema.maximum===undefined){
+            html = html+" ( " + (schema.exclusiveMinimum?"> ":">=") + schema.minimum + " )";
+        }
+        else if (schema.minimum===undefined && schema.maximum!==undefined){
+            html = html+" ( " + (schema.exclusiveMaximum?"< ":"<=") + schema.maximum + " )";
+        }
+        if (schema.multipleOf!==undefined){
+            html = html+" ( multiple of:" + schema.multipleOf+ " )";
+        }
+    }
+
+    if (schema.type==="string"){
+        if (schema.minLength !==undefined  && schema.maxLength !==undefined ){
+            html = html+" ( length: " + schema.minLength + " to " + schema.maxLength +" )";
+        }
+        else if (schema.minLength!==undefined  && chema.maxLength===undefined ){
+            html = html+" ( min-length: " + schema.minLength + " )";
+        }
+        else if (schema.minLength===undefined  && schema.maxLength!==undefined ){
+            html = html+" ( max-length: " + schema.maxLength +" )";
+        }
+    }
+    if (schema.format){
+        html = html + "<br/> format: " + schema.format;
+    }
+    if (schema.pattern){
+        html = html + "<br/> pattern: " + schema.pattern;
+    }
+    return html;
+
+}
+
 /* Create Example object */
 function generateExample(examples, example, schema, mimeType, outputType){
     let finalExamples = [];
@@ -218,4 +264,4 @@ function schemaToElTree(schema, obj, name) {
     return obj;
 }
 
-export { debounce, schemaToObj, schemaToElTree, generateExample }
+export { debounce, schemaToObj, schemaToElTree, generateExample, getTypeInfo }

@@ -97,6 +97,7 @@ export default function ProcessSpec(specUrl){
                     tagObj.paths.push({
                         "show"        : true,
                         "expanded"    : false,
+                        "expandedAtLeastOnce":false,
                         "summary"     : summary,
                         "method"      : methodName,
                         "description" : fullPath.description,

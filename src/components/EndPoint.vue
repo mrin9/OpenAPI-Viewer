@@ -10,7 +10,7 @@
         <!-- EndPoint Head -->
         <div 
           :class="'sw-endpoint-head ' + fullPath.method + ' ' +(fullPath.expanded?'sw-expanded':'sw-collapsed') " 
-          @click="fullPath.expanded = !fullPath.expanded" 
+          @click="expandEndPoint(fullPath)" 
         >
           <div :class="'sw-method ' + fullPath.method"> {{fullPath.method}} </div> 
           <div :class="'sw-path ' + (fullPath.depricated?' sw-depricated':'') "> {{fullPath.path}} </div>
@@ -20,7 +20,7 @@
         </div>
 
         <!-- EndPoint Body -->
-        <div v-show="fullPath.expanded" :class="'sw-endpoint-body '+fullPath.method">
+        <div v-if="fullPath.expandedAtLeastOnce" v-show="fullPath.expanded" :class="'sw-endpoint-body '+fullPath.method">
           <div class="sw-end-point-summary" v-if="fullPath.summary || fullPath.description">
             <div class="sw-end-point-title">{{fullPath.summary}}</div>
             <div class="sw-markdown-block" v-if="fullPath.summary !== fullPath.description"> 
@@ -67,6 +67,11 @@ export default {
     }
   },
   methods:{
+    expandEndPoint(fullPath){
+      fullPath.expandedAtLeastOnce = true;
+      fullPath.expanded = !fullPath.expanded;
+    },
+
     toHtml(markdown){
       return markdown ? marked(markdown):"";
     }
@@ -94,7 +99,7 @@ export default {
   border-top-color: #eee;
   &.sw-expanded { 
     margin-bottom:16px; 
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);  
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15);
   }
 
   &.put:hover,
