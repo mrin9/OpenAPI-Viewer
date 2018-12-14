@@ -41,15 +41,15 @@
           <el-tabs style="flex:1; width:100%" v-model="activeTabForEachRespStatus[statusRespCode]">
             <el-tab-pane label="Example" name="exampleTab" class="sw-tab-pane">
               <vue-json-pretty 
-                v-if=" selectedMimeValueForEachStatus[statusRespCode] && selectedMimeValueForEachStatus[statusRespCode].includes('json')  "
+                v-if=" selectedMimeValueForEachStatus[statusRespCode] && mimeResponsesForEachStatus[statusRespCode][selectedMimeValueForEachStatus[statusRespCode]].examples[0].exampleType==='json'  "
                 path="root" 
-                :data="mimeResponsesForEachStatus[statusRespCode][selectedMimeValueForEachStatus[statusRespCode]].examples[0]"
+                :data="mimeResponsesForEachStatus[statusRespCode][selectedMimeValueForEachStatus[statusRespCode]].examples[0].exampleValue"
               >
               </vue-json-pretty>
               <textarea 
                 v-else-if="selectedMimeValueForEachStatus[statusRespCode]" 
                 class="sw-mono-font" 
-                v-model="mimeResponsesForEachStatus[statusRespCode][selectedMimeValueForEachStatus[statusRespCode]].examples[0]" 
+                v-model="mimeResponsesForEachStatus[statusRespCode][selectedMimeValueForEachStatus[statusRespCode]].examples[0].exampleValue" 
                 style="min-height:150px"
               />
 
@@ -93,7 +93,7 @@
 </template>
 
 <script>
-  import{schemaToElTree, schemaToObj} from '@/lib/utils';
+  import{schemaToElTree, schemaToObj, generateExample} from '@/lib/utils';
   import VueJsonPretty from 'vue-json-pretty';
   import ParameterInputs from '@/components/ParameterInputs';
 
@@ -130,46 +130,14 @@
         for(let mimeResp in me.responsesLocalCopy[statusCode].content ) {
           let mimeRespObj = me.responsesLocalCopy[statusCode].content[mimeResp];
           // Generate the Schema Model  in Element UI tree format
-          //let schemaTreeModel = schemaToElTree(mimeRespObj.schema, [] );
-          // Store Schema Examples (if provided)
-          let schemaExamples = [];
-          if (mimeRespObj.examples){
-            for (let eg in mimeRespObj.examples){
-              if (typeof mimeRespObj.examples[eg].value === "string"){
-                schemaExamples.push(JSON.parse(mimeRespObj.examples[eg].value));
-              }
-              else{
-                schemaExamples.push(mimeRespObj.examples[eg].value);
-              }
-            }
-          }
-          if (mimeRespObj.example){
-            if (mimeResp.toLowerCase().includes("json")){
-              if ( typeof mimeRespObj.example === "string"){
-                schemaExamples.push(JSON.parse(mimeRespObj.example));
-              }
-              else{
-                schemaExamples.push(mimeRespObj.example);
-              }
-            }
-          }
-          if (schemaExamples.length==0){
-            // If schema examples are not provided then generate one from Schema (only JSON fomat)
-            if (mimeResp.toLowerCase().includes("json")){
-              //let generatedExample = JSON.stringify(schemaToObj(mimeRespObj.schema,{}),undefined,2);
-              let generatedExample = schemaToObj(mimeRespObj.schema,{});
-              schemaExamples.push(generatedExample);
-            }
-            else if(mimeResp.toLowerCase().includes("xml")){
-              schemaExamples.push('<?xml version="1.0" encoding="UTF-8"?> Unable to generate schema' );
-            }
-            else{
-              schemaExamples.push(' ');
-            }
-          }
-          allMimeResp[mimeResp]={
-            "examples"  : schemaExamples,
-            //"schemaTree": schemaTreeModel
+          //let schemaTree = schemaToElTree(mimeRespObj.schema, [] );
+          
+          // Generate Example
+          let respExample = generateExample(mimeRespObj.examples, mimeRespObj.example, mimeRespObj.schema, mimeResp, "json");
+
+          allMimeResp[mimeResp] = {
+            "examples"  : respExample,
+            //"schemaTree": schemaTree
           }
           me.selectedMimeValue=mimeResp;
           me.$set(me.selectedMimeValueForEachStatus,statusCode, mimeResp); // !important use me.$set only

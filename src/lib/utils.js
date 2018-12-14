@@ -23,6 +23,67 @@ function copyToClipboard(elId) {
     return copyText.value;
 }
 
+/* Create Example object */
+function generateExample(examples, example, schema, mimeType, outputType){
+    let finalExamples = [];
+    if (examples){
+      for (let eg in examples){
+        let egJson="";  
+        try {
+            //TODO: in case the mimeType is XML then parse it as XML
+            egJson = JSON.parse(examples[eg].value);
+            finalExamples.push({
+                "exampleType" : "json",
+                "exampleValue": outputType==="text"?JSON.stringify(egJson,undefined,2):egJson
+            });
+        } 
+        catch (e) {
+            finalExamples.push({
+                "exampleType" : "text",
+                "exampleValue": examples[eg].value
+            });
+        }
+      }
+    }
+    else if (example){
+        try {
+            //TODO: in case the mimeType is XML then parse it as XML
+            let egJson = JSON.parse(example);
+            finalExamples.push({
+                "exampleType" : "json",
+                "exampleValue": outputType==="text"?JSON.stringify(egJson,undefined,2):egJson
+            });
+        } 
+        catch (e) {
+            finalExamples.push({
+                "exampleType" : "text",
+                "exampleValue": example
+            });
+        }
+    }
+
+    if (finalExamples.length==0 ){
+      // If schema examples are not provided then generate one from Schema (only JSON fomat)
+      if (schema){
+        //TODO: in case the mimeType is XML then parse it as XML
+        let egJson = schemaToObj(schema,{});
+        finalExamples.push({
+            "exampleType" : "json",
+            "exampleValue": outputType==="text"?JSON.stringify(egJson,undefined,2):egJson
+        });
+      }
+      else{
+        // No Example or Schema provided   
+        finalExamples.push({
+            "exampleType" : "text",
+            "exampleValue": "" 
+        });
+      }
+    }
+    return finalExamples;
+
+}
+
 /* For changing JSON-Schema to a Sample Object, as per the schema */ 
 function schemaToObj (schema, obj) {
     if (schema.type==="object" || schema.properties){
@@ -157,4 +218,4 @@ function schemaToElTree(schema, obj, name) {
     return obj;
 }
 
-export { debounce, schemaToObj, schemaToElTree, test }
+export { debounce, schemaToObj, schemaToElTree, generateExample }

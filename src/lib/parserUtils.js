@@ -122,7 +122,6 @@ export default function ProcessSpec(specUrl){
 
         securitySchemes = (deReffedSpec.components? deReffedSpec.components.securitySchemes:{});
         if (deReffedSpec.servers){
-            
             deReffedSpec.servers.map(function(v){
                 if (v.url && v.url.substr(0,1) === "/"){
                     let paths = specUrl.split("/");

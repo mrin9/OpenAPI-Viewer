@@ -56,7 +56,7 @@
 
       <el-tabs v-if="mimeRequestTypes[selectedMimeReqKey]" v-model="requestBodyActiveTab" class="sw-no-tab-header-margin">
         <el-tab-pane label="Value" name="bodyParamExample">
-          <textarea class="sw-mono-font" v-model="mimeRequestTypes[selectedMimeReqKey].examples[0]" style="min-height:170px"/>
+          <textarea class="sw-mono-font" v-model="mimeRequestTypes[selectedMimeReqKey].examples[0].exampleValue" style="min-height:170px"/>
         </el-tab-pane>
         <el-tab-pane label="Model" name="bodyParamModel"> 
           <el-tree :data="mimeRequestTypes[selectedMimeReqKey].schemaTree" :props="defaultTreeProps" :default-expand-all="true" class="sw-border" style="min-height:170px">
@@ -124,7 +124,7 @@
 
 <script>
   import { callEndPoint } from '@/lib/restUtils';
-  import { schemaToElTree, schemaToObj, test} from '@/lib/utils';
+  import { schemaToElTree, schemaToObj, generateExample} from '@/lib/utils';
   import ParameterInputs from '@/components/ParameterInputs';
   import VueJsonPretty from 'vue-json-pretty';
 
@@ -253,29 +253,18 @@
       if (me.requestBody !== undefined && Object.keys(me.requestBody.content).length > 0){
         let content = me.requestBody.content;
         for(let mimeReq in content ) {
+          let exampleType=""; // can be json, xml, plain
           let mimeReqObj = content[mimeReq];
-
           // Generate the Schema Model  in Element UI tree format
-          let schemaTreeModel = schemaToElTree(mimeReqObj.schema, [] );
+          let reqSchemaTree = schemaToElTree(mimeReqObj.schema, [] );
 
-          // Store Schema Examples (if provided)
-          let schemaExamples = [];
-          if (mimeReqObj.examples){
-            schemaExamples = mimeRespObj.examples;
-          }
-          if (mimeReqObj.example){
-            schemaExamples.push(mimeRespObj.example);
-          }
-          if (schemaExamples.length==0 && ( mimeReq.toLowerCase().includes("json") || mimeReq=="*/*") ){
-            // If schema examples are not provided then generate one from Schema (only JSON fomat)
-            let generatedExample = JSON.stringify(schemaToObj(mimeReqObj.schema,{}),undefined,2);
-              schemaExamples.push(generatedExample);
-          }
+          // Generate Example
+          let reqExample = generateExample(mimeReqObj.examples, mimeReqObj.example, mimeReqObj.schema, mimeReq, "text");
 
-          //Only use $set else the new prop wont be recognized by vue
+          //ALWAYS USE $set,  Else the new prop wont be recognized by vue
           me.$set(me.mimeRequestTypes, mimeReq, {
-            "examples"   : schemaExamples,
-            "schemaTree" : schemaTreeModel
+            "examples"   : reqExample,
+            "schemaTree" : reqSchemaTree
           });
 
           me.selectedMimeReqKey = mimeReq;
