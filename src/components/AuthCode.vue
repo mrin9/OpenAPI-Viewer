@@ -1,7 +1,6 @@
 <template>
   <div> 
     New Auth Code Landing Page
-
   </div>
 </template>
 
@@ -39,14 +38,15 @@
       }
       if (window.location.search){
         // This will be executed if we use 'authorization_code' flow. It is not yet done, bitbucket do not support this flow 
-
+        /*
         let authCode = window.location.search.substring(1).split("=")[1];
         let tokenUrl = store.state.oAuthTokenUrl;
         let redirectUrl = location.origin+"/oauth";
 
         getOauthToken(tokenUrl, clientId, clientSecret, authCode,redirectUrl);
+        */
       }
-      window.location.assign(location.origin+"/home/reload");
+      window.location.assign(location.origin+"/#/home/reload");
 
     }
   }

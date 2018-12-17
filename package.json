@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --modern"
+    "build": "vue-cli-service build --modern",
+    "deploy": "git subtree push --prefix dist origin gh-pages"
   },
   "dependencies": {
     "axios": "^0.18.0",
