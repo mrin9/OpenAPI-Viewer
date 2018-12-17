@@ -37,10 +37,7 @@
             >
             </request-parameters>
             
-            <response-types class="sw-response"
-              :responses="fullPath.responses" 
-            >
-            </response-types>
+            <response-types class="sw-response" :responses="fullPath.responses"></response-types>
           </div>
         </div>
       </div>  
@@ -170,17 +167,20 @@ export default {
 }
 
 .sw-path{
+  display: inline-block;
   font-family: monospace;
-  display: flex;
   align-items: center;
+  word-wrap: break-word;
+  min-width:400px;
 }
 
 .sw-end-point-descr{
   font-size: 12px;
   font-weight:400;
   overflow: hidden;
-  display: flex;
+  display: inline-block;
   align-items: center;
+  
 }
 
 .sw-end-point-summary{
@@ -196,6 +196,8 @@ export default {
   .sw-end-point-descr{
     margin-top:5px;
     color:gray;
+    min-width:200px;
+    word-wrap: break-word;
   }
 }
 

@@ -264,4 +264,9 @@ function schemaToElTree(schema, obj, name) {
     return obj;
 }
 
-export { debounce, schemaToObj, schemaToElTree, generateExample, getTypeInfo }
+function getBaseUrlFromUrl(url){
+    let pathArray = url.split( '/' );
+    return pathArray[0] + "//" + pathArray[2];
+}
+
+export { debounce, schemaToObj, schemaToElTree, generateExample, getTypeInfo, getBaseUrlFromUrl }

@@ -66,6 +66,51 @@ function  callEndPoint (method, url, pathParams, queryParams, reqBodyMimeType, r
     //return endPoint;
 }
 
+function getOauthToken(tokenUrl, clientId, clientSecret, authCode, redirectUri){
+    let finalTokenUrl = `${tokenUrl}?grant_type=authorization_code&client_id=${clientId}&client_secret=${clientSecret}&code=${authCode}&redirect_uri=${redirectUri}&code_verifier=abcd&scope=repository`;
+
+    console.log("before making POST call")
+    let postData = {
+        "grant_type":"authorization_code",
+        "client-id":clientId,
+        "client_secret":clientSecret,
+        "code":authCode,
+        "redirect_uri":redirectUri
+    }
+
+    
+    axios.request({
+        method: 'post',
+        url: finalTokenUrl,
+        headers: {
+             accept: 'application/json'
+        }
+      }).then((response) => {
+        console.log("Success POST call auth-code")
+        debugger;
+        const accessToken = response.data.access_token
+      });
+    
+      /*
+      axios.request({
+        "method": 'post',
+        "url": tokenUrl,
+        "data":postData,
+        "headers": {
+            "accept": 'application/json'
+        }
+      }).then((response) => {
+        console.log("Success POST call auth-code")
+        debugger;
+        const accessToken = response.data.access_token
+      });
+      */
+
+
+
+}
+
+// To convert an Object to QueryString
 function serealizeQueryString(params) {
     const keys = Object.keys(params);
     let options = '';
@@ -85,6 +130,16 @@ function serealizeQueryString(params) {
       }
     });
     return options ? options.slice(0, -1) : options;
-  };
+};
 
-export { callEndPoint }
+function parseQueryString(queryString, key){
+    var vars = queryString.split('&');
+    for (let i = 0; i < vars.length; i++) {
+        let pair = vars[i].split('=');
+        if (decodeURIComponent(pair[0]) == key) {
+            return decodeURIComponent(pair[1]);
+        }
+    }
+}
+
+export { callEndPoint, getOauthToken, serealizeQueryString, parseQueryString }

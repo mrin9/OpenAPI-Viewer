@@ -208,14 +208,21 @@
           me.loading=false;
         })
         .catch(function(err){
-          me.responseStatusCode = err.response.status;
-          me.responseStatusText = err.response.statusText;
-          me.responseStatusCssClass="sw-4xx";
-          me.responseHeaders = err.response.headers;
+          me.loading=false;
           me.showJsonViewer=false;
           me.showTextViewer=true;
-          me.jsonRespText = JSON.stringify(err.response.data, null, 2);
-          me.loading=false;
+          if (err.response && err.response.status){
+            me.responseStatusCode = err.response.status;
+            me.responseStatusText = err.response.statusText;
+            me.responseStatusCssClass="sw-4xx";
+            me.responseHeaders = err.response.headers;
+            me.jsonRespText = JSON.stringify(err.response.data, null, 2);
+          }
+          else{
+             me.responseStatusCode = "ERROR";
+             me.responseStatusText = err.message;
+             me.responseStatusCssClass="sw-4xx";
+          }
 
 
           /*

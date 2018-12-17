@@ -689,6 +689,35 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
+"@types/concat-stream@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@types/concat-stream/-/concat-stream-1.6.0.tgz#394dbe0bb5fee46b38d896735e8b68ef2390d00d"
+  integrity sha1-OU2+C7X+5Gs42JZzXoto7yOQ0A0=
+  dependencies:
+    "@types/node" "*"
+
+"@types/form-data@0.0.33":
+  version "0.0.33"
+  resolved "https://registry.yarnpkg.com/@types/form-data/-/form-data-0.0.33.tgz#c9ac85b2a5fd18435b8c85d9ecb50e6d6c893ff8"
+  integrity sha1-yayFsqX9GENbjIXZ7LUObWyJP/g=
+  dependencies:
+    "@types/node" "*"
+
+"@types/methods@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@types/methods/-/methods-1.1.0.tgz#fa0c8c81992257903f724651ec2500ec427dc32d"
+  integrity sha512-ROomEm+QHlUmcQoDr3CBo3GRm0w4PVoFYjVT9YcfyBha/Per4deb1IpvHU7KTK7YBZCIvOYbSADoEyDnFgaWLA==
+
+"@types/node@*":
+  version "10.12.15"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.15.tgz#20e85651b62fd86656e57c9c9bc771ab1570bc59"
+  integrity sha512-9kROxduaN98QghwwHmxXO2Xz3MaWf+I1sLVAA6KJDF5xix+IyXVhds0MAfdNwtcpSrzhaTsNB0/jnL86fgUhqA==
+
+"@types/tough-cookie@^2.3.0":
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/@types/tough-cookie/-/tough-cookie-2.3.4.tgz#821878b81bfab971b93a265a561d54ea61f9059f"
+  integrity sha512-Set5ZdrAaKI/qHdFlVMgm/GsAv/wkXhSTuZFkJ+JI7HK+wIkIlOaUXSXieIvJ0+OvGIqtREFoE+NHJtEq0gtEw==
+
 "@vue/babel-preset-app@^3.2.0":
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@vue/babel-preset-app/-/babel-preset-app-3.2.0.tgz#a443acdbd34f66d7645db271d9ac58fbe4fe870d"
@@ -1859,6 +1888,14 @@ cli-spinners@^1.1.0:
   resolved "https://registry.yarnpkg.com/cli-spinners/-/cli-spinners-1.3.1.tgz#002c1990912d0d59580c93bd36c056de99e4259a"
   integrity sha512-1QL4544moEsDVH9T/l6Cemov/37iv1RtoKf7NJ04A60+4MREXNfx/QvavbH6QoGdsD4N4Mwy49cmaINR/o2mdg==
 
+client-oauth2@^4.2.3:
+  version "4.2.3"
+  resolved "https://registry.yarnpkg.com/client-oauth2/-/client-oauth2-4.2.3.tgz#07d474b51fd4fad8dbcf4a896b02a2f53d5ff2e2"
+  integrity sha512-wYr6y+7gh+XtpX4wmmWiq+XPWe/worg92evt8+LB3ODUQLaafKrdtRVEdvF/fGQRyCtIlb2/6BS1AzHgyP86Tg==
+  dependencies:
+    popsicle "^10.0.0"
+    safe-buffer "^5.1.1"
+
 clipboardy@^1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/clipboardy/-/clipboardy-1.2.3.tgz#0526361bf78724c1f20be248d428e365433c07ef"
@@ -2015,7 +2052,7 @@ concat-map@0.0.1:
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   integrity sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=
 
-concat-stream@^1.5.0:
+concat-stream@^1.4.7, concat-stream@^1.5.0:
   version "1.6.2"
   resolved "https://registry.yarnpkg.com/concat-stream/-/concat-stream-1.6.2.tgz#904bdf194cd3122fc675c77fc4ac3d4ff0fd1a34"
   integrity sha512-27HBghJxjiZtIk3Ycvn/4kbJk/1uZuJFfuPEns6LaEvpvG1f0hTea8lilrouyo9mVc2GWdcEZ8OLoGmSADlrCw==
@@ -3202,7 +3239,7 @@ forever-agent@~0.6.1:
   resolved "https://registry.yarnpkg.com/forever-agent/-/forever-agent-0.6.1.tgz#fbc71f0c41adeb37f96c577ad1ed42d8fdacca91"
   integrity sha1-+8cfDEGt6zf5bFd60e1C2P2sypE=
 
-form-data@~2.3.2:
+form-data@^2.0.0, form-data@~2.3.2:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/form-data/-/form-data-2.3.3.tgz#dcce52c05f644f298c6a7ab936bd724ceffbf3a6"
   integrity sha512-1lLKB2Mu3aGP1Q/2eCOx0fNbRMe7XdwktwOruhfqqd0rIJWwN4Dh+E3hrPSlDCXnSR7UtZ1N38rVXm+6+MEhJQ==
@@ -3698,6 +3735,11 @@ http-signature@~1.2.0:
     assert-plus "^1.0.0"
     jsprim "^1.2.2"
     sshpk "^1.7.0"
+
+http2-client@^1.2.5:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/http2-client/-/http2-client-1.3.1.tgz#a215f9f67c391918b62f2294b3978116819b0e83"
+  integrity sha512-3oWAo1MOb8VlQ26wxydOP7cD4Kt0KAtMZhTrl2HWjBtiLCQ80zgr1mvt6iNyKiVTN2wHwOP290b8KfErNcVZlg==
 
 https-browserify@^1.0.0:
   version "1.0.0"
@@ -4562,6 +4604,18 @@ make-dir@^1.0.0:
   dependencies:
     pify "^3.0.0"
 
+make-error-cause@^1.2.1:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/make-error-cause/-/make-error-cause-1.2.2.tgz#df0388fcd0b37816dff0a5fb8108939777dcbc9d"
+  integrity sha1-3wOI/NCzeBbf8KX7gQiTl3fcvJ0=
+  dependencies:
+    make-error "^1.2.0"
+
+make-error@^1.2.0:
+  version "1.3.5"
+  resolved "https://registry.yarnpkg.com/make-error/-/make-error-1.3.5.tgz#efe4e81f6db28cadd605c70f29c831b58ef776c8"
+  integrity sha512-c3sIjNUow0+8swNwVpqoH4YCShKNFkMaw6oH1mNS2haDZQqkeZFlHS3dhoeEbKKmJB4vXpJucU6oH75aDYeE9g==
+
 map-age-cleaner@^0.1.1:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/map-age-cleaner/-/map-age-cleaner-0.1.3.tgz#7d583a7306434c055fe474b0f45078e6e1b4b92a"
@@ -4913,10 +4967,12 @@ no-case@^2.2.0:
   dependencies:
     lower-case "^1.1.1"
 
-node-fetch@^2.3.0:
+node-fetch-h2@^2.3.0:
   version "2.3.0"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.3.0.tgz#1a1d940bbfb916a1d3e0219f037e89e71f8c5fa5"
-  integrity sha512-MOd8pV3fxENbryESLgVIeaGKrdl+uaYhCSSVkjeOb/31/njTpcis5aWfdqgNlHIrKOLRbMnfPINPOML2CIFeXA==
+  resolved "https://registry.yarnpkg.com/node-fetch-h2/-/node-fetch-h2-2.3.0.tgz#c6188325f9bd3d834020bf0f2d6dc17ced2241ac"
+  integrity sha512-ofRW94Ab0T4AOh5Fk8t0h8OBWrmjb0SSB20xh1H8YnPV9EJ+f5AMoYSUQ2zgJ4Iq2HAK0I2l5/Nequ8YzFS3Hg==
+  dependencies:
+    http2-client "^1.2.5"
 
 node-forge@0.7.5:
   version "0.7.5"
@@ -5133,50 +5189,50 @@ number-is-nan@^1.0.0:
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
   integrity sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=
 
-oas-kit-common@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/oas-kit-common/-/oas-kit-common-1.0.4.tgz#5ce5f24f4e4dd531b7fcc177ad2d5ceeb21e892f"
-  integrity sha512-F0k9yUkUXv6xC6jJMCBsxcYxSnGsshDF2B/THTb+Jj6+pas1SmQPQCynM5ZV4+ahzccygmpe2QYSb0pBKPPyuA==
+oas-kit-common@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/oas-kit-common/-/oas-kit-common-1.0.5.tgz#e50ed3ea554249d42fa5a76f9677aa9541a5f2bc"
+  integrity sha512-HQUALJ8i/F8ExieojMZyc8LTzR6Ga9aHQgEewujJ1tQNDHpSTqucXwE4roUX+2N6Byq3PSSZgA1tokHL1pETxg==
   dependencies:
     js-yaml "^3.12.0"
 
-oas-linter@^1.0.8:
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/oas-linter/-/oas-linter-1.0.8.tgz#9ebc6bcc704f77e45b62f73ce2bb39fec6395dbd"
-  integrity sha512-d60OArJNBalU5q9utXgsWUdxNS2EWenLp/fSrCQXFHoZhFOLQDTCh2CeqddifM0q1Q0Z9noTiFnwuyqSi2Pa6A==
+oas-linter@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/oas-linter/-/oas-linter-2.0.0.tgz#86d06a4cb903ce7b32c7ff2cc4b06fa6ada8c2ed"
+  integrity sha512-3ztWGjvmSj3y6IX3Sas+aMiYRuF4NiTjhEKp+F5SeAisnL9C3eytHzmshkzeJFnbCBelGBlnYC8Nji7qNJIuyA==
   dependencies:
     js-yaml "^3.12.0"
     should "^13.2.1"
 
-oas-resolver@^1.0.12:
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/oas-resolver/-/oas-resolver-1.0.12.tgz#f7c247946cec9365fd1dab25141b99baede21b06"
-  integrity sha512-2dTPMaMgtuOXIS3pYpwFZl37HM/4KXodGN8rTzxvre1i9TMLBDitr9k3DIluCcHAHboyubmDX9nc5Br4kBCTNg==
+oas-resolver@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/oas-resolver/-/oas-resolver-1.1.0.tgz#8f3c10fd2e5d7b1c5e23915200d5079b60daab0b"
+  integrity sha512-l/hktpocvlMKmHW56DkzT4go1FftfTt6P3Tl76eOjDkA0YWuOPK1lF1px+caPllkOT7MLkiuy6vdYl1rpjaAiA==
   dependencies:
     js-yaml "^3.12.0"
-    node-fetch "^2.3.0"
-    oas-kit-common "^1.0.4"
-    reftools "^1.0.3"
+    node-fetch-h2 "^2.3.0"
+    oas-kit-common "^1.0.5"
+    reftools "^1.0.4"
     yargs "^12.0.2"
 
-oas-schema-walker@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/oas-schema-walker/-/oas-schema-walker-1.1.0.tgz#188902a799cbcb9a1dd463387776556054de5f66"
-  integrity sha512-f1K+o/Ef1eNf3Iw4VP4WOnIajFc45A0goid8Dpb+Cgq2VbnYj6aaUxN5LL7XPPhleWgSMnU+DB8yMGVHJf8mBw==
+oas-schema-walker@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/oas-schema-walker/-/oas-schema-walker-1.1.1.tgz#042639df5cc2cf215b9a7601d0e922cdb2e89928"
+  integrity sha512-h+RBo/45AKm9TcE3/pc74euhTSiOBqSNKW2NNAw5TMC7wdlKQfX5Koltjklae4E//5yy1v+7t9l+xzvkATy5VQ==
 
-oas-validator@^1.1.13:
-  version "1.1.13"
-  resolved "https://registry.yarnpkg.com/oas-validator/-/oas-validator-1.1.13.tgz#a62ec5d097475b1cf514cdd51f3c46c121ab60ce"
-  integrity sha512-sEWaUq5/b5+iOUEtnu/Ioi3bN1SwIvexSpeFdg3H0v4ASPmK1l/70vpYXfupVElFzjx4unc2odFp9oJR+L5f7w==
+oas-validator@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/oas-validator/-/oas-validator-2.0.0.tgz#f0bc71a257b7cd657847f4945889919aa10d24e8"
+  integrity sha512-OTkjqXqkdJJfzrPF5KpmFjkaf4UrHdJspZr26r0aMiTN2+iNFg/srl8gR1+O77JNFcmX8fe5IuKwvP+7V88TjA==
   dependencies:
     ajv "^5.5.2"
     better-ajv-errors "^0.5.2"
     js-yaml "^3.12.0"
-    oas-kit-common "^1.0.4"
-    oas-linter "^1.0.8"
-    oas-resolver "^1.0.12"
-    oas-schema-walker "^1.1.0"
-    reftools "^1.0.3"
+    oas-kit-common "^1.0.5"
+    oas-linter "^2.0.0"
+    oas-resolver "^1.1.0"
+    oas-schema-walker "^1.1.1"
+    reftools "^1.0.4"
     should "^13.2.1"
 
 oauth-sign@~0.9.0:
@@ -5603,6 +5659,20 @@ pkg-dir@^3.0.0:
   integrity sha512-/E57AYkoeQ25qkxMj5PBOVgF8Kiu/h7cYS30Z5+R7WaiCCBfLq58ZI/dSeaEKb9WVJV5n/03QwrN3IeWIFllvw==
   dependencies:
     find-up "^3.0.0"
+
+popsicle@^10.0.0:
+  version "10.0.1"
+  resolved "https://registry.yarnpkg.com/popsicle/-/popsicle-10.0.1.tgz#2abd36130560647c74eaf08400d473ae25c4486f"
+  integrity sha512-IFVBRz+hc05+MiVDH+KH9QoeE6gjFOiIZNxKePIwz+JbH/yP9rLreUT9+GocxRweYBiRh7O9+MfI5X1zKfSH6Q==
+  dependencies:
+    "@types/concat-stream" "^1.6.0"
+    "@types/form-data" "0.0.33"
+    "@types/methods" "^1.1.0"
+    "@types/tough-cookie" "^2.3.0"
+    concat-stream "^1.4.7"
+    form-data "^2.0.0"
+    make-error-cause "^1.2.1"
+    tough-cookie "^2.0.0"
 
 portfinder@^1.0.19, portfinder@^1.0.9:
   version "1.0.19"
@@ -6195,10 +6265,10 @@ redent@^1.0.0:
     indent-string "^2.1.0"
     strip-indent "^1.0.1"
 
-reftools@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/reftools/-/reftools-1.0.3.tgz#9b989d05578b86b9cb26227f4adc41126950d1ba"
-  integrity sha512-qO5auyzNwkrEJ+A6TN9yC76S4v2oqoK05k4MdAIXlQNBy7bGqkZOLWJWcXzl3NtpltjYAFJ/a5rLY9c0wBRsOA==
+reftools@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/reftools/-/reftools-1.0.4.tgz#38602565e781550f79dfa76e6ce27b4599ceb2a3"
+  integrity sha512-A0FKS2nFjcYabdsUCKp2ljafugUU62+782DVbs/xl6hz2jwK9ljUStmMbcx//+Wo/1M9TkxHCFTsoECF5kq/tA==
 
 regenerate-unicode-properties@^7.0.0:
   version "7.0.0"
@@ -7155,20 +7225,20 @@ swagger-schema-official@2.0.0-bab6bed:
   resolved "https://registry.yarnpkg.com/swagger-schema-official/-/swagger-schema-official-2.0.0-bab6bed.tgz#70070468d6d2977ca5237b2e519ca7d06a2ea3fd"
   integrity sha1-cAcEaNbSl3ylI3suUZyn0Gouo/0=
 
-swagger2openapi@^3.2.14:
-  version "3.2.14"
-  resolved "https://registry.yarnpkg.com/swagger2openapi/-/swagger2openapi-3.2.14.tgz#fb521f3b886f45ac2399729e97eda9e46ac34782"
-  integrity sha512-rD05vac/gRjFas7avwLfbIDg7DOrT7FBqsZJZR0pftcltuJ80SIv0QvaWhXQwNrtgeGt8EDuOo23uqx6gNquIA==
+swagger2openapi@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/swagger2openapi/-/swagger2openapi-4.0.0.tgz#b15930a339972a89a54a5287eaf6bf973ae2465d"
+  integrity sha512-DK9JT/2s0YfEf/SiBm9ZGCij6Bl/gVVEkOeQCyHqvDHk+1G/pJLYIbMEA3eJUmefJ5UcxFcsTbuQagjUQ3crZA==
   dependencies:
     call-me-maybe "^1.0.1"
     js-yaml "^3.12.0"
-    node-fetch "^2.3.0"
+    node-fetch-h2 "^2.3.0"
     node-readfiles "^0.2.0"
-    oas-kit-common "^1.0.4"
-    oas-resolver "^1.0.12"
-    oas-schema-walker "^1.1.0"
-    oas-validator "^1.1.13"
-    reftools "^1.0.3"
+    oas-kit-common "^1.0.5"
+    oas-resolver "^1.1.0"
+    oas-schema-walker "^1.1.1"
+    oas-validator "^2.0.0"
+    reftools "^1.0.4"
     yargs "^12.0.2"
 
 tapable@^1.0.0, tapable@^1.1.0:
@@ -7307,7 +7377,7 @@ toposort@^1.0.0:
   resolved "https://registry.yarnpkg.com/toposort/-/toposort-1.0.7.tgz#2e68442d9f64ec720b8cc89e6443ac6caa950029"
   integrity sha1-LmhELZ9k7HILjMieZEOsbKqVACk=
 
-tough-cookie@>=2.3.3:
+tough-cookie@>=2.3.3, tough-cookie@^2.0.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/tough-cookie/-/tough-cookie-2.5.0.tgz#cd9fb2a0aa1d5a12b473bd9fb96fa3dcff65ade2"
   integrity sha512-nlLsUzgm1kfLXSXfRZMc1KLAugd4hqJHDTvc2hDIwS3mZAfMEuMbc03SujMF+GEcpaX/qboeycw6iO8JwVv2+g==
