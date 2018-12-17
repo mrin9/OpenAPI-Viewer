@@ -10,7 +10,7 @@ export default new Router({
   routes: [
     { path: '/',
       redirect: function(to){
-        return '/home';
+        return 'home';
       }
     },
     { path: '/home/:reloadSpec?' , name: 'AppShellWithSpec', component: AppShell, props: true},

@@ -7,8 +7,8 @@
             <div class="sw-prod-title"> MrinDoc </div>
           </div>  
           <div style="margin: 0px 8px;">
-            <input ref="specUrl" type="text" placeholder="Spec URL" class="sw-spec-url sw-dark sw-medium" v-model="specUrl" @keyup.enter="onExplore">
-            <button class="sw-btn sw-primary"  style="border-radius: 0 2px 2px 0; padding-left:5px; padding-right:5px;" @click="onExplore">OPEN</button>
+            <input ref="specUrl" type="text" placeholder="Spec URL" class="sw-spec-url sw-dark sw-medium" v-model="specUrl" @keyup.enter="onExplore(false)">
+            <button class="sw-btn sw-primary"  style="border-radius: 0 2px 2px 0; padding-left:5px; padding-right:5px;" @click="onExplore(false)">OPEN</button>
           </div>
           <div style="display:flex; flex-direction:column; margin-right:8px; align-items:flex-end;">
             <input style="width:100px;" type="text" placeholder="Search" class="sw-medium sw-dark" v-model="searchVal" @keyup="onSearchKeyUp">
@@ -34,7 +34,7 @@
               <el-option v-for="item in parsedSpec.servers" :key="item.url" :label="item.url" :value="item.url"></el-option>
             </el-select>
             <div style="display:flex;margin-top:2px;">
-              <input style="margin-right:-1px" type="text" placeholder="Token" class="sw-dark sw-medium" @keyup.enter="onExplore">
+              <input style="margin-right:-1px" type="text" placeholder="Token" class="sw-dark sw-medium">
               <button class="sw-btn sw-primary"  style="border-radius: 0 2px 2px 0; padding-left:5px; padding-right:5px;">SAVE</button>
             </div>
           </div>
@@ -116,7 +116,7 @@ export default {
   },
   methods:{
 
-    onExplore(){
+    onExplore( isReloadingSpec ){
       let me = this;
       me.loading=true;
       me.$nextTick(function(){
@@ -142,8 +142,17 @@ export default {
           me.selectedApiServer = spec.servers[0].url;
 
           store.commit("specUrl", me.specUrl);
-          store.commit("isDevMode", true);
           store.commit("selectedApiServer", spec.servers[0].url);
+          store.commit("oAuthTokenUrl", "");
+
+          if (isReloadingSpec===false){
+            store.commit("isDevMode", true);
+            store.commit("reqToken", "");
+            store.commit("reqTokenType", "");
+            store.commit("reqSendTokenIn", "");
+            store.commit("reqHeader", "");
+          }
+
           me.loading=false;
           //setTimeout(()=>me.loading=false,(spec.totalPathCount*8) )
 
@@ -179,7 +188,7 @@ export default {
       })
     }, 500),
 
-    onExpandAll( val){
+    onExpandAll(val){
       if (this.parsedSpec.tags===undefined){
         return;
       }
@@ -205,7 +214,7 @@ export default {
     //reloadSpec prop comes from the route
     if(this.$props.reloadSpec==="reload"){
       this.specUrl = store.state.specUrl;
-      this.onExplore();
+      this.onExplore(true);
     }
     else{
       //this.specUrl="http://developer.twinehealth.com/swagger.json";

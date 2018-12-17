@@ -119,12 +119,10 @@
       },
 
       onOAuth(flowName, flow){
-        console.log(location.origin)
         let redirectUrl = location.origin+"/oauth";
         let responseType="token"; //"code";
         let scopes="";
-
-        // Include all scopes
+        store.commit("oAuthTokenUrl", flow.tokenUrl) // Store this as it will needed after redirection
         /*
         for (let key in flow.scopes){
           scopes = scopes + " " + key;

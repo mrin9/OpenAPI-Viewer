@@ -87,7 +87,6 @@ function getOauthToken(tokenUrl, clientId, clientSecret, authCode, redirectUri){
         }
       }).then((response) => {
         console.log("Success POST call auth-code")
-        debugger;
         const accessToken = response.data.access_token
       });
     
