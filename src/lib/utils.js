@@ -70,6 +70,7 @@ function getTypeInfo(schema){
 
 /* Create Example object */
 function generateExample(examples, example, schema, mimeType, outputType){
+    debugger;
     let finalExamples = [];
     if (examples){
       for (let eg in examples){
@@ -187,6 +188,8 @@ function getSampleValueByType(schemaObj) {
         return 'password';
       case 'enum':
         return schemaObj.enum[0];
+      case 'uri':
+        return 'http://example.com'  
       default:
         if (schemaObj.nullable){
             return null;
