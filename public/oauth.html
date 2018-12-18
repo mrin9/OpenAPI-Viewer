@@ -35,7 +35,8 @@ if (window.location.search){
     getOauthToken(tokenUrl, clientId, clientSecret, authCode,redirectUrl);
     */
 }
-window.location.assign(location.origin+"/#/home/reload");
+
+window.location.assign(location.href.substring(0, location.href.indexOf('#'))+ "home/reload");
     
 
 function parseQueryString(queryString, key){
