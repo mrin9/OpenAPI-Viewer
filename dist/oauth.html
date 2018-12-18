@@ -36,8 +36,7 @@ if (window.location.search){
     */
 }
 
-window.location.assign(location.href.substring(0, location.href.indexOf('#'))+ "home/reload");
-    
+window.location.assign(location.href.substring(0, location.href.indexOf("oauth.html"))+"#/home/reload");
 
 function parseQueryString(queryString, key){
     var vars = queryString.split('&');
