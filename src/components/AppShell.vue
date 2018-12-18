@@ -116,7 +116,7 @@ export default {
   },
   methods:{
 
-    onExplore( isReloadingSpec ){
+    onExplore(isReloadingSpec){
       let me = this;
       me.loading=true;
       me.$nextTick(function(){
@@ -214,7 +214,11 @@ export default {
     //reloadSpec prop comes from the route
     if(this.$props.reloadSpec==="reload"){
       this.specUrl = store.state.specUrl;
-      this.onExplore(true);
+      store.commit("reqToken", localStorage.getItem("accessToken"));
+      store.commit("reqTokenType", localStorage.getItem("tokenType"));
+      if (this.specUrl){
+        this.onExplore(true);
+      }
     }
     else{
       //this.specUrl="http://developer.twinehealth.com/swagger.json";

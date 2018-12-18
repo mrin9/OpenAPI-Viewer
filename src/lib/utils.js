@@ -25,7 +25,6 @@ function copyToClipboard(elId) {
 
 /* Generates an HTML string containing type and constraint info */
 function getTypeInfo(schema){
-    //debugger;
     let html ="";
     if (schema.enum){
         html = html + "enum - ";
