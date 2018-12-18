@@ -70,7 +70,6 @@ function getTypeInfo(schema){
 
 /* Create Example object */
 function generateExample(examples, example, schema, mimeType, outputType){
-    debugger;
     let finalExamples = [];
     if (examples){
       for (let eg in examples){
