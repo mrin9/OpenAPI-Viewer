@@ -134,7 +134,6 @@
           
           // Generate Example
           let respExample = generateExample(mimeRespObj.examples, mimeRespObj.example, mimeRespObj.schema, mimeResp, "json");
-
           allMimeResp[mimeResp] = {
             "examples"  : respExample,
             //"schemaTree": schemaTree
@@ -154,6 +153,7 @@
         me.mimeResponsesForEachStatus[statusCode] = allMimeResp;
         me.mimeRespCountForEachStatus[statusCode] = mimeRespCount;
       }
+
 
     },
 

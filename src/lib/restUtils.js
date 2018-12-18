@@ -35,6 +35,17 @@ function  callEndPoint (method, url, pathParams, queryParams, reqBodyMimeType, r
         });
     }
 
+    // Additional Header Param for apiKey/basic/bearer tokens
+    if (store.state.reqTokenType==='bearer' ){
+        hParams['Authorization'] = 'Bearer ' + store.state.reqToken;
+    }
+    if (store.state.reqTokenType==='basic' ){
+        hParams['Authorization'] = 'Basic ' + store.state.reqToken; // reqToken will be Base64 encoded 'usr:pwd'
+    }
+    else if (store.state.reqTokenType==='apikey' && store.state.reqSendTokenIn==='header'){
+        hParams[store.state.reqHeader] = store.state.reqToken;
+    }
+
     // Request Body
     let reqBodyContent ="";
     if (Object.keys(requestBody).length === 0 || Object.keys(requestBody[reqBodyMimeType]).length===0){
@@ -43,12 +54,18 @@ function  callEndPoint (method, url, pathParams, queryParams, reqBodyMimeType, r
     }
     else{
         hParams['Content-Type'] = reqBodyMimeType; //TODO: check if its a valid mime type
-
-        if (reqBodyMimeType.toLowerCase().includes("json") ){
-            reqBodyContent = JSON.parse(requestBody[reqBodyMimeType].examples[0]);
-        }
-        else{
-            reqBodyContent = requestBody[reqBodyMimeType].examples[0];
+        if (requestBody[reqBodyMimeType].examples[0]){
+            if (reqBodyMimeType.toLowerCase().includes("json") ){
+                try{
+                    reqBodyContent = JSON.parse(requestBody[reqBodyMimeType].examples[0]);
+                }
+                catch{
+                    reqBodyContent="";
+                }
+            }
+            else{
+                reqBodyContent = requestBody[reqBodyMimeType].examples[0];
+            }
         }
     }
     //TODO: Deal with formParams and cookieParams later

@@ -60,7 +60,7 @@
             <div v-if="flow.authorizationUrl"> <b>Directions: </b> Register this client with <code>{{ getOAuthBaseUrl(flow.authorizationUrl) }}</code><br/></div>
             <ul>
                 <li> Obtain a <code>client-id</code> and <code>client-secret</code> </li>
-                <li> During registration, specify callback(redirect) url as <code>{{ browserLocation.origin+"/oauth" }}</code></li>
+                <li> During registration, specify callback(redirect) url as <code>{{ browserLocation.origin }}</code></li>
             </ul>
           </span>
         </td>  
@@ -68,19 +68,6 @@
           {{ scheme.type }}
         </td>  
       </tr>  
-      <tr>
-        <td>
-          other
-        </td> 
-        <td>
-            To cover other authentication cases, you can provide a custom request-header and a value that will be attached to all the requests.
-            <br/><br/>
-            <input type="text" class="sw-small" style="width:100px" placeholder="custom-header" v-model="customHeader">
-            <input type="text" class="sw-small" style="width:100px; margin:0 5px;" placeholder="custom-token" v-model="customToken">
-            <button class="sw-btn sw-primary sw-small"  @click="onActivateSecurityScheme('other')">ACTIVATE</button>
-        </td>
-      </tr>
-
     </table>
 
   </div>
@@ -114,8 +101,21 @@
     },
 
     methods:{
-      onActivateSecurityScheme(){
-        
+      onActivateSecurityScheme(scheme){
+        if (scheme.type.toLowerCase()==='apikey' && scheme.in==='header'){
+            store.commit("reqTokenType", scheme.type.toLowerCase());
+            store.commit("reqSendTokenIn", scheme.name);
+            store.commit("reqToken", this.$data.apiToken);
+        }
+        else if (scheme.type==='http' && scheme.scheme==='bearer'){
+            store.commit("reqTokenType", scheme.scheme );
+            store.commit("reqToken", bearerToken);
+        }
+        else if (scheme.type==='http' && scheme.scheme==='basic'){
+            store.commit("reqTokenType", scheme.scheme );
+            let tmpToken = atob(this.$data.username+":"+this.$data.password);
+            store.commit("reqToken", tmpToken);
+        }
       },
 
       onOAuth(flowName, flow){

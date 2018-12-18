@@ -6,7 +6,6 @@
         v-if = "fullPath.show" :key="index"
         :class="'sw-endpoint-wrapper ' + fullPath.method + ' ' + (fullPath.expanded?'sw-expanded':'sw-collapsed') " 
       >
-
         <!-- EndPoint Head -->
         <div 
           :class="'sw-endpoint-head ' + fullPath.method + ' ' +(fullPath.expanded?'sw-expanded':'sw-collapsed') " 
@@ -27,7 +26,6 @@
               <span v-html=toHtml(fullPath.description)></span>
             </div>  
           </div>  
-
           <div :class="'sw-req-resp-container '+ layoutClass">
             <request-parameters class="sw-request" 
               :method="fullPath.method" 
@@ -73,6 +71,10 @@ export default {
       return markdown ? marked(markdown):"";
     }
   },
+
+  mounted(){
+  },
+
   components:{
     // Lazy load the component
     RequestParameters : () => import("@/components/RequestParameters"),

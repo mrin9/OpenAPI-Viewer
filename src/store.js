@@ -24,7 +24,7 @@ export default new Vuex.Store({
     selectedApiServer:"",
     reqHeader:"",
     reqToken:"",
-    reqTokenType:"",    // can be api, basic or bearer
+    reqTokenType:"",    // can be apikey, basic or bearer
     reqSendTokenIn:"",  // can be header, querystring or cookies
     oAuthClientId:"",
     oAuthClientSecret:"",
