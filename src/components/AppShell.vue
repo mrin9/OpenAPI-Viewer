@@ -223,14 +223,14 @@ export default {
     else{
       
       //this.specUrl="http://developer.twinehealth.com/swagger.json";
-      this.specUrl= "https://petstore.swagger.io/v2/swagger.json";
+      //this.specUrl= "https://petstore.swagger.io/v2/swagger.json";
       //this.specUrl= "http://10.21.83.83:8080/api/swagger.json";
       //this.specUrl= "https://raw.githubusercontent.com/APIs-guru/unofficial_openapi_specs/master/github.com/v3/swagger.yaml", //large spec
       //this.specUrl= "https://fakerestapi.azurewebsites.net/swagger/docs/v1";
       //this.specUrl= "https://api.apis.guru/v2/specs/twilio.com/2010-04-01/swagger.json";  //xml responses
       //this.specUrl="https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/uspto.yaml"; // OpenAPI 3 with examples
       //this.specUrl="https://api.apis.guru/v2/specs/stackexchange.com/2.0/swagger.json";
-      //this.specUrl="https://api.apis.guru/v2/specs/bitbucket.org/2.0/swagger.json"; //All auth type
+      this.specUrl="https://api.apis.guru/v2/specs/bitbucket.org/2.0/swagger.json"; //All auth type
       //this.specUrl="https://api.apis.guru/v2/specs/cisco.com/0.0.3/swagger.json"; // Has oAuth2 instructions
     }
     //this.$refs.specUrl.focus();

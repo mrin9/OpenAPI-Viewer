@@ -1,7 +1,12 @@
 {
-  "name": "api-explorer",
+  "name": "MrinDoc",
   "version": "0.1.0",
   "private": true,
+  "author": "Mrinmoy",
+  "license": "MIT",
+  "description": "Open API viewer and console",
+  "repository": "https://github.com/mrin9/OpenAPI-Viewer",
+  "homepage": "https://github.com/mrin9/OpenAPI-Viewer#readme",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --modern",
@@ -9,7 +14,6 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "client-oauth2": "^4.2.3",
     "element-ui": "^2.4.11",
     "marked": "^0.5.2",
     "swagger-parser": "^6.0.2",

@@ -159,9 +159,5 @@
     color:$sw-blue-text;
     font-weight:bold;
   }
-
-
-
-  
 </style>
 

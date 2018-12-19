@@ -40,12 +40,12 @@
         <div class="sw-row" v-if="statusRespObj.content">
           <el-tabs style="flex:1; width:100%" v-model="activeTabForEachRespStatus[statusRespCode]">
             <el-tab-pane label="Example" name="exampleTab" class="sw-tab-pane">
-              <vue-json-pretty 
+              <json-tree 
                 v-if=" selectedMimeValueForEachStatus[statusRespCode] && mimeResponsesForEachStatus[statusRespCode][selectedMimeValueForEachStatus[statusRespCode]].examples[0].exampleType==='json'  "
                 path="root" 
                 :data="mimeResponsesForEachStatus[statusRespCode][selectedMimeValueForEachStatus[statusRespCode]].examples[0].exampleValue"
               >
-              </vue-json-pretty>
+              </json-tree>
               <textarea 
                 v-else-if="selectedMimeValueForEachStatus[statusRespCode]" 
                 class="sw-mono-font" 
@@ -94,8 +94,9 @@
 
 <script>
   import{schemaToElTree, schemaToObj, generateExample} from '@/lib/utils';
-  import VueJsonPretty from 'vue-json-pretty';
+  //import VueJsonPretty from 'vue-json-pretty';
   import ParameterInputs from '@/components/ParameterInputs';
+  import JsonTree from '@/components/tree/JsonTree';
 
   export default {
     props: {
@@ -158,7 +159,8 @@
     },
 
     components: {
-      VueJsonPretty,
+      //VueJsonPretty,
+      JsonTree,
       ParameterInputs
     }
   }

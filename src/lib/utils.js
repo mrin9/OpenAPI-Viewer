@@ -70,6 +70,13 @@ function getTypeInfo(schema){
 
 /* Create Example object */
 function generateExample(examples, example, schema, mimeType, outputType){
+    try {
+        schema = JSON.parse(JSON.stringify(schema, removeCircularReferences()));
+    }
+    catch{
+        console.error("Unable to resolve circular refs in schema", schema);
+        return;
+    }
     let finalExamples = [];
     if (examples){
       for (let eg in examples){
@@ -126,20 +133,39 @@ function generateExample(examples, example, schema, mimeType, outputType){
       }
     }
     return finalExamples;
-
 }
 
 /* For changing JSON-Schema to a Sample Object, as per the schema */ 
-function schemaToObj (schema, obj) {
+function schemaToObj (schema, obj, config={}) {
+    if (schema==null){
+        return;
+    }
     if (schema.type==="object" || schema.properties){
         for( let key in schema.properties ){
-            let temp = Object.assign({}, schema.properties[key] );
-            obj[key] = schemaToObj(temp,{});
+            if ( schema.properties[key].deprecated ) {
+                continue;
+            }
+            if ( schema.properties[key].readOnly && !config.includeReadOnly ) {
+                continue;
+            }
+            if ( schema.properties[key].writeOnly && !config.includeWriteOnly ) {
+                continue;
+            }
+            //let temp = Object.assign({}, schema.properties[key] );
+            obj[key] = schemaToObj(schema.properties[key],{}, config);
         }
     }
     else if (schema.type==="array" || schema.items ){
-        let temp = Object.assign({}, schema.items );
-        obj = [schemaToObj(temp,{})]
+        //let temp = Object.assign({}, schema.items );
+        obj = [schemaToObj(schema.items,{}, config)  ]
+    }
+    else if (schema.allOf ){
+        let objWithAllProps = {};
+        schema.allOf.map(function(v){
+            let partialObj = schemaToObj(v,{}, config);
+            Object.assign(objWithAllProps, partialObj);
+        });
+        obj = objWithAllProps;
     }
     else{
         return getSampleValueByType(schema);
@@ -151,53 +177,60 @@ function getSampleValueByType(schemaObj) {
     if (schemaObj.example) {
       return schemaObj.example;
     }
+
     if (Object.keys(schemaObj).length === 0) {
         return null;
     }
-  
+
     const typeValue = schemaObj.format || schemaObj.type || (schemaObj.enum ? 'enum' : null);
     switch (typeValue) {
-      case 'int32':
-      case 'int64':
-      case 'integer':
-        return 0;
-      case 'float':
-      case 'double':
-      case 'number':
-        return 0.5;
-      case 'string':
-        return schemaObj.enum
-          ? schemaObj.enum[0]
-          : schemaObj.pattern
-            ? rx(new RegExp(schemaObj.pattern))
-            : "string"
-      case 'byte':
-        return btoa('string');
-      case 'binary':
-        return 'binary';
-      case 'boolean':
-        return false;
-      case 'date':
-        return (new Date(0)).toISOString().split('T')[0];
-      case 'date-time':
-        return (new Date(0)).toISOString();
-      case 'dateTime':
-        return (new Date(0)).toISOString();
-      case 'password':
-        return 'password';
-      case 'enum':
-        return schemaObj.enum[0];
-      case 'uri':
-        return 'http://example.com'  
-      default:
-        if (schemaObj.nullable){
-            return null;
-        }
-        else{
-            console.warn('Unknown schema value', schemaObj);
-            return '?';
-        }
-        
+        case 'int32':
+        case 'int64':
+        case 'integer':
+            return 0;
+        case 'float':
+        case 'double':
+        case 'number':
+            return 0.5;
+        case 'string':
+            return (schemaObj.enum ? schemaObj.enum[0] : (schemaObj.pattern ? schemaObj.pattern : "string"))
+        case 'byte':
+            return btoa('string');
+        case 'binary':
+            return 'binary';
+        case 'boolean':
+            return false;
+        case 'date':
+            return (new Date(0)).toISOString().split('T')[0];
+        case 'date-time':
+            return (new Date(0)).toISOString();
+        case 'dateTime':
+            return (new Date(0)).toISOString();
+        case 'password':
+            return 'password';
+        case 'enum':
+            return schemaObj.enum[0];
+        case 'uri':
+            return 'http://example.com';
+        case 'uuid':
+            return '3fa85f64-5717-4562-b3fc-2c963f66afa6';
+        case 'email':
+            return 'user@example.com';
+        case 'hostname':
+            return 'example.com';
+        case 'ipv4':
+            return '198.51.100.42';
+        case 'ipv6':
+            return '2001:0db8:5b96:0000:0000:426f:8e17:642a';
+        default:
+            if (schemaObj.nullable) {
+                return null;
+            }
+            else {
+                console.warn('Unknown schema value', schemaObj);
+                return '?';
+            }
+
     }
   }
 
@@ -269,5 +302,20 @@ function getBaseUrlFromUrl(url){
     let pathArray = url.split( '/' );
     return pathArray[0] + "//" + pathArray[2];
 }
+
+function removeCircularReferences() {
+    const seen = new WeakSet();
+    return (key, value) => {
+      if (typeof value === "object" && value !== null) {
+        if (seen.has(value)) {
+          //return key;
+          return;
+        }
+        seen.add(value);
+      }
+      return value;
+    };
+  };
+
 
 export { debounce, schemaToObj, schemaToElTree, generateExample, getTypeInfo, getBaseUrlFromUrl }

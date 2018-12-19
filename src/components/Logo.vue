@@ -18,14 +18,3 @@
     }
   }
 </script>
-
-"{
-  'o':
-    {'mode':
-      {'context':'string'},
-      {'text':'string'},
-      {'prop1':'string'},
-      {'prop2':'string'},
-      {'prop3':'string'},
-    }
-  }"
