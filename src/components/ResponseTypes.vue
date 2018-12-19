@@ -42,8 +42,9 @@
             <el-tab-pane label="Example" name="exampleTab" class="sw-tab-pane">
               <json-tree 
                 v-if=" selectedMimeValueForEachStatus[statusRespCode] && mimeResponsesForEachStatus[statusRespCode][selectedMimeValueForEachStatus[statusRespCode]].examples[0].exampleType==='json'  "
-                path="root" 
+                path="/" 
                 :data="mimeResponsesForEachStatus[statusRespCode][selectedMimeValueForEachStatus[statusRespCode]].examples[0].exampleValue"
+                @click="showPath"
               >
               </json-tree>
               <textarea 
@@ -118,7 +119,9 @@
       }
     },
     methods:{
-      
+      showPath(path, data){
+        console.log(path, data);
+      }
 
     },
 

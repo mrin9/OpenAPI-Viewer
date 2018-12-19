@@ -3,13 +3,13 @@
     <slot></slot>
     <span
       v-show="dataVisiable"
-      class="sw-tree-node"
+      class="sw-tree-bracket-left"
       @click.stop="toggleBrackets">
       {{ Array.isArray(data) ? '[' : '{' }}
     </span>
     <span
       v-show="!dataVisiable"
-      class="sw-tree-node"
+      class="sw-tree-bracket-left"
       @click.stop="toggleBrackets">
       {{ doubleBracketsGenerator(data) }}
     </span>

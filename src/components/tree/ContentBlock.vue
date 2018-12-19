@@ -1,8 +1,8 @@
 <template>
-  <div class="sw-text-block">
+  <div class="sw-content-block">
     <div v-if="parentDataType === 'object'">{{ currentKey }}:</div>
     <div style="white-space: nowrap;" :class="`sw-datatype-${dataType}`">{{ textFormatter(text) }}</div>
-    <div style="flex:1; min-width:5px;"></div>
+    <div style="flex:1; min-width:15px;"></div>
     <div> This is a description This is a description some more </div>
   </div>
 </template>

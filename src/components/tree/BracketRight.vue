@@ -1,7 +1,7 @@
 <template>
   <div v-show="dataVisiable">
     <span
-      class="sw-tree-node"
+      class="sw-tree-bracket-right"
       @click.stop="toggleBrackets">
       {{ bracketsFormatter(Array.isArray(data) ? ']' : '}') }}
     </span>
