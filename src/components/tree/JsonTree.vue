@@ -5,8 +5,9 @@
       'background-color': treeContentBackground,
       'position': currentDeep > 1 ? '' : 'relative'
     }"
-    @click.stop="handleClick($event)">
-
+    @click.stop="handleClick($event)"
+    @toggleDescription.stop="handleToggleDescription($event)"
+  >
     <template v-if="Array.isArray(data) || isObject(data)">
       <!-- Left Closed -->
       <bracket-left :visible.sync="visible" :data="data" :show-length="showLength" :not-last-key="notLastKey">
@@ -28,7 +29,6 @@
           :allow-interaction="allowInteraction"
           :current-key="key"
           :display-format="displayFormat"
-          :show-description="showDescription"
           :current-deep="currentDeep + 1"
           @click="handleItemClick">
         </json-tree>
@@ -90,15 +90,12 @@
       //Display Format can be 'json' or 'text'
       displayFormat: {type:String, default:'json'},
 
-      //Display description column
-      showDescription:{type:Boolean, default:false},
-
     },
     data () {
       return {
         visible: this.currentDeep <= this.deep,
         treeContentBackground: 'transparent',
-        showDescr:this.showDescription
+        showDescr:true
       }
     },
 
@@ -125,6 +122,10 @@
         if (this.allowInteraction){
           this.$emit('click', this.path, this.data);
         }
+      },
+
+      handleToggleDescription(){
+        console.log("Top Level Toggle");
       },
 
       // Handles the click event fired by the subtree and passes it to the top
@@ -192,13 +193,15 @@
   .sw-content-block{
     .sw-content{
       white-space: nowrap;
+      padding-top:2px;
     }
     .sw-content.sw-datatype-enum{
-      white-space:normal
+      white-space:normal;
+      min-width:150px;
     }
 
     display:flex;
-    align-items:center;
+    align-items:flex-start;
     width:100%; 
     &:hover{
       background:#eee;
@@ -211,7 +214,10 @@
 
   .sw-descr{
     min-width:100px;
+    padding-top:2px;
     font-family: $sw-font-family;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
   .sw-show-descr .sw-descr{
     display:block;

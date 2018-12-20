@@ -32,7 +32,7 @@ function getTypeInfo(schema, inSingleLine=true){
         schema.enum.map(function(v){
             opt = opt + v + ", "
         });
-        html = `enum: ${opt}`
+        html = `enum: \u3014${opt.slice(0,-2)}\u3015`
     }
     else if (schema.type){
         html = html + schema.type ;
@@ -109,7 +109,7 @@ function schemaToModel (schema, obj) {
         obj = objWithAllProps;
     }
     else{
-        return getTypeInfo(schema);
+        return `${getTypeInfo(schema)}~|~${schema.description?schema.description:''}`;
     }
     return obj;
 }

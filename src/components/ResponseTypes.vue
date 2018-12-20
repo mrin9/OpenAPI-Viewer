@@ -55,13 +55,11 @@
               />
             </el-tab-pane>
             <el-tab-pane label="Model" name="schemaTab" class="sw-tab-pane">
-              <button class="sw-btn sw-primary" @click="showDescrInModel = !showDescrInModel">Toggle Description</button> {{showDescrInModel}}
               <json-tree 
                 v-if="selectedMimeValueForEachStatus[statusRespCode] && mimeResponsesForEachStatus[statusRespCode][selectedMimeValueForEachStatus[statusRespCode]].schemaTree"
                 path="/" 
                 :data="mimeResponsesForEachStatus[statusRespCode][selectedMimeValueForEachStatus[statusRespCode]].schemaTree"
                 display-format="text"
-                :show-description='showDescrInModel'
               >
               </json-tree>
             </el-tab-pane>
@@ -101,7 +99,6 @@
         selectedMimeValueForEachStatus:{},
         mimeRespCountForEachStatus   :{},
         headersForEachRespStatus     :{},
-        showDescrInModel:true,
       }
     },
     methods:{
