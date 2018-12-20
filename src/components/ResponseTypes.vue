@@ -41,7 +41,7 @@
           <el-tabs style="flex:1; width:100%" v-model="activeTabForEachRespStatus[statusRespCode]">
             <el-tab-pane label="Example" name="exampleTab" class="sw-tab-pane">
               <json-tree 
-                v-if=" selectedMimeValueForEachStatus[statusRespCode] && mimeResponsesForEachStatus[statusRespCode][selectedMimeValueForEachStatus[statusRespCode]].examples[0].exampleType==='json'  "
+                v-if="selectedMimeValueForEachStatus[statusRespCode] && mimeResponsesForEachStatus[statusRespCode][selectedMimeValueForEachStatus[statusRespCode]].examples[0].exampleType==='json'"
                 path="/" 
                 :data="mimeResponsesForEachStatus[statusRespCode][selectedMimeValueForEachStatus[statusRespCode]].examples[0].exampleValue"
                 @click="showPath"
@@ -53,32 +53,17 @@
                 v-model="mimeResponsesForEachStatus[statusRespCode][selectedMimeValueForEachStatus[statusRespCode]].examples[0].exampleValue" 
                 style="min-height:150px"
               />
-
-              <!--
-              <el-input
-                v-else-if="selectedMimeValueForEachStatus[statusRespCode]"
-                class="sw-mono-font" 
-                type="textarea"
-                v-model="mimeResponsesForEachStatus[statusRespCode][selectedMimeValueForEachStatus[statusRespCode]].examples[0]" 
-                :autosize="{ minRows:12}"
-                >
-              </el-input>
-              -->
             </el-tab-pane>
-            <el-tab-pane v-if=" 1==2" label="Model" name="schemaTab" class="sw-tab-pane">
-              <el-tree 
-                v-if="selectedMimeValueForEachStatus[statusRespCode]"
-                :data="mimeResponsesForEachStatus[statusRespCode][selectedMimeValueForEachStatus[statusRespCode]].schemaTree" 
-                :props="defaultTreeProps" 
-                :default-expand-all="true"
+            <el-tab-pane label="Model" name="schemaTab" class="sw-tab-pane">
+              <button class="sw-btn sw-primary" @click="showDescrInModel = !showDescrInModel">Toggle Description</button> {{showDescrInModel}}
+              <json-tree 
+                v-if="selectedMimeValueForEachStatus[statusRespCode] && mimeResponsesForEachStatus[statusRespCode][selectedMimeValueForEachStatus[statusRespCode]].schemaTree"
+                path="/" 
+                :data="mimeResponsesForEachStatus[statusRespCode][selectedMimeValueForEachStatus[statusRespCode]].schemaTree"
+                display-format="text"
+                :show-description='showDescrInModel'
               >
-                <span class="sw-tree-node" slot-scope="{ node, data }">
-                  <span class="sw-fieldname">{{ node.label.label }}</span>
-                  <span class="sw-datatype">: {{ node.label.type }}</span>
-                  <span style="flex:1"></span>
-                  <span> {{ node.label.descr }} </span>
-                </span>
-              </el-tree>
+              </json-tree>
             </el-tab-pane>
           </el-tabs>
         </div>
@@ -94,7 +79,7 @@
 </template>
 
 <script>
-  import{schemaToElTree, schemaToObj, generateExample} from '@/lib/utils';
+  import{schemaToModel, schemaToElTree, schemaToObj, generateExample, removeCircularReferences} from '@/lib/utils';
   //import VueJsonPretty from 'vue-json-pretty';
   import ParameterInputs from '@/components/ParameterInputs';
   import JsonTree from '@/components/tree/JsonTree';
@@ -115,7 +100,8 @@
         mimeResponsesForEachStatus   :{}, 
         selectedMimeValueForEachStatus:{},
         mimeRespCountForEachStatus   :{},
-        headersForEachRespStatus     :{}
+        headersForEachRespStatus     :{},
+        showDescrInModel:true,
       }
     },
     methods:{
@@ -133,14 +119,20 @@
         let mimeRespCount=0;
         for(let mimeResp in me.responsesLocalCopy[statusCode].content ) {
           let mimeRespObj = me.responsesLocalCopy[statusCode].content[mimeResp];
-          // Generate the Schema Model  in Element UI tree format
-          //let schemaTree = schemaToElTree(mimeRespObj.schema, [] );
-          
+          //Remove Circular references from schema 
+          try {
+              mimeRespObj.schema = JSON.parse(JSON.stringify(mimeRespObj.schema, removeCircularReferences()));
+          }
+          catch{
+              console.error("Unable to resolve circular refs in schema", schema);
+              return;
+          }
+          let schemaTree = schemaToModel(mimeRespObj.schema,{});
           // Generate Example
           let respExample = generateExample(mimeRespObj.examples, mimeRespObj.example, mimeRespObj.schema, mimeResp, "json");
           allMimeResp[mimeResp] = {
             "examples"  : respExample,
-            //"schemaTree": schemaTree
+            "schemaTree": schemaTree
           }
           me.selectedMimeValue=mimeResp;
           me.$set(me.selectedMimeValueForEachStatus,statusCode, mimeResp); // !important use me.$set only

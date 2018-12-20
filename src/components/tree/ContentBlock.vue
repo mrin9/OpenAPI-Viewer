@@ -1,9 +1,9 @@
 <template>
   <div class="sw-content-block">
     <div v-if="parentDataType === 'object'">{{ currentKey }}:</div>
-    <div style="white-space: nowrap;" :class="`sw-datatype-${dataType}`">{{ textFormatter(text) }}</div>
+    <div :class="`sw-content sw-datatype-${displayFormat==='json'?dataType:text.substring(0,4)}`">{{ textFormatter(text) }}</div>
     <div style="flex:1; min-width:15px;"></div>
-    <div> This is a description This is a description some more </div>
+    <div class='sw-descr sw-gray-small-text'>  {{text}} </div>
   </div>
 </template>
 
@@ -14,14 +14,18 @@ export default {
       dataType: String, // Current text data type
       text: String,
       notLastKey: Boolean,
-      currentKey: [Number, String]
+      currentKey: [Number, String],
+      displayFormat: {type:String, default:'json'},
     },
     methods: {
       textFormatter (text) {
-        let output = text
-        if (this.dataType === 'string') output = `"${output}"`
+        if (this.displayFormat==='text'){
+          return text;
+        }
+        let output = text;
+        if (this.dataType === 'string') output = `"${output}"`;
         if (this.notLastKey) output += ','
-        return output
+        return output;
       }
     }
   }

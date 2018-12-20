@@ -24,16 +24,22 @@ function copyToClipboard(elId) {
 }
 
 /* Generates an HTML string containing type and constraint info */
-function getTypeInfo(schema){
+function getTypeInfo(schema, inSingleLine=true){
     let html ="";
     if (schema.enum){
-        html = html + "enum - ";
+        html = html + "enum-";
+        let opt=""
+        schema.enum.map(function(v){
+            opt = opt + v + ", "
+        });
+        html = `enum: ${opt}`
     }
-    if (schema.type){
+    else if (schema.type){
         html = html + schema.type ;
     }
+
     if (schema.type==="integer" || schema.type==="number"){
-        if (schema.minimum!==undefined && schema.maximum!==undefined){
+        if (schema.minimum !== undefined && schema.maximum!==undefined){
             html = html+" ( " + (schema.exclusiveMinimum?"> ":"") + schema.minimum + " to " +  (schema.exclusiveMaximum?"< ":"") + schema.maximum + " )";
         }
         else if (schema.minimum!==undefined && schema.maximum===undefined){
@@ -58,25 +64,61 @@ function getTypeInfo(schema){
             html = html+" ( max-length: " + schema.maxLength +" )";
         }
     }
+    let lineBreak = inSingleLine?"":"<br/>";
     if (schema.format){
-        html = html + "<br/> format: " + schema.format;
+        html = html + ` ${lineBreak} (${schema.format})`;    
     }
     if (schema.pattern){
-        html = html + "<br/> pattern: " + schema.pattern;
+        html = html + ` ${lineBreak}(${schema.pattern})`;    
     }
     return html;
-
 }
+
+
+/* For changing JSON-Schema to a Object Model that can be represnted in a tree-view */ 
+
+function schemaToModel (schema, obj) {
+    if (schema==null){
+        return;
+    }
+    if (schema.type==="object" || schema.properties){
+        for( let key in schema.properties ){
+            if ( schema.properties[key].deprecated ) {
+                continue;
+            }
+            if ( schema.properties[key].readOnly) {
+                continue;
+            }
+            if ( schema.properties[key].writeOnly) {
+                continue;
+            }
+            //let temp = Object.assign({}, schema.properties[key] );
+            obj[key] = schemaToModel(schema.properties[key],{});
+        }
+    }
+    else if (schema.type==="array" || schema.items ){
+        //let temp = Object.assign({}, schema.items );
+        obj = [schemaToModel(schema.items,{})  ]
+    }
+    else if (schema.allOf ){
+        let objWithAllProps = {};
+        schema.allOf.map(function(v){
+            let partialObj = schemaToModel(v,{});
+            Object.assign(objWithAllProps, partialObj);
+        });
+        obj = objWithAllProps;
+    }
+    else{
+        return getTypeInfo(schema);
+    }
+    return obj;
+}
+
+
+
 
 /* Create Example object */
 function generateExample(examples, example, schema, mimeType, outputType){
-    try {
-        schema = JSON.parse(JSON.stringify(schema, removeCircularReferences()));
-    }
-    catch{
-        console.error("Unable to resolve circular refs in schema", schema);
-        return;
-    }
     let finalExamples = [];
     if (examples){
       for (let eg in examples){
@@ -230,7 +272,6 @@ function getSampleValueByType(schemaObj) {
                 console.warn('Unknown schema value', schemaObj);
                 return '?';
             }
-
     }
   }
 
@@ -318,4 +359,4 @@ function removeCircularReferences() {
   };
 
 
-export { debounce, schemaToObj, schemaToElTree, generateExample, getTypeInfo, getBaseUrlFromUrl }
+export { debounce, schemaToModel, schemaToObj, schemaToElTree, generateExample, getTypeInfo, getBaseUrlFromUrl, removeCircularReferences }

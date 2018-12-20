@@ -1,6 +1,6 @@
 <template>
   <div
-    class="sw-tree"
+    :class="`sw-tree ${showDescr?'sw-show-descr':'sw-hide-descr'} sw-format-${displayFormat}`"
     :style="{
       'background-color': treeContentBackground,
       'position': currentDeep > 1 ? '' : 'relative'
@@ -27,6 +27,8 @@
           :path="path + (Array.isArray(data) ? `[${key}]` : `.${key}`)"
           :allow-interaction="allowInteraction"
           :current-key="key"
+          :display-format="displayFormat"
+          :show-description="showDescription"
           :current-deep="currentDeep + 1"
           @click="handleItemClick">
         </json-tree>
@@ -42,6 +44,7 @@
       :dataType="getDataType(data)"
       :text="data + ''"
       :notLastKey="notLastKey"
+      :displayFormat="displayFormat"
       :currentKey="currentKey">
     </content-block>
   </div>
@@ -64,15 +67,15 @@
       data: {},
 
       // Defining the depth of the tree, subtrees larger than the depth will not be expanded
-      deep: {type: Number,default: Infinity},
+      deep: {type:Number, default:Infinity},
 
       // Whether to display the length of the array | object
-      showLength: { type: Boolean,default: false},
+      showLength: {type:Boolean, default:false},
       
       // Data level top level path
       path: {type: String, default: 'root'},
 
-      allowInteraction: { type: Boolean, default:true},
+      allowInteraction: {type:Boolean, default:true},
 
       // Parent data of current node
       parentData: {},
@@ -82,12 +85,20 @@
 
       //  1. when object, currentKey represents the key name, 
       //  2. when array,  currentKey represents index 
-      currentKey: [Number, String]
+      currentKey: [Number, String],
+
+      //Display Format can be 'json' or 'text'
+      displayFormat: {type:String, default:'json'},
+
+      //Display description column
+      showDescription:{type:Boolean, default:false},
+
     },
     data () {
       return {
         visible: this.currentDeep <= this.deep,
         treeContentBackground: 'transparent',
+        showDescr:this.showDescription
       }
     },
 
@@ -162,21 +173,53 @@
     &-null{
       color: #ff4949;
     }
+    &-bool,
+    &-numb,
+    &-inte,
     &-number, 
     &-boolean{
       color: #1d8ce0;
     }
+    &-stri,
     &-string{
       color: #13ce66;
     }
+    &-enum{
+      color:orange;
+    }
   }
+
   .sw-content-block{
-    display:flex; 
+    .sw-content{
+      white-space: nowrap;
+    }
+    .sw-content.sw-datatype-enum{
+      white-space:normal
+    }
+
+    display:flex;
+    align-items:center;
     width:100%; 
     &:hover{
       background:#eee;
     }
   }
+
+  .sw-format-text .sw-content{
+    font-family: $sw-font-family;
+  }
+
+  .sw-descr{
+    min-width:100px;
+    font-family: $sw-font-family;
+  }
+  .sw-show-descr .sw-descr{
+    display:block;
+  }
+  .sw-hide-descr .sw-descr{
+    display:none;
+  }
+
 }
 
 </style>
