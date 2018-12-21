@@ -1,33 +1,29 @@
+<img alt="MrinDoc logo" src="https://github.com/mrin9/OpenAPI-Viewer/blob/master/public/images/leaves_logo1.svg" width="60px" />
 # MrinDoc
-An OpenAPI 3.0 and 2.0 Spec viewer. Still in early stages of development, check below whats planned out for 2019
+An OpenAPI 3.0 and 2.0 Spec viewer with built in console 
+
+### [Demo](https://mrin9.github.io/OpenAPI-Viewer)
 
 # Features
-- A two column spec viewer, where response and requests are arranged side by side
-- Allow Searching of APIs
-- In-built console for trying out live APIs 
-- UX-friendly clean UI, less clicks and less repetative texts
+- Supports Swagger V2.0 and OpenAPI 3.0
+- Supports searching of end-points (paths)
+- Built In console to try out APIs
+- Responsive (support for desktop and tablets)
+- Supports Authentication
+  - OAuth2
+  - API Key(Token)
+  - HTTP Bearer
+  - HTTP Basic
+- UX friendly.
+  - All Endpoints paths are cleanly presented
+  - Clear seperation of Request and Response info laid out side by side in a two colum layout
+  - Lesser clicks to deal with. All schema models, response-jsons and examples are expanded by defaults which eliminates the need of click and reveal each level.
+  - While using API console, request data is pre-filled based on schema
+  - Needs just one click to try out live APIs
 
-
-Still a WIP, check below for planned features in 2019
 
 ## Project Build
 ```
 yarn install
 yarn run build 
 ```
-
-### To Do
-Task              | Status
----               | ---
-Add authorization feature| Pending
-Improve TRY feature (use appropriate content-type)   | Pending
-Show equevelent ```curl``` syntax | Pending
-Show XML examples for APIs that consumes/produces XML | Pending
-More response info for TRY feature (Headers, content type, error) | Pending
-Create a better UI for request/response data Model, providing complete info of data-type, format, constrains and description | Pending
-Add API stats | Pending 
-Allow pasting ```json``` & ```yml``` Text Spec | Pending
-Improve performance for large specs | Pending
-Make it Responsive | Pending
-Provide dark theme | Pending 
-Publish as Custom Element to enable usage, integration and cutomization in plain HTML/JS  | Pending
