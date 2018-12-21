@@ -171,7 +171,7 @@ $--message-danger-color: #fff !default;
 
 .sw-editor{
   .el-textarea__inner {
-    font-family: roboto-mono, Monaco, Menlo, Consolas;
+    font-family: $sw-font-mono;
     font-size: 12px;
     border:1px solid #C5D9E8;
     border-radius: $sw-border-radius;
@@ -186,7 +186,7 @@ $--message-danger-color: #fff !default;
 
 .sw-mono-font{
   textarea{
-    font-family: roboto-mono, Monaco, Menlo, Consolas;
+    font-family: $sw-font-mono;
     font-size: 12px;
     white-space: nowrap;  overflow: auto;
   }
@@ -198,7 +198,7 @@ $--message-danger-color: #fff !default;
 }
 
 textarea.sw-mono-font{
-  font-family: roboto-mono, Monaco, Menlo, Consolas;
+  font-family: $sw-font-mono;
   font-size: 12px;
   white-space: nowrap;  overflow: auto;
   resize: vertical;

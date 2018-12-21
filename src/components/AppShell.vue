@@ -23,22 +23,17 @@
               popper-class="sw-dark"
               @change= "$store.commit('selectedApiServer', selectedApiServer)"
             >
-            <!--
-              <el-option v-for="item in parsedSpec.servers" :key="item.url" :label="item.url" :value="item.url" >
-                <div style="display:flex; flex-direction:column">
-                  <span>{{ item.url }}</span>
-                  <span style="color: #8492a6; font-size:12px; line-height:12px;">{{ item.description }} </span>
-                </div>  
-              </el-option>
-            -->
               <el-option v-for="item in parsedSpec.servers" :key="item.url" :label="item.url" :value="item.url"></el-option>
             </el-select>
+            <!--
             <div style="display:flex;margin-top:2px;">
               <input style="margin-right:-1px" type="text" placeholder="Token" class="sw-dark sw-medium">
               <button class="sw-btn sw-primary"  style="border-radius: 0 2px 2px 0; padding-left:5px; padding-right:5px;">SAVE</button>
             </div>
+            -->
           </div>
           <div style="display:flex; flex-direction:column; margin-right:8px; align-items:flex-start;">
+            <!--
             <el-switch 
               v-model="expandAll" 
               active-text="Expand All"  
@@ -47,6 +42,7 @@
               @change= "onExpandAll"
             > 
             </el-switch>
+            -->
             <el-switch v-model="isDevMode" 
               active-text="Developer Mode"  
               class="sw-dark"

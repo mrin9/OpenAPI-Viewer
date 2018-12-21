@@ -62,7 +62,7 @@ h1,h2,h3,h4,h5,h5{
 p{margin-block-start: 0.5em;}
 code,
 pre{
-  font-family: 'roboto-mono';
+  font-family: $sw-font-mono;
 }
 
 .sw-markdown-block{

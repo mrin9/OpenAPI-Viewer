@@ -1,6 +1,7 @@
 //Font
 $font_path     : '~@/assets/styles/fonts/';
-$sw-font-family:'Metropolis';
+$sw-font-family: 'Metropolis';
+$sw-font-mono  : 'roboto-mono', 'Monaco', 'Menlo', 'Consolas';
 
 //App Dimentions
 $sw-min-app-width:768px;
@@ -18,6 +19,7 @@ $sw-dark-bg3:#65656A;
 
 $sw-blue-text:#0079b8;
 $sw-dark-text:#565656;
+$sw-gray-text:#999;
 $sw-light-text:#C9C9C9;
 $sw-extra-light-text:#FAFAFA;
 

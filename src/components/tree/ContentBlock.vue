@@ -1,18 +1,14 @@
 <template>
   <div class="sw-content-block">
-    <div v-if="parentDataType === 'object'">{{ currentKey }}:</div>
+    <div class="sw-content-key" v-if="parentDataType === 'object'">{{ currentKey }}:</div>
     <div :class="`sw-content sw-datatype-${displayFormat==='json'?dataType:text.substring(0,4)}`">{{ getText() }}</div>
     <div style="flex:1; min-width:15px;"></div>
-    <div class='sw-descr' >
-      <span style="width:100%; display: inline-block; overflow: hidden; text-overflow: ellipsis;">  
-        {{getDescription()}} 
-      </span>
+    <div ref="descrDiv" :class="`sw-descr ${descrClass}`" >
+        {{description}} 
     </div>
-    <span v-if="getDescription()"
-        @click="handleItemToggleDescr()" 
-        style="cursor:pointer; color:cornflowerblue"> &#x21F2; 
+    <span class="sw-descr-expander" v-if="description" @click="handleItemToggleDescr()"> 
+       {{ descrClass==='sw-descr-collapsed'? '\u2935' : '\u2934' }}
     </span>
-
   </div>
 </template>
 
@@ -25,6 +21,13 @@ export default {
       notLastKey: Boolean,
       currentKey: [Number, String],
       displayFormat: {type:String, default:'json'},
+    },
+    data () {
+      return {
+        description: this.getDescription(),
+        descrClass:'sw-descr-collapsed',
+        showDescrExpander:true
+      }
     },
     methods: {
       getText () {
@@ -46,10 +49,14 @@ export default {
       },
 
       handleItemToggleDescr(){
-        console.log("item toggle");
+        if (this.descrClass ==="sw-descr-collapsed"){
+          this.descrClass ="sw-descr-expanded";
+        }
+        else{
+          this.descrClass ="sw-descr-collapsed";
+        }
         this.$emit('toggleDescription');
       }
-
-    }
+    },
   }
 </script>

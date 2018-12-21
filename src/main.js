@@ -28,7 +28,6 @@ import {
   Tabs,
   TabPane,
   Option,
-  Tree,
   Loading,
   Message
 } from 'element-ui';
@@ -42,7 +41,6 @@ Vue.use(Select);
 Vue.use(Option);
 Vue.use(Tabs);
 Vue.use(TabPane);
-Vue.use(Tree);
 Vue.use(Loading.directive);
 Vue.prototype.$message = Message;
 Vue.prototype.$loading = Loading.service;

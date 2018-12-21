@@ -6,7 +6,6 @@
       'position': currentDeep > 1 ? '' : 'relative'
     }"
     @click.stop="handleClick($event)"
-    @toggleDescription.stop="handleToggleDescription($event)"
   >
     <template v-if="Array.isArray(data) || isObject(data)">
       <!-- Left Closed -->
@@ -124,10 +123,6 @@
         }
       },
 
-      handleToggleDescription(){
-        console.log("Top Level Toggle");
-      },
-
       // Handles the click event fired by the subtree and passes it to the top
       handleItemClick (path, data) {
         this.$emit('click', path, data)
@@ -153,7 +148,7 @@
 @import "~@/assets/styles/_vars.scss";
 
 .sw-tree {
-  font-family: "roboto-mono", "Monaco", "Menlo", "Consolas", "Bitstream Vera Sans Mono", monospace;
+  font-family: $sw-font-mono;
   font-size: 12px;
   .sw-tree-content {
     padding-left: 1em; 
@@ -165,28 +160,28 @@
     cursor: pointer;
     padding: 0 20px 0 0;
     &:hover {
-      color: #20a0ff;
+      color: $sw-primary-color;
       background: #efefef;
     }
   }
 
   .sw-datatype {
     &-null{
-      color: #ff4949;
+      color: $sw-soft-red;
     }
     &-bool,
     &-numb,
     &-inte,
     &-number, 
     &-boolean{
-      color: #1d8ce0;
+      color: $sw-info;
     }
     &-stri,
     &-string{
-      color: #13ce66;
+      color: darken($sw-green,5%);
     }
     &-enum{
-      color:orange;
+      color:$sw-orange;
     }
   }
 
@@ -197,14 +192,16 @@
     }
     .sw-content.sw-datatype-enum{
       white-space:normal;
+      padding-top:0;
+      font-family: $sw-font-mono;
       min-width:150px;
     }
 
     display:flex;
-    align-items:flex-start;
+    align-items:stretch;
     width:100%; 
     &:hover{
-      background:#eee;
+      background:#efefef;
     }
   }
 
@@ -218,12 +215,36 @@
     font-family: $sw-font-family;
     white-space: nowrap;
     text-overflow: ellipsis;
+    width:100%; 
+    display: inline-block; 
+    overflow: hidden;
+    color: $sw-gray-text;
+    text-align: right;
+    &.sw-descr-collapsed{
+      white-space: nowrap;
+    }
+    &.sw-descr-expanded{
+      white-space:normal;
+    }
+    
   }
   .sw-show-descr .sw-descr{
     display:block;
   }
   .sw-hide-descr .sw-descr{
     display:none;
+  }
+  .sw-descr-expanded + .sw-descr-expander{
+    border-left:2px solid #ccc;
+  }
+  .sw-descr-expander {
+    padding:0 5px;
+    margin-left:5px;
+    cursor:pointer; 
+    color:orange;
+    &:hover{
+      color:orangered;
+    }
   }
 
 }

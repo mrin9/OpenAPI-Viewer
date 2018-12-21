@@ -27,12 +27,11 @@ function copyToClipboard(elId) {
 function getTypeInfo(schema, inSingleLine=true){
     let html ="";
     if (schema.enum){
-        html = html + "enum-";
         let opt=""
         schema.enum.map(function(v){
             opt = opt + v + ", "
         });
-        html = `enum: \u3014${opt.slice(0,-2)}\u3015`
+        html = `enum:\u3014 ${opt.slice(0,-2)} \u3015`
     }
     else if (schema.type){
         html = html + schema.type ;
@@ -103,8 +102,10 @@ function schemaToModel (schema, obj) {
     else if (schema.allOf ){
         let objWithAllProps = {};
         schema.allOf.map(function(v){
-            let partialObj = schemaToModel(v,{});
-            Object.assign(objWithAllProps, partialObj);
+            if (v && v.type){
+                let partialObj = schemaToModel(v,{});
+                Object.assign(objWithAllProps, partialObj);
+            }
         });
         obj = objWithAllProps;
     }
@@ -204,8 +205,10 @@ function schemaToObj (schema, obj, config={}) {
     else if (schema.allOf ){
         let objWithAllProps = {};
         schema.allOf.map(function(v){
-            let partialObj = schemaToObj(v,{}, config);
-            Object.assign(objWithAllProps, partialObj);
+            if (v && v.type){
+                let partialObj = schemaToObj(v,{}, config);
+                Object.assign(objWithAllProps, partialObj);
+            }
         });
         obj = objWithAllProps;
     }

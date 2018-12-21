@@ -56,10 +56,19 @@
 
       <el-tabs v-if="mimeRequestTypes[selectedMimeReqKey]" v-model="requestBodyActiveTab" class="sw-no-tab-header-margin">
         <el-tab-pane label="Value" name="bodyParamExample">
-          <textarea class="sw-mono-font" v-model="mimeRequestTypes[selectedMimeReqKey].examples[0].exampleValue" style="min-height:170px"/>
+          <textarea class="sw-mono-font"
+          v-if = "mimeRequestTypes[selectedMimeReqKey].examples[0]" 
+          v-model= "mimeRequestTypes[selectedMimeReqKey].examples[0].exampleValue" style="min-height:170px"/>
         </el-tab-pane>
         <el-tab-pane label="Model" name="bodyParamModel"> 
-          <el-tree :data="mimeRequestTypes[selectedMimeReqKey].schemaTree" :props="defaultTreeProps" :default-expand-all="true" class="sw-border" style="min-height:170px">
+          <json-tree 
+            path="/" 
+            :data="mimeRequestTypes[selectedMimeReqKey].schemaTree"
+            display-format="text"
+          >
+          </json-tree>
+          <!--
+          <el-tree :data= "mimeRequestTypes[selectedMimeReqKey].schemaTree" :props= "defaultTreeProps" :default-expand-all="true" class="sw-border" style="min-height:170px">
             <span class="sw-tree-node" slot-scope="{ node, data }">
               <span class="sw-fieldname">{{ node.label.label }}</span>
               <span class="sw-datatype">: {{ node.label.type }}</span>
@@ -67,6 +76,7 @@
               <span > {{ node.label.descr }}</span>
             </span>
           </el-tree>
+          -->
         </el-tab-pane>
       </el-tabs>
 
@@ -123,10 +133,10 @@
 </template>
 
 <script>
+  import JsonTree from '@/components/tree/JsonTree';
   import { callEndPoint } from '@/lib/restUtils';
-  import { schemaToElTree, schemaToObj, generateExample} from '@/lib/utils';
+  import { schemaToModel, schemaToObj, generateExample, removeCircularReferences} from '@/lib/utils';
   import ParameterInputs from '@/components/ParameterInputs';
-  import VueJsonPretty from 'vue-json-pretty';
 
   import store from '@/store';
 
@@ -262,11 +272,22 @@
         for(let mimeReq in content ) {
           let exampleType=""; // can be json, xml, plain
           let mimeReqObj = content[mimeReq];
-          // Generate the Schema Model  in Element UI tree format
-          let reqSchemaTree = schemaToElTree(mimeReqObj.schema, [] );
+          let reqSchemaTree="", reqExample="";
+          //Remove Circular references from RequestBody json-schema 
+          try {
+              mimeReqObj.schema = JSON.parse(JSON.stringify(mimeReqObj.schema, removeCircularReferences()));
+          }
+          catch{
+              console.error("Unable to resolve circular refs in schema", mimeReqObj.schema);
+              return;
+          }
 
+          // Generate the Schema Model  in Element UI tree format
+          // reqSchemaTree = schemaToElTree(mimeReqObj.schema, [] );
+          reqSchemaTree = schemaToModel(mimeReqObj.schema,{});
+          debugger;
           // Generate Example
-          let reqExample = generateExample(mimeReqObj.examples, mimeReqObj.example, mimeReqObj.schema, mimeReq, "text");
+          reqExample = generateExample(mimeReqObj.examples, mimeReqObj.example, mimeReqObj.schema, mimeReq, "text");
 
           //ALWAYS USE $set,  Else the new prop wont be recognized by vue
           me.$set(me.mimeRequestTypes, mimeReq, {
@@ -315,7 +336,7 @@
     },
     components: {
       ParameterInputs,
-      VueJsonPretty
+      JsonTree
     }
   }
 </script>

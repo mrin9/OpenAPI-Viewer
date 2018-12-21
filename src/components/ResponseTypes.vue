@@ -38,7 +38,7 @@
         </div>
         
         <div class="sw-row" v-if="statusRespObj.content">
-          <el-tabs style="flex:1; width:100%" v-model="activeTabForEachRespStatus[statusRespCode]">
+          <el-tabs style="flex:1; overflow: hidden;" v-model="activeTabForEachRespStatus[statusRespCode]">
             <el-tab-pane label="Example" name="exampleTab" class="sw-tab-pane">
               <json-tree 
                 v-if="selectedMimeValueForEachStatus[statusRespCode] && mimeResponsesForEachStatus[statusRespCode][selectedMimeValueForEachStatus[statusRespCode]].examples[0].exampleType==='json'"
@@ -77,7 +77,7 @@
 </template>
 
 <script>
-  import{schemaToModel, schemaToElTree, schemaToObj, generateExample, removeCircularReferences} from '@/lib/utils';
+  import{schemaToModel, schemaToObj, generateExample, removeCircularReferences} from '@/lib/utils';
   //import VueJsonPretty from 'vue-json-pretty';
   import ParameterInputs from '@/components/ParameterInputs';
   import JsonTree from '@/components/tree/JsonTree';
@@ -116,12 +116,12 @@
         let mimeRespCount=0;
         for(let mimeResp in me.responsesLocalCopy[statusCode].content ) {
           let mimeRespObj = me.responsesLocalCopy[statusCode].content[mimeResp];
-          //Remove Circular references from schema 
+          //Remove Circular references from Response schema 
           try {
               mimeRespObj.schema = JSON.parse(JSON.stringify(mimeRespObj.schema, removeCircularReferences()));
           }
           catch{
-              console.error("Unable to resolve circular refs in schema", schema);
+              console.error("Unable to resolve circular refs in schema", mimeRespObj.schema);
               return;
           }
           let schemaTree = schemaToModel(mimeRespObj.schema,{});
