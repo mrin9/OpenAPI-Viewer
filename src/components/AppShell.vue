@@ -117,11 +117,15 @@ export default {
   },
   methods:{
     onExplore(){
+      let me = this;
       if (this.specUrl) {
+        this.loadSpec(this.specUrl);
+        /*
         this.$router.push({ 
           name:'load', 
           params:{specUrl:this.specUrl } 
         });
+        */
       }
     },
 
@@ -217,11 +221,13 @@ export default {
   },
 
   /*
+  // NO ACCESS to 'this'  
   beforeRouteEnter (to, from, next) {
+
     console.log("inside comp update route: %o", to.param);
     next();
   },
-  */
+  */  
 
 
   beforeRouteUpdate (to, from, next) {

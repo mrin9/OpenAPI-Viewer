@@ -19,11 +19,9 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
+  debugger;
   if (to.path.startsWith("/load")){
-    if (to.params.specUrl){
-      next();
-    }
-    else{
+    if (!to.params.specUrl){
       let specUrl="";
       specUrl="https://api.apis.guru/v2/specs/bitbucket.org/2.0/swagger.json";//All auth type
       //specUrl="http://developer.twinehealth.com/swagger.json";
@@ -36,9 +34,9 @@ router.beforeEach((to, from, next) => {
       //specUrl="https://api.apis.guru/v2/specs/stackexchange.com/2.0/swagger.json";
       //specUrl="https://api.apis.guru/v2/specs/cisco.com/0.0.3/swagger.json"; // Has oAuth2 instructions
       router.push(`/load/${encodeURIComponent(specUrl)}`)
-      next();
     }
   }
+  next();
   
 });
 
