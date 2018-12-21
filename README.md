@@ -1,4 +1,5 @@
 <img alt="MrinDoc logo" src="https://github.com/mrin9/OpenAPI-Viewer/blob/master/public/images/leaves_logo1.svg" width="60px" />
+
 # MrinDoc
 An OpenAPI 3.0 and 2.0 Spec viewer with built in console 
 
