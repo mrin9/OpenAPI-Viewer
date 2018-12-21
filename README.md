@@ -52,7 +52,7 @@ Built in console, fields are pre-filled with values if exist in spec, request bo
     <img src="/screenshots/console.png?raw=true">
 </kbd>
 
-#### Authntication Support
+#### Authentication Support
 All the authentication methods are supported. Along with instructions on how to use it
 <kbd>
     <img src="/screenshots/authentication1.png?raw=true">
