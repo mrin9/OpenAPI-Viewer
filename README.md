@@ -28,3 +28,36 @@ An OpenAPI 3.0 and 2.0 Spec viewer with built in console
 yarn install
 yarn run build 
 ```
+### Screenshots
+#### EndPoint Listings
+<kbd>
+    <img src="/screenshots/end-point-listing.png?raw=true">
+</kbd>
+
+#### Request/Response
+Laid out in a two colum for easy view & compare 
+<kbd>
+    <img src="/screenshots/request-response.png?raw=true">
+</kbd>
+
+#### Schema View
+All Request/Response schema and Response JSONs are expanded by default, so that you dont have to click and reveal each level for easy browsing and read
+<kbd>
+    <img src="/screenshots/response-schema.png?raw=true">
+</kbd>
+
+#### Console
+Built in console, fields are pre-filled with values if exist in spec, request body is generated and filled based on schema, allowing you to quickly try out the end-point with a single click 
+<kbd>
+    <img src="/screenshots/console.png?raw=true">
+</kbd>
+
+#### Authntication Support
+All the authentication methods are supported. Along with instructions on how to use it
+<kbd>
+    <img src="/screenshots/authentication1.png?raw=true">
+</kbd>
+<kbd>
+    <img src="/screenshots/authentication2.png?raw=true">
+</kbd>
+
