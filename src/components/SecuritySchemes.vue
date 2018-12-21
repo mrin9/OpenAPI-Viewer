@@ -103,7 +103,6 @@
 
     methods:{
       onActivateSecurityScheme(scheme){
-        debugger;
         if (scheme.type.toLowerCase()==='apikey' && scheme.in==='header'){
             if (this.$data.apiToken) {
               store.commit("reqTokenType", scheme.type.toLowerCase());

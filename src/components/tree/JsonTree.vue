@@ -186,6 +186,9 @@
   }
 
   .sw-content-block{
+    .sw-content-key{
+      white-space: nowrap;
+    }
     .sw-content{
       white-space: nowrap;
       padding-top:2px;

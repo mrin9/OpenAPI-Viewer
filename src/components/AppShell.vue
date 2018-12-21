@@ -116,8 +116,16 @@ export default {
     }
   },
   methods:{
+    onExplore(){
+      if (this.specUrl) {
+        this.$router.push({ 
+          name:'load', 
+          params:{specUrl:this.specUrl } 
+        });
+      }
+    },
 
-    onExplore(isReloadingSpec=false){
+    loadSpec(isReloadingSpec=false){
       let me = this;
       me.loading=true;
       me.$nextTick(function(){
@@ -199,50 +207,54 @@ export default {
             path.expandedAtLeastOnce=true;
           })
       });
-      this.$nextTick(function(){
-        console.log("After Expand/Cpllapse");
-      })
+
     },
 
     onActivateSecurityScheme(scheme){
       console.log("%o", scheme)
 
     }
-
   },
 
+  /*
+  beforeRouteEnter (to, from, next) {
+    console.log("inside comp update route: %o", to.param);
+    next();
+  },
+  */
+
+
+  beforeRouteUpdate (to, from, next) {
+    if(to.path.startsWith("/load") && to.params.specUrl){
+      this.authStatus="(Not Authenticated)";
+      this.specUrl = to.params.specUrl;
+      this.loadSpec(false);
+    }
+    next();
+  },
+  
+
   mounted(){
-    if(this.$route.fullPath==="/home/reload"){
+    if(this.$route.fullPath==="/reload"){
+      console.log("in reload");
       this.specUrl = store.state.specUrl;
       store.commit("reqToken", localStorage.getItem("accessToken"));
       store.commit("reqTokenType", localStorage.getItem("tokenType"));
       if (this.specUrl){
         this.authStatus="(OAuth Applied)";
-        this.onExplore(true);
+        this.loadSpec(true);
       }
     }
-    else if(this.$route.fullPath.startsWith("/home/load") && this.$route.params.specUrl){
+    else if(this.$route.fullPath.startsWith("/load") && this.$route.params.specUrl){
       this.authStatus="(Not Authenticated)";
       this.specUrl = this.$route.params.specUrl;
-      this.onExplore(false);
+      this.loadSpec(false);
     }
     else{
+      console.log("in else");
       this.authStatus="(Not Authenticated)";
-      //this.specUrl="http://developer.twinehealth.com/swagger.json";
-      //this.specUrl= "https://petstore.swagger.io/v2/swagger.json";
-      //this.specUrl= "http://10.21.83.83:8080/api/swagger.json";
-      //this.specUrl= "https://raw.githubusercontent.com/APIs-guru/unofficial_openapi_specs/master/github.com/v3/swagger.yaml", //large spec
-      //this.specUrl= "https://fakerestapi.azurewebsites.net/swagger/docs/v1";
-      //this.specUrl= "https://api.apis.guru/v2/specs/twilio.com/2010-04-01/swagger.json";  //xml responses
-      //this.specUrl="https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/uspto.yaml"; // OpenAPI 3 with examples
-      //this.specUrl="https://api.apis.guru/v2/specs/stackexchange.com/2.0/swagger.json";
-      this.specUrl="https://api.apis.guru/v2/specs/bitbucket.org/2.0/swagger.json"; //All auth type
-      //this.specUrl="https://api.apis.guru/v2/specs/cisco.com/0.0.3/swagger.json"; // Has oAuth2 instructions
-      this.onExplore(false);
     }
-    //this.$refs.specUrl.focus();
   },
-
 
   components: {
     EndPoint,

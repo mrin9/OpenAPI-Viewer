@@ -67,16 +67,6 @@
             display-format="text"
           >
           </json-tree>
-          <!--
-          <el-tree :data= "mimeRequestTypes[selectedMimeReqKey].schemaTree" :props= "defaultTreeProps" :default-expand-all="true" class="sw-border" style="min-height:170px">
-            <span class="sw-tree-node" slot-scope="{ node, data }">
-              <span class="sw-fieldname">{{ node.label.label }}</span>
-              <span class="sw-datatype">: {{ node.label.type }}</span>
-              <span style="flex:1"></span>
-              <span > {{ node.label.descr }}</span>
-            </span>
-          </el-tree>
-          -->
         </el-tab-pane>
       </el-tabs>
 
@@ -110,7 +100,7 @@
         <el-tabs v-model="responseDetailsActiveTab" class="sw-no-tab-header-margin">
           <!-- Response Data -->
           <el-tab-pane label="Response Text" name="responseData">
-              <vue-json-pretty v-if="showJsonViewer" path="/" :data="jsonResponse.data" class="sw-live-response sw-light-border"></vue-json-pretty>
+              <json-tree v-if="showJsonViewer" path="/" :data="jsonResponse.data" class="sw-live-response sw-light-border"></json-tree>
               <textarea :class="'sw-response-data sw-mono-font ' +  responseStatusCssClass"
                 v-if="showTextViewer"
                 v-model="jsonRespText" 
@@ -120,7 +110,7 @@
 
           <!-- Response HEADERS -->
           <el-tab-pane label="Response Headers" name="responseHeader"> 
-            <vue-json-pretty path="/" :data="responseHeaders" class="sw-light-border"></vue-json-pretty>
+            <json-tree path="/" :data="responseHeaders" class="sw-light-border"></json-tree>
           </el-tab-pane>
         </el-tabs>
       </div>  
@@ -285,7 +275,6 @@
           // Generate the Schema Model  in Element UI tree format
           // reqSchemaTree = schemaToElTree(mimeReqObj.schema, [] );
           reqSchemaTree = schemaToModel(mimeReqObj.schema,{});
-          debugger;
           // Generate Example
           reqExample = generateExample(mimeReqObj.examples, mimeReqObj.example, mimeReqObj.schema, mimeReq, "text");
 

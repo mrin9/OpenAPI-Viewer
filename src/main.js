@@ -25,9 +25,9 @@ import Message from 'element-ui/lib/message'
 import {
   Switch,
   Select,
+  Option,
   Tabs,
   TabPane,
-  Option,
   Loading,
   Message
 } from 'element-ui';

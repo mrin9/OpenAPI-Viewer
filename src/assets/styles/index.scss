@@ -106,19 +106,3 @@ a{
   border:1px solid $sw-light-border-color;
   border-radius: $sw-border-radius;
 }
-
-// Style Overrides dor vue-json-prettyfy
-.vjs__tree{
-  font-size:12px !important;
-  .vjs__value__string{
-    color: darken($sw-green,10%) !important;
-  }
-  .vjs__tree__node {
-    cursor: pointer;
-    padding-right:25px;
-    &:hover{
-      background-color: #eee;
-    }
-  }
-}
-
