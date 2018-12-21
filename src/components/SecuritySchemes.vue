@@ -1,6 +1,7 @@
 <template>
   <div> 
-    <div class="sw-security-title"> AUTHENTICATION</div>
+    <div class="sw-security-title"> AUTHENTICATION <span style="color:orangered; font-size:20px;"> {{authStatusData}}</span></div>
+    
     <table style="margin-top:5px;line-height:16px;width:auto" class="sw-table">
       <tr>
         <th >Type </th>  
@@ -81,9 +82,8 @@
 
   export default {
     props: {
-      schemes:{
-        type: Object
-      }
+      schemes: {type: Object},
+      authStatusText:{type:String, default:"(Not Authenticated)"}
     },
 
     data:function(){
@@ -96,25 +96,36 @@
         customToken:"",
         clientId:"",
         clientSecret:"",
+        authStatusData:this.authStatusText,
         browserLocation:location
       }
     },
 
     methods:{
       onActivateSecurityScheme(scheme){
+        debugger;
         if (scheme.type.toLowerCase()==='apikey' && scheme.in==='header'){
-            store.commit("reqTokenType", scheme.type.toLowerCase());
-            store.commit("reqSendTokenIn", scheme.name);
-            store.commit("reqToken", this.$data.apiToken);
+            if (this.$data.apiToken) {
+              store.commit("reqTokenType", scheme.type.toLowerCase());
+              store.commit("reqSendTokenIn", scheme.name);
+              store.commit("reqToken", this.$data.apiToken);
+              this.authStatusData = "(API Key Active)";
+            }
         }
         else if (scheme.type==='http' && scheme.scheme==='bearer'){
-            store.commit("reqTokenType", scheme.scheme );
-            store.commit("reqToken", bearerToken);
+            if (this.$data.bearerToken) {
+              store.commit("reqTokenType", scheme.scheme );
+              store.commit("reqToken", this.$data.bearerToken);
+              this.authStatusData = "(HTTP Bearer Active)";
+            }
         }
         else if (scheme.type==='http' && scheme.scheme==='basic'){
-            store.commit("reqTokenType", scheme.scheme );
-            let tmpToken = atob(this.$data.username+":"+this.$data.password);
-            store.commit("reqToken", tmpToken);
+            if (this.$data.username && this.$data.password) {
+              store.commit("reqTokenType", scheme.scheme );
+              let tmpToken = btoa(this.$data.username+":"+this.$data.password);
+              store.commit("reqToken", tmpToken);
+              this.authStatusData = "(HTTP Basic Active)";
+            }
         }
       },
 
@@ -136,13 +147,9 @@
       }
 
     },
-
-
     mounted(){
 
     },
-    components: {
-    }
   }
 </script>
 

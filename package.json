@@ -1,5 +1,5 @@
 {
-  "name": "MrinDoc",
+  "name": "mrindoc",
   "version": "0.1.0",
   "private": true,
   "author": "Mrinmoy",
@@ -20,7 +20,6 @@
     "swagger2openapi": "^4.0.0",
     "vue": "^2.5.21",
     "vue-router": "^3.0.1",
-    "vue-slideout-panel": "^3.0.0",
     "vuex": "^3.0.1",
     "vuex-persist": "^2.0.0"
   },

@@ -70,7 +70,12 @@
         </div>
 
         <!-- Doc Security Section -->
-        <security-schemes  v-if="parsedSpec.securitySchemes" :schemes="parsedSpec.securitySchemes">  </security-schemes>
+        <security-schemes  v-if="parsedSpec.securitySchemes" 
+          :schemes="parsedSpec.securitySchemes"
+          :authStatusText="authStatus"
+        >
+
+        </security-schemes>
 
         <!-- All the TAGS and End-Points inside them -->
         <div class="sw-tag-container" v-for="tag in parsedSpec.tags" v-show="tag.show" :key="tag.name">
@@ -95,8 +100,6 @@ import { Loading } from 'element-ui';
 import marked from 'marked';
 
 export default {
-  props: ['reloadSpec'],
-
   data:function(){
     return{
       specUrl:"",
@@ -107,12 +110,14 @@ export default {
       isSpecLoaded:false,
       expandAll:false,
       loading:false,
-      docDescription:"",
+      authStatus:"",
+      docDescription:""
+      
     }
   },
   methods:{
 
-    onExplore(isReloadingSpec){
+    onExplore(isReloadingSpec=false){
       let me = this;
       me.loading=true;
       me.$nextTick(function(){
@@ -207,17 +212,22 @@ export default {
   },
 
   mounted(){
-    //reloadSpec prop comes from the route
-    if(this.$props.reloadSpec==="reload"){
+    if(this.$route.fullPath==="/home/reload"){
       this.specUrl = store.state.specUrl;
       store.commit("reqToken", localStorage.getItem("accessToken"));
       store.commit("reqTokenType", localStorage.getItem("tokenType"));
       if (this.specUrl){
+        this.authStatus="(OAuth Applied)";
         this.onExplore(true);
       }
     }
+    else if(this.$route.fullPath.startsWith("/home/load") && this.$route.params.specUrl){
+      this.authStatus="(Not Authenticated)";
+      this.specUrl = this.$route.params.specUrl;
+      this.onExplore(false);
+    }
     else{
-      
+      this.authStatus="(Not Authenticated)";
       //this.specUrl="http://developer.twinehealth.com/swagger.json";
       //this.specUrl= "https://petstore.swagger.io/v2/swagger.json";
       //this.specUrl= "http://10.21.83.83:8080/api/swagger.json";
@@ -228,6 +238,7 @@ export default {
       //this.specUrl="https://api.apis.guru/v2/specs/stackexchange.com/2.0/swagger.json";
       this.specUrl="https://api.apis.guru/v2/specs/bitbucket.org/2.0/swagger.json"; //All auth type
       //this.specUrl="https://api.apis.guru/v2/specs/cisco.com/0.0.3/swagger.json"; // Has oAuth2 instructions
+      this.onExplore(false);
     }
     //this.$refs.specUrl.focus();
   },

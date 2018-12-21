@@ -13,6 +13,8 @@ export default new Router({
         return 'home';
       }
     },
-    { path: '/home/:reloadSpec?' , name: 'AppShellWithSpec', component: AppShell, props: true},
+    { path: '/home' , name: 'AppShellWithSpec', component: AppShell },
+    { path: '/home/reload', name: 'AppShellWithSpec', component: AppShell },
+    { path: '/home/load/:specUrl?' , name: 'AppShellWithSpec', component: AppShell },
   ]
 })
