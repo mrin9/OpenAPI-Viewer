@@ -51,18 +51,5 @@ Vue.prototype.$marked = marked;
 const app = new Vue({
   router,
   store,
-  //i18n,
-  beforeCreate: function () {
-    var me = this;
-
-    //Load Language bundle (if not defined)
-    /*
-    if (this.$store.state.lang === undefined) {
-      this.$store.commit('lang',"en");
-    }
-    */
-    
-    //loadLang(this.$store.state.lang);
-  },
   render: createEle => createEle(App)
 }).$mount('#app');
