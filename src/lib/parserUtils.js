@@ -3,14 +3,20 @@ import converter from 'swagger2openapi';
 
 
 export default function ProcessSpec(specUrl){
-
-    
-    return converter.convertUrl(specUrl,{}).then(function(convertedObj) {
+    let p;
+    let options = {patch:true,warnOnly:true}
+    if (typeof specUrl==="string"){
+        p = converter.convertUrl(specUrl,options);
+    }
+    else{
+        p = converter.convertObj(specUrl,options);
+    }
+    return p
+    .then(function(api3Spec) {
         console.info("%c Convertion to OpenAPI 3.0 - Success !!! ","color:cornflowerblue");
         let parser = new SwaggerParser();    
         return parser.validate(
-            convertedObj.openapi, 
-            { 
+            api3Spec.openapi, { 
                 validate: {spec: false, schema:false } 
             }
         );

@@ -191,12 +191,10 @@
     }
     .sw-content{
       white-space: nowrap;
-      padding-top:2px;
     }
     .sw-content.sw-datatype-enum{
       white-space:normal;
       padding-top:0;
-      font-family: $sw-font-mono;
       min-width:150px;
     }
 
@@ -208,14 +206,8 @@
     }
   }
 
-  .sw-format-text .sw-content{
-    font-family: $sw-font-family;
-  }
-
   .sw-descr{
     min-width:100px;
-    padding-top:2px;
-    font-family: $sw-font-family;
     white-space: nowrap;
     text-overflow: ellipsis;
     width:100%; 

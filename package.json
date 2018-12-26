@@ -8,8 +8,8 @@
   "repository": "https://github.com/mrin9/OpenAPI-Viewer",
   "homepage": "https://github.com/mrin9/OpenAPI-Viewer#readme",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --modern",
+    "serve": "vue-cli-service serve --https ",
+    "build": "vue-cli-service build --report --modern ",
     "deploy": "git subtree push --prefix dist origin gh-pages"
   },
   "dependencies": {
@@ -20,6 +20,7 @@
     "swagger2openapi": "^4.0.0",
     "vue": "^2.5.21",
     "vue-router": "^3.0.1",
+    "vue-slideout-panel": "^3.0.0",
     "vuex": "^3.0.1",
     "vuex-persist": "^2.0.0"
   },

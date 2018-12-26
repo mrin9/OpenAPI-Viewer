@@ -19,7 +19,6 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  debugger;
   if (to.path.startsWith("/load")){
     if (!to.params.specUrl){
       let specUrl="";

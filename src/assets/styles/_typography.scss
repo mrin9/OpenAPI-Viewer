@@ -65,6 +65,13 @@ pre{
   font-family: $sw-font-mono;
 }
 
+.sw-bold-small-text{
+  font-size:12px;
+  margin-bottom: 4px;
+  font-weight:bold;
+}
+
+
 .sw-markdown-block{
   p:only-child{
     color:#999;
