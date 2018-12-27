@@ -14,12 +14,20 @@ export default function ProcessSpec(specUrl){
     return p
     .then(function(api3Spec) {
         console.info("%c Convertion to OpenAPI 3.0 - Success !!! ","color:cornflowerblue");
-        let parser = new SwaggerParser();    
+        let parser = new SwaggerParser();
         return parser.validate(
             api3Spec.openapi, { 
                 validate: {spec: false, schema:false } 
             }
         );
+       /*
+       return parser.bundle(
+        api3Spec.openapi, { 
+            validate: {spec: false, schema:false } 
+            }
+        );
+        */
+
     })
     .then(function(deReffedSpec) {
         console.info("%c OpenAPI 3.0 Dereferencing - Success !!! ","color:cornflowerblue");

@@ -118,7 +118,7 @@
           let mimeRespObj = me.responsesLocalCopy[statusCode].content[mimeResp];
           //Remove Circular references from Response schema 
           try {
-              mimeRespObj.schema = JSON.parse(JSON.stringify(mimeRespObj.schema, removeCircularReferences()));
+              mimeRespObj.schema = JSON.parse(JSON.stringify(mimeRespObj.schema, removeCircularReferences(0)));
           }
           catch{
               console.error("Unable to resolve circular refs in schema", mimeRespObj.schema);

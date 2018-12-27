@@ -24,8 +24,11 @@ function copyToClipboard(elId) {
 }
 
 /* Generates an HTML string containing type and constraint info */
-function getTypeInfo(schema, inSingleLine=true){
+function getTypeInfo(schema, overrideAttributes=null, inSingleLine=true){
     let html ="";
+    if (schema.type==="circular"){
+        return "circular-ref";
+    }
     if (schema.enum){
         let opt=""
         schema.enum.map(function(v){
@@ -36,33 +39,65 @@ function getTypeInfo(schema, inSingleLine=true){
     else if (schema.type){
         html = html + schema.type ;
     }
-
+    
     if (schema.type==="integer" || schema.type==="number"){
         if (schema.minimum !== undefined && schema.maximum!==undefined){
-            html = html+" ( " + (schema.exclusiveMinimum?"> ":"") + schema.minimum + " to " +  (schema.exclusiveMaximum?"< ":"") + schema.maximum + " )";
+            html = `${html} (${schema.exclusiveMinimum?">":""}${schema.minimum} \u22ef ${schema.exclusiveMaximum?"<":""} ${schema.maximum})`
+            //html = html+" ( " + (schema.exclusiveMinimum?"> ":"") + schema.minimum + " to " +  (schema.exclusiveMaximum?"< ":"") + schema.maximum + " )";
         }
         else if (schema.minimum!==undefined && schema.maximum===undefined){
-            html = html+" ( " + (schema.exclusiveMinimum?"> ":">=") + schema.minimum + " )";
+            html = `${html} (${schema.exclusiveMinimum?">":"\u2265"}${schema.minimum})`
+            //html = html+" ( " + (schema.exclusiveMinimum?"> ":">=") + schema.minimum + " )";
         }
         else if (schema.minimum===undefined && schema.maximum!==undefined){
-            html = html+" ( " + (schema.exclusiveMaximum?"< ":"<=") + schema.maximum + " )";
+            html = `(${schema.exclusiveMaximum?"<":"\u2264"}${schema.maximum})`
+            //html = html+" ( " + (schema.exclusiveMaximum?"< ":"<=") + schema.maximum + " )";
         }
         if (schema.multipleOf!==undefined){
-            html = html+" ( multiple of:" + schema.multipleOf+ " )";
+            html = `(multiple of ${schema.multipleOf})`
+            //html = html+" ( multiple of:" + schema.multipleOf+ " )";
         }
     }
 
     if (schema.type==="string"){
         if (schema.minLength !==undefined  && schema.maxLength !==undefined ){
-            html = html+" ( length: " + schema.minLength + " to " + schema.maxLength +" )";
+            html = `${html} (${schema.minLength} to ${schema.maxLength} chars)`;
+            //html = html+" ( length: " + schema.minLength + " to " + schema.maxLength +" )";
         }
         else if (schema.minLength!==undefined  && chema.maxLength===undefined ){
-            html = html+" ( min-length: " + schema.minLength + " )";
+            html = `${html} (min:${schema.minLength})`;
+            //html = html+" ( min-length: " + schema.minLength + " )";
         }
         else if (schema.minLength===undefined  && schema.maxLength!==undefined ){
-            html = html+" ( max-length: " + schema.maxLength +" )";
+            html = `${html} (max:${schema.maxLength})`;
+            //html = html+" ( max-length: " + schema.maxLength +" )";
         }
     }
+
+    if (overrideAttributes){
+        if (overrideAttributes.readOnly){
+            html = `${html} \u24C7`;
+        }
+        if (overrideAttributes.writeOnly){
+            html = `${html} \u24CC`;
+        }
+        if (overrideAttributes.deprecated){
+            html = `${html} \u274c`;
+        }
+    }
+    else{
+        if (schema.readOnly){
+            html = `${html} \u24C7`;
+        }
+        if (schema.writeOnly){
+            html = `${html} \u24CC`;
+        }
+        if (schema.deprecated){
+            html = `${html} \u274c`;
+        }
+    }
+
+
     let lineBreak = inSingleLine?"":"<br/>";
     if (schema.format){
         html = html + ` ${lineBreak} (${schema.format})`;    
@@ -75,23 +110,12 @@ function getTypeInfo(schema, inSingleLine=true){
 
 
 /* For changing JSON-Schema to a Object Model that can be represnted in a tree-view */ 
-
 function schemaToModel (schema, obj) {
     if (schema==null){
         return;
     }
     if (schema.type==="object" || schema.properties){
         for( let key in schema.properties ){
-            if ( schema.properties[key].deprecated ) {
-                continue;
-            }
-            if ( schema.properties[key].readOnly) {
-                continue;
-            }
-            if ( schema.properties[key].writeOnly) {
-                continue;
-            }
-            //let temp = Object.assign({}, schema.properties[key] );
             obj[key] = schemaToModel(schema.properties[key],{});
         }
     }
@@ -100,9 +124,24 @@ function schemaToModel (schema, obj) {
         obj = [schemaToModel(schema.items,{})  ]
     }
     else if (schema.allOf ){
+        if (schema.allOf.length===1){
+            if (!schema.allOf[0]){
+                return `string~|~${schema.description?schema.description:''}`;
+            }
+            else{
+                let overrideAttrib = { 
+                    "readOnly":schema.readOnly, 
+                    "writeOnly":schema.writeOnly, 
+                    "depricated":schema.deprecated
+                };
+                return `${ getTypeInfo(schema.allOf[0],overrideAttrib) }~|~${schema.description?schema.description:''}`
+            }
+        }
+
+        // If allOf is an array of multiple elements, then they are the keys of an object
         let objWithAllProps = {};
         schema.allOf.map(function(v){
-            if (v && v.type){
+            if (v && v.properties){
                 let partialObj = schemaToModel(v,{});
                 Object.assign(objWithAllProps, partialObj);
             }
@@ -161,7 +200,7 @@ function generateExample(examples, example, schema, mimeType, outputType){
       // If schema examples are not provided then generate one from Schema (only JSON fomat)
       if (schema){
         //TODO: in case the mimeType is XML then parse it as XML
-        let egJson = schemaToObj(schema,{});
+        let egJson = schemaToObj(schema,{}, {includeReadOnly:true, includeWriteOnly:true, deprecated:true});
         finalExamples.push({
             "exampleType" : "json",
             "exampleValue": outputType==="text"?JSON.stringify(egJson,undefined,2):egJson
@@ -203,6 +242,15 @@ function schemaToObj (schema, obj, config={}) {
         obj = [schemaToObj(schema.items,{}, config)  ]
     }
     else if (schema.allOf ){
+
+        if (schema.allOf.length===1){
+            if (!schema.allOf[0]){
+                return "string";
+            }
+            else{
+                return getSampleValueByType(schema.allOf[0]);
+            }
+        }
         let objWithAllProps = {};
         schema.allOf.map(function(v){
             if (v && v.type){
@@ -267,6 +315,8 @@ function getSampleValueByType(schemaObj) {
             return '198.51.100.42';
         case 'ipv6':
             return '2001:0db8:5b96:0000:0000:426f:8e17:642a';
+        case 'circular':
+            return 'CIRCULAR REF';
         default:
             if (schemaObj.nullable) {
                 return null;
@@ -347,13 +397,22 @@ function getBaseUrlFromUrl(url){
     return pathArray[0] + "//" + pathArray[2];
 }
 
-function removeCircularReferences() {
+function removeCircularReferences( level ) {
     const seen = new WeakSet();
     return (key, value) => {
       if (typeof value === "object" && value !== null) {
         if (seen.has(value)) {
-          //return key;
-          return;
+          //let dupVal = Object.assign({}, value);
+          //return;
+          if (level > 0){
+              return {};
+          }
+          else{
+            let dupVal = JSON.parse(JSON.stringify(value, removeCircularReferences(level+1)));
+            seen.add(dupVal);
+            return dupVal;
+          }
+          
         }
         seen.add(value);
       }

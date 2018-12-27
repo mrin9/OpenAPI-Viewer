@@ -8,7 +8,7 @@
   "repository": "https://github.com/mrin9/OpenAPI-Viewer",
   "homepage": "https://github.com/mrin9/OpenAPI-Viewer#readme",
   "scripts": {
-    "serve": "vue-cli-service serve --https ",
+    "serve": "vue-cli-service serve ",
     "build": "vue-cli-service build --report --modern ",
     "deploy": "git subtree push --prefix dist origin gh-pages"
   },

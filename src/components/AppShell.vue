@@ -141,7 +141,7 @@ export default {
         me.loading=true;
         ProcessSpec(jsonObj).then(function( spec ){
           me.loading=false;
-          me.specUrl="";
+          me.specUrl="https://api.apis.guru/v2/specs/bitbucket.org/2.0/swagger.json";
           me.showLoadJsonPanel=false;
           me.afterSpecParsedAndValidated(spec);
         })

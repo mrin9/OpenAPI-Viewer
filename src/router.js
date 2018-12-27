@@ -22,6 +22,7 @@ router.beforeEach((to, from, next) => {
   if (to.path.startsWith("/load")){
     if (!to.params.specUrl){
       let specUrl="";
+      //specUrl="https://raw.githubusercontent.com/Rebilly/ReDoc/master/demo/big-openapi.json";
       specUrl="https://api.apis.guru/v2/specs/bitbucket.org/2.0/swagger.json";//All auth type
       //specUrl="http://developer.twinehealth.com/swagger.json";
       //specUrl= "https://petstore.swagger.io/v2/swagger.json";
