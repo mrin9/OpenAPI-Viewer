@@ -32,8 +32,8 @@
       </vue-sideout-panel>
 
 
-      <div class="sw-app-header-container">
-        <div class="sw-row" style="padding:8px 4px 8px 4px;min-height:54px">
+      <div ref="appHeader" class="sw-app-header-container">
+        <div class="sw-row">
           <div style="display:flex; align-items: center;">
             <mrin-logo style="height:36px;width:36px;margin-left:5px"></mrin-logo>
             <div class="sw-prod-title"> MrinDoc </div>
@@ -68,7 +68,7 @@
         </div>
       </div>
 
-      <div v-if="isSpecLoaded" class="sw-page-container" ref="pageContainer">
+      <div ref="pageContainer" class="sw-page-container">
 
         <!-- Doc Info Section -->
         <div class="sw-doc-info" v-if="parsedSpec.info">
@@ -129,7 +129,8 @@ export default {
       docDescription:"",
       showSettingsPanel:false,
       showLoadJsonPanel:false,
-      jsonSpecText:""
+      jsonSpecText:"",
+      prevScrollpos:0
       
     }
   },
@@ -268,6 +269,24 @@ export default {
 
     onActivateSecurityScheme(scheme){
       console.log("%o", scheme);
+    },
+
+
+    handleScroll(){
+      var me = this;
+      let currentScrollPos = me.$refs.pageContainer.scrollTop;
+      if (me.prevScrollpos > currentScrollPos) {
+        me.$refs.appHeader.style.top = "0";
+        me.$refs.pageContainer.style.marginTop = "70px";
+        //document.getElementById("navbar").style.top = "0";
+      } 
+      else {
+        me.$refs.appHeader.style.top = "-75px";
+        me.$refs.pageContainer.style.marginTop = "0px";
+        //document.getElementById("navbar").style.top = "-50px";
+      }
+      me.prevScrollpos = currentScrollPos;
+
     }
   },
 
@@ -292,8 +311,10 @@ export default {
   
 
   mounted(){
+    console.log("Adding Listener");
+    this.$refs.pageContainer.addEventListener('scroll', this.handleScroll);
+
     if(this.$route.fullPath==="/reload"){
-      console.log("in reload");
       this.specUrl = store.state.specUrl;
       store.commit("reqToken", localStorage.getItem("accessToken"));
       store.commit("reqTokenType", localStorage.getItem("tokenType"));
@@ -308,10 +329,18 @@ export default {
       this.loadSpec(false);
     }
     else{
-      console.log("in else");
       this.authStatus="(Not Authenticated)";
     }
   },
+
+  created () {
+  },
+
+
+  destroyed () {
+    document.removeEventListener('scroll', this.handleScroll);
+  },
+
 
   components: {
     EndPoint,
@@ -371,14 +400,18 @@ export default {
       top:0;
       left:0;
       right:0;
+      padding:8px 4px 8px 4px;
+      min-height:54px;
       min-width:750px;
       display:flex;
       flex-direction:column;
       align-items: stretch;
+      justify-content: center;
       flex-wrap: nowrap;
       background-color: #333;
       z-index:2000;
       box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.60);
+      transition: top 0.3s; /* Transition effect when sliding down (and up) */
     }
     .sw-page-container{
       margin-top:70px;
