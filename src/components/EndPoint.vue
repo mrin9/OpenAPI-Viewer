@@ -321,7 +321,6 @@ export default {
   &.sw-col{
     border-width: 0;
   }
-  
 }
 
 </style>

@@ -292,6 +292,9 @@
 
 
       this.parameters.map(function(v){
+        if (!v){
+          return;
+        }
         let arrName="";
         if (v.in==="path"){
           arrName = "pathParams";

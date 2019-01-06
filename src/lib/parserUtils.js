@@ -106,7 +106,7 @@ export default function ProcessSpec(specUrl){
                             summary = description;
                         }
                     }
-                    
+                    deReffedSpec.paths[path].parameters
                     //Update Responses
                     tagObj.paths.push({
                         "show"        : true,
@@ -118,7 +118,7 @@ export default function ProcessSpec(specUrl){
                         "path"        : path,
                         "operationId" : fullPath.operationId,
                         "requestBody" : fullPath.requestBody,
-                        "parameters"  : fullPath.parameters,
+                        "parameters"  : deReffedSpec.paths[path].parameters?deReffedSpec.paths[path].parameters.concat(fullPath.parameters?fullPath.parameters:[]):fullPath.parameters,
                         "servers"     : fullPath.servers ? commonPathProp.servers.concat(fullPath.servers):commonPathProp.servers,
                         "responses"   : fullPath.responses,
                         "depricated"  : fullPath.deprecated,
