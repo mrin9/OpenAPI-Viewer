@@ -257,40 +257,6 @@
     mounted(){
       let me = this;
       let mimeReqCount=0;
-      if (me.requestBody !== undefined && Object.keys(me.requestBody.content).length > 0){
-        let content = me.requestBody.content;
-        for(let mimeReq in content ) {
-          let exampleType=""; // can be json, xml, plain
-          let mimeReqObj = content[mimeReq];
-          let reqSchemaTree="", reqExample="";
-          //Remove Circular references from RequestBody json-schema 
-          try {
-              mimeReqObj.schema = JSON.parse(JSON.stringify(mimeReqObj.schema, removeCircularReferences()));
-          }
-          catch{
-              console.error("Unable to resolve circular refs in schema", mimeReqObj.schema);
-              return;
-          }
-
-          // Generate the Schema Model  in Element UI tree format
-          // reqSchemaTree = schemaToElTree(mimeReqObj.schema, [] );
-          reqSchemaTree = schemaToModel(mimeReqObj.schema,{});
-          // Generate Example
-          reqExample = generateExample(mimeReqObj.examples, mimeReqObj.example, mimeReqObj.schema, mimeReq, "text");
-
-          //ALWAYS USE $set,  Else the new prop wont be recognized by vue
-          me.$set(me.mimeRequestTypes, mimeReq, {
-            "examples"   : reqExample,
-            "schemaTree" : reqSchemaTree
-          });
-
-          me.selectedMimeReqKey = mimeReq;
-          me.mimeReqCount++;
-        }
-        
-      }
-
-
       this.parameters.map(function(v){
         if (!v){
           return;
@@ -325,6 +291,42 @@
         }
 
       })
+
+
+      if (me.requestBody !== undefined && Object.keys(me.requestBody.content).length > 0){
+        let content = me.requestBody.content;
+        for(let mimeReq in content ) {
+          let exampleType=""; // can be json, xml, plain
+          let mimeReqObj = content[mimeReq];
+          let reqSchemaTree="", reqExample="";
+          //Remove Circular references from RequestBody json-schema 
+          try {
+              mimeReqObj.schema = JSON.parse(JSON.stringify(mimeReqObj.schema, removeCircularReferences()));
+          }
+          catch{
+              console.error("Unable to resolve circular refs in schema", mimeReqObj.schema);
+              return;
+          }
+
+          // Generate the Schema Model  in Element UI tree format
+          // reqSchemaTree = schemaToElTree(mimeReqObj.schema, [] );
+          reqSchemaTree = schemaToModel(mimeReqObj.schema,{});
+          // Generate Example
+          reqExample = generateExample(mimeReqObj.examples, mimeReqObj.example, mimeReqObj.schema, mimeReq, "text");
+
+          //ALWAYS USE $set,  Else the new prop wont be recognized by vue
+          me.$set(me.mimeRequestTypes, mimeReq, {
+            "examples"   : reqExample,
+            "schemaTree" : reqSchemaTree
+          });
+
+          me.selectedMimeReqKey = mimeReq;
+          me.mimeReqCount++;
+        }
+        
+      }
+
+
     },
     components: {
       ParameterInputs,

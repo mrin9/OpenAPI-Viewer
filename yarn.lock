@@ -1401,6 +1401,19 @@ better-ajv-errors@^0.5.2:
     jsonpointer "^4.0.1"
     leven "^2.1.0"
 
+better-ajv-errors@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/better-ajv-errors/-/better-ajv-errors-0.6.1.tgz#6d279e5029fe6d627d0c14104134de7931cbcc58"
+  integrity sha512-UaaWknKQQRSPT/zF+pYKdS7swLf/0NbPll52/bfYlpM72+iFFC49cBErGRxAWHC9AOsD0yy176DR/JyaIRD8+Q==
+  dependencies:
+    "@babel/code-frame" "^7.0.0"
+    "@babel/runtime" "^7.0.0"
+    chalk "^2.4.1"
+    core-js "^2.5.7"
+    json-to-ast "^2.0.3"
+    jsonpointer "^4.0.1"
+    leven "^2.1.0"
+
 bfj@^6.1.1:
   version "6.1.1"
   resolved "https://registry.yarnpkg.com/bfj/-/bfj-6.1.1.tgz#05a3b7784fbd72cfa3c22e56002ef99336516c48"
@@ -5209,49 +5222,49 @@ number-is-nan@^1.0.0:
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
   integrity sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=
 
-oas-kit-common@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/oas-kit-common/-/oas-kit-common-1.0.5.tgz#e50ed3ea554249d42fa5a76f9677aa9541a5f2bc"
-  integrity sha512-HQUALJ8i/F8ExieojMZyc8LTzR6Ga9aHQgEewujJ1tQNDHpSTqucXwE4roUX+2N6Byq3PSSZgA1tokHL1pETxg==
+oas-kit-common@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/oas-kit-common/-/oas-kit-common-1.0.6.tgz#65ab2cd78e9f0fd8de13ef4ef4456a54bc3beada"
+  integrity sha512-O2yrllppfpPFfeIrAlnUP+hxMgbwN5Hi8x9a1KGazZ4zlHJ+m6hj3jc2XO39q/fHxoJtjQgwSY2hAf9LBqlqCw==
   dependencies:
     js-yaml "^3.12.0"
 
-oas-linter@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/oas-linter/-/oas-linter-2.0.0.tgz#86d06a4cb903ce7b32c7ff2cc4b06fa6ada8c2ed"
-  integrity sha512-3ztWGjvmSj3y6IX3Sas+aMiYRuF4NiTjhEKp+F5SeAisnL9C3eytHzmshkzeJFnbCBelGBlnYC8Nji7qNJIuyA==
+oas-linter@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/oas-linter/-/oas-linter-2.0.1.tgz#ab8757022a86ddaa3a42c19384a030bfa30fbcc6"
+  integrity sha512-wNkoc5JB7hWvc+Gt4b2i57uDxJg04epuyJ4i54f2etMLyRfaqfhvIY3MW8bS2xZ3twzaAeAJsMs6skWEA1+PCQ==
   dependencies:
     js-yaml "^3.12.0"
     should "^13.2.1"
 
-oas-resolver@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/oas-resolver/-/oas-resolver-1.1.0.tgz#8f3c10fd2e5d7b1c5e23915200d5079b60daab0b"
-  integrity sha512-l/hktpocvlMKmHW56DkzT4go1FftfTt6P3Tl76eOjDkA0YWuOPK1lF1px+caPllkOT7MLkiuy6vdYl1rpjaAiA==
+oas-resolver@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/oas-resolver/-/oas-resolver-1.1.1.tgz#6613f6f6a27015fe52a9abe8732877fa3d172b45"
+  integrity sha512-r7jWfhtW/eQ42/eqnUXMUS46jB+XoNlIOSkjN6ZQH+3tqPQHMwAqRUQTqdh+0Qw7IAipftb6zFVwyfE6kVCmGQ==
   dependencies:
     js-yaml "^3.12.0"
     node-fetch-h2 "^2.3.0"
-    oas-kit-common "^1.0.5"
+    oas-kit-common "^1.0.6"
     reftools "^1.0.4"
     yargs "^12.0.2"
 
-oas-schema-walker@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/oas-schema-walker/-/oas-schema-walker-1.1.1.tgz#042639df5cc2cf215b9a7601d0e922cdb2e89928"
-  integrity sha512-h+RBo/45AKm9TcE3/pc74euhTSiOBqSNKW2NNAw5TMC7wdlKQfX5Koltjklae4E//5yy1v+7t9l+xzvkATy5VQ==
+oas-schema-walker@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/oas-schema-walker/-/oas-schema-walker-1.1.2.tgz#0ad6b78a01421cb9fda9dd820f23f5db51d51b86"
+  integrity sha512-Q9xqeUtc17ccP/dpUfARci4kwFFszyJAgR/wbDhrRR/73GqsY5uSmKaIK+RmBqO8J4jVYrrDPjQKvt1IcpQdGw==
 
-oas-validator@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/oas-validator/-/oas-validator-2.0.0.tgz#f0bc71a257b7cd657847f4945889919aa10d24e8"
-  integrity sha512-OTkjqXqkdJJfzrPF5KpmFjkaf4UrHdJspZr26r0aMiTN2+iNFg/srl8gR1+O77JNFcmX8fe5IuKwvP+7V88TjA==
+oas-validator@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/oas-validator/-/oas-validator-2.0.1.tgz#e81b5163a69da20d176d488298d4069edb99ed0a"
+  integrity sha512-5hzVYqpp7YJ1A8akq0vuLs/lRp6UnKVSmwRj0qLSf39KruT0Wh7xpyy8s4/Eds7MSJ+dG7J49Lg96WImooyjBQ==
   dependencies:
     ajv "^5.5.2"
     better-ajv-errors "^0.5.2"
     js-yaml "^3.12.0"
-    oas-kit-common "^1.0.5"
-    oas-linter "^2.0.0"
-    oas-resolver "^1.1.0"
-    oas-schema-walker "^1.1.1"
+    oas-kit-common "^1.0.6"
+    oas-linter "^2.0.1"
+    oas-resolver "^1.1.1"
+    oas-schema-walker "^1.1.2"
     reftools "^1.0.4"
     should "^13.2.1"
 
@@ -7245,19 +7258,20 @@ swagger-schema-official@2.0.0-bab6bed:
   resolved "https://registry.yarnpkg.com/swagger-schema-official/-/swagger-schema-official-2.0.0-bab6bed.tgz#70070468d6d2977ca5237b2e519ca7d06a2ea3fd"
   integrity sha1-cAcEaNbSl3ylI3suUZyn0Gouo/0=
 
-swagger2openapi@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/swagger2openapi/-/swagger2openapi-4.0.0.tgz#b15930a339972a89a54a5287eaf6bf973ae2465d"
-  integrity sha512-DK9JT/2s0YfEf/SiBm9ZGCij6Bl/gVVEkOeQCyHqvDHk+1G/pJLYIbMEA3eJUmefJ5UcxFcsTbuQagjUQ3crZA==
+swagger2openapi@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/swagger2openapi/-/swagger2openapi-4.0.1.tgz#bc12b6f81584e4e18bcc2888d7f1db025e45843f"
+  integrity sha512-HmzaNJwKDP/B5KX13whomE4iGVNHS8u5kyx3TZkdd6+HuqqaFFs1NyGLQd3b5sOYGdPgXFpZdhvXbvtS+pD7zQ==
   dependencies:
+    better-ajv-errors "^0.6.1"
     call-me-maybe "^1.0.1"
     js-yaml "^3.12.0"
     node-fetch-h2 "^2.3.0"
     node-readfiles "^0.2.0"
-    oas-kit-common "^1.0.5"
-    oas-resolver "^1.1.0"
-    oas-schema-walker "^1.1.1"
-    oas-validator "^2.0.0"
+    oas-kit-common "^1.0.6"
+    oas-resolver "^1.1.1"
+    oas-schema-walker "^1.1.2"
+    oas-validator "^2.0.1"
     reftools "^1.0.4"
     yargs "^12.0.2"
 

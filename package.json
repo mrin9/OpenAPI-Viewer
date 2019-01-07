@@ -17,7 +17,7 @@
     "element-ui": "^2.4.11",
     "marked": "^0.6.0",
     "swagger-parser": "^6.0.2",
-    "swagger2openapi": "^4.0.0",
+    "swagger2openapi": "^4.0.1",
     "vue": "^2.5.21",
     "vue-router": "^3.0.1",
     "vue-slideout-panel": "^3.0.0",

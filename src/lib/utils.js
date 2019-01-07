@@ -397,7 +397,7 @@ function getBaseUrlFromUrl(url){
     return pathArray[0] + "//" + pathArray[2];
 }
 
-function removeCircularReferences( level ) {
+function removeCircularReferences(level=0) {
     const seen = new WeakSet();
     return (key, value) => {
       if (typeof value === "object" && value !== null) {

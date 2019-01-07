@@ -36,13 +36,13 @@ export default function ProcessSpec(specUrl){
         let totalPathCount=0;
         // For each path find the tag and push it into the corrosponding tag
         for (let path in deReffedSpec.paths) {
+            let commonParams = deReffedSpec.paths[path].parameters;
             let commonPathProp = {
                 "summary"    : deReffedSpec.paths[path].summary,
                 "description": deReffedSpec.paths[path].description,
                 "servers"    : deReffedSpec.paths[path].servers?deReffedSpec.paths[path].servers:[],
                 "parameters" : deReffedSpec.paths[path].parameters?deReffedSpec.paths[path].parameters:[]
             };
-
             methods.forEach(function(methodName){
                 let tagObj;
                 let tagText;
@@ -94,11 +94,10 @@ export default function ProcessSpec(specUrl){
                             if (charIndex === -1 || charIndex > 100){
                                 charIndex = description.indexOf(".");
                             }
-                            
                             if (charIndex === -1 || charIndex > 100){
                                 summary = description;
                             }
-                            else{
+                            else {
                                 summary = description.substr(0, charIndex);
                             }
                         }
@@ -106,7 +105,25 @@ export default function ProcessSpec(specUrl){
                             summary = description;
                         }
                     }
-                    deReffedSpec.paths[path].parameters
+
+                    // Merge Common Parameters with This methods parameters
+                    let finalParameters =[];
+                    if (commonParams){
+                        if (fullPath.parameters){
+                            finalParameters = commonParams.filter(commonParam => {
+                                if (! fullPath.parameters.some(  param => (commonParam.name===param.name && commonParam.in===param.in)  )) {
+                                return commonParam;
+                                }
+                            }).concat(fullPath.parameters)
+                        }
+                        else{
+                            finalParameters =  commonParams.slice(0);
+                        }
+                    }
+                    else{
+                        finalParameters = fullPath.parameters.slice(0);
+                    }
+
                     //Update Responses
                     tagObj.paths.push({
                         "show"        : true,
@@ -118,7 +135,7 @@ export default function ProcessSpec(specUrl){
                         "path"        : path,
                         "operationId" : fullPath.operationId,
                         "requestBody" : fullPath.requestBody,
-                        "parameters"  : deReffedSpec.paths[path].parameters?deReffedSpec.paths[path].parameters.concat(fullPath.parameters?fullPath.parameters:[]):fullPath.parameters,
+                        "parameters"  : finalParameters,
                         "servers"     : fullPath.servers ? commonPathProp.servers.concat(fullPath.servers):commonPathProp.servers,
                         "responses"   : fullPath.responses,
                         "depricated"  : fullPath.deprecated,
