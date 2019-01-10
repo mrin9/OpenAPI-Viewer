@@ -1,7 +1,6 @@
 import SwaggerParser  from 'swagger-parser';
 import converter from 'swagger2openapi';
 
-
 export default function ProcessSpec(specUrl){
     let p;
     let options = {patch:true,warnOnly:true}
@@ -121,7 +120,7 @@ export default function ProcessSpec(specUrl){
                         }
                     }
                     else{
-                        finalParameters = fullPath.parameters.slice(0);
+                        finalParameters = fullPath.parameters? fullPath.parameters.slice(0):[];
                     }
 
                     //Update Responses

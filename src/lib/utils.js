@@ -163,37 +163,20 @@ function generateExample(examples, example, schema, mimeType, outputType){
     if (examples){
       for (let eg in examples){
         let egJson="";  
-        try {
             //TODO: in case the mimeType is XML then parse it as XML
-            egJson = JSON.parse(examples[eg].value);
+            //egJson = JSON.parse(examples[eg].value);
             finalExamples.push({
                 "exampleType" : "json",
-                "exampleValue": outputType==="text"?JSON.stringify(egJson,undefined,2):egJson
+                "exampleValue": outputType==="text"?JSON.stringify(examples[eg].value,undefined,2):examples[eg].value
             });
         } 
-        catch (e) {
-            finalExamples.push({
-                "exampleType" : "text",
-                "exampleValue": examples[eg].value
-            });
-        }
-      }
     }
     else if (example){
-        try {
-            //TODO: in case the mimeType is XML then parse it as XML
-            let egJson = JSON.parse(example);
-            finalExamples.push({
-                "exampleType" : "json",
-                "exampleValue": outputType==="text"?JSON.stringify(egJson,undefined,2):egJson
-            });
-        } 
-        catch (e) {
-            finalExamples.push({
-                "exampleType" : "text",
-                "exampleValue": example
-            });
-        }
+        //TODO: in case the mimeType is XML then parse it as XML
+        finalExamples.push({
+            "exampleType" : "json",
+            "exampleValue": outputType==="text"?JSON.stringify(example,undefined,2):example
+        });
     }
 
     if (finalExamples.length==0 ){
