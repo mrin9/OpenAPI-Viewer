@@ -323,4 +323,10 @@ export default {
   }
 }
 
+@media only screen and (max-width : 933px) {
+  .sw-row .sw-request{
+    border-width: 1px 0 0px 0;
+  }
+}
+
 </style>

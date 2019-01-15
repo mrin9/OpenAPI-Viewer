@@ -158,10 +158,13 @@
   .sw-tree-bracket-left,
   .sw-tree-bracket-right{
     cursor: pointer;
-    padding: 0 20px 0 0;
+    border: 1px solid transparent;
+    border-radius:3px;
+    padding: 0 20px 2px 0;
     &:hover {
       color: $sw-primary-color;
       background: #efefef;
+      border:1px solid #ccc;
     }
   }
 

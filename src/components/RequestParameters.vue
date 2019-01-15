@@ -380,8 +380,6 @@
     max-height:400px;
     max-width:100%;
     overflow: scroll;
-  }
-
-  
+  }  
 </style>
 

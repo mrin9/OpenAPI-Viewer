@@ -16,20 +16,20 @@
     "axios": "^0.18.0",
     "element-ui": "^2.4.11",
     "marked": "^0.6.0",
-    "swagger-parser": "^6.0.2",
+    "swagger-parser": "^6.0.3",
     "swagger2openapi": "^4.0.1",
-    "vue": "^2.5.21",
+    "vue": "^2.5.22",
     "vue-router": "^3.0.1",
     "vue-slideout-panel": "^3.0.0",
     "vuex": "^3.0.1",
     "vuex-persist": "^2.0.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.2.2",
-    "@vue/cli-service": "^3.2.2",
+    "@vue/cli-plugin-babel": "^3.3.0",
+    "@vue/cli-service": "^3.3.0",
     "babel-plugin-component": "^1.1.1",
     "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0",
-    "vue-template-compiler": "^2.5.21"
+    "vue-template-compiler": "^2.5.22"
   }
 }
