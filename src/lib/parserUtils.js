@@ -1,4 +1,4 @@
-import SwaggerParser  from 'swagger-parser';
+import $RefParser from 'json-schema-ref-parser';
 import converter from 'swagger2openapi';
 
 export default function ProcessSpec(specUrl){
@@ -13,20 +13,7 @@ export default function ProcessSpec(specUrl){
     return p
     .then(function(api3Spec) {
         console.info("%c Convertion to OpenAPI 3.0 - Success !!! ","color:cornflowerblue");
-        let parser = new SwaggerParser();
-        return parser.validate(
-            api3Spec.openapi, { 
-                validate: {spec: false, schema:false } 
-            }
-        );
-       /*
-       return parser.bundle(
-        api3Spec.openapi, { 
-            validate: {spec: false, schema:false } 
-            }
-        );
-        */
-
+        return $RefParser.dereference(api3Spec.openapi);
     })
     .then(function(deReffedSpec) {
         console.info("%c OpenAPI 3.0 Dereferencing - Success !!! ","color:cornflowerblue");

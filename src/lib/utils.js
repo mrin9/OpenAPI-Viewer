@@ -64,7 +64,7 @@ function getTypeInfo(schema, overrideAttributes=null, inSingleLine=true){
             html = `${html} (${schema.minLength} to ${schema.maxLength} chars)`;
             //html = html+" ( length: " + schema.minLength + " to " + schema.maxLength +" )";
         }
-        else if (schema.minLength!==undefined  && chema.maxLength===undefined ){
+        else if (schema.minLength!==undefined  && schema.maxLength===undefined ){
             html = `${html} (min:${schema.minLength})`;
             //html = html+" ( min-length: " + schema.minLength + " )";
         }
@@ -102,7 +102,7 @@ function getTypeInfo(schema, overrideAttributes=null, inSingleLine=true){
     if (schema.format){
         html = html + ` ${lineBreak} (${schema.format})`;    
     }
-    if (schema.pattern){
+    if (schema.pattern && !schema.enum){
         html = html + ` ${lineBreak}(${schema.pattern})`;    
     }
     return html;

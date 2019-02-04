@@ -1,3 +1,3 @@
 module.exports = {
-    baseUrl: process.env.NODE_ENV === 'production' ? '/OpenAPI-Viewer/' : '/',
+    publicPath: process.env.NODE_ENV === 'production' ? '/OpenAPI-Viewer/' : '/',
 }

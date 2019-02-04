@@ -25,7 +25,7 @@
         <td v-else-if="scheme.type==='http' && scheme.scheme ==='basic' ">
           <!-- Basic or Bearer -->
             If Activated, all requests will send <code>'Authorization'</code> 
-            header that contains the word  <code>'Basic'</code> word followed by a space and a base64-encoded string username:password.
+            header that contains the word  <code>'Basic'</code> followed by a space and a base64-encoded string username:password.
             <div style="margin:5px 0 10px 0">
               <input type="text" class="sw-small" style="width:100px" placeholder="username" v-model="username">
               <input type="text" class="sw-small" style="width:100px; margin:0 5px;" placeholder="password" v-model="password">
@@ -34,7 +34,7 @@
         </td>
         <td v-else-if="scheme.type==='http' && scheme.scheme ==='bearer' ">
             If Activated, all requests will send <code>'Authorization'</code> 
-            header that contains the word  <code>'Bearer'</code> word followed by a space and a Token String.
+            header that contains the word  <code>'Bearer'</code> followed by a space and a Token String.
             <div style="margin:5px 0 10px 0">
               <input type="text" class="sw-small" style="width:205px; margin-right:5px" placeholder="bearer-token" v-model="bearerToken">
               <button class="sw-btn sw-primary sw-small"  @click="onActivateSecurityScheme(scheme)">ACTIVATE</button>
