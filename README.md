@@ -5,6 +5,9 @@ An OpenAPI 3.0 and 2.0 Spec viewer with built in console
 
 ### [Demo](https://mrin9.github.io/OpenAPI-Viewer)
 
+### Checkout RapiDoc - Another project for Viewing OpenAPI spec using web-Componnet
+#### [Checkout RapiDoc](https://mrin9.github.io/RapiDoc)
+
 # Features
 - Supports Swagger V2.0 and OpenAPI 3.0
 - Supports searching of end-points (paths)
